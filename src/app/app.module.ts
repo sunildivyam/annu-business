@@ -11,6 +11,7 @@ import { LoginComponent } from './components/login/login.component';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
 import { TncComponent } from './components/tnc/tnc.component';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
+import { DashboardModule } from './components/dashboard/dashboard.module';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-poli
     AppRoutingModule,
     // annu-ng-lib - components modules
     AnnuNgLibModule.forRoot(environment.libConfig),
+    DashboardModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

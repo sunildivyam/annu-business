@@ -1,12 +1,22 @@
 import { Routes } from "@angular/router";
-import { HomeComponent, ContactUsComponent, LoginComponent, MyProfileComponent, TncComponent, PrivacyPolicyComponent } from "./components";
-
+import {
+  HomeComponent,
+  ContactUsComponent,
+  LoginComponent,
+  MyProfileComponent,
+  TncComponent,
+  PrivacyPolicyComponent,
+  DashboardComponent,
+  MyCategoriesComponent,
+  MyArticlesComponent,
+} from "./components";
+import { appConfig } from "./config";
 
 // Main Nav Routes
 export const mainRoutes = [
-  { path: 'home', component: HomeComponent, data: { title: 'Home' } },
   { path: 'contact-us', component: ContactUsComponent, data: { title: 'Contact Us' } },
   { path: 'my-profile', component: MyProfileComponent, data: { title: 'My Profile' } },
+
 ]
 
 // Auth Routes
@@ -20,8 +30,19 @@ export const tNcRoutes = [
   { path: 'privacy-policy', component: PrivacyPolicyComponent, data: { title: 'Privacy Policy' } },
 ]
 
+// Author Dashboard Routes
+export const authorRoutes = [
+  {
+    path: 'dashboard', component: DashboardComponent, data: { title: 'My Dashboard' },
+    children: [
+      { path: 'my-categories', component: MyCategoriesComponent, data: { title: 'My Categories' } },
+      { path: 'my-articles', component: MyArticlesComponent, data: { title: 'My Articles' } },
+    ]
+  },
+]
+
 export const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', component: HomeComponent, data: { title: appConfig.title } },
 
   // Main Routes
   ...mainRoutes,
@@ -31,4 +52,7 @@ export const routes: Routes = [
 
   // tNc Routes
   ...tNcRoutes,
+
+  // Author Routes
+  ...authorRoutes,
 ];
