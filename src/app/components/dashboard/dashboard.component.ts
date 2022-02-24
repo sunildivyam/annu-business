@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Tab } from '@annu/ng-lib';
+import { tabs } from './dashboard.config';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  tabs: Array<Tab> = [...tabs];
+  activeTab: Tab;
+
+  constructor() {
+    this.activeTab = this.tabs[0];
+  }
 
   ngOnInit(): void {
   }
 
+  public tabClicked(tab: Tab): void {
+    this.activeTab = tab;
+  }
 }
