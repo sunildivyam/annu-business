@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Tab } from '@annu/ng-lib';
-import { tabs } from './dashboard.config';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,17 +8,14 @@ import { tabs } from './dashboard.config';
 })
 export class DashboardComponent implements OnInit {
 
-  tabs: Array<Tab> = [...tabs];
-  activeTab: Tab;
+  constructor(public route: ActivatedRoute, private router: Router) {
 
-  constructor() {
-    this.activeTab = this.tabs[0];
   }
 
   ngOnInit(): void {
+
   }
 
-  public tabClicked(tab: Tab): void {
-    this.activeTab = tab;
+  public onOutletActivated():void {
   }
 }

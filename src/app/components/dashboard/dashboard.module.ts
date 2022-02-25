@@ -4,7 +4,7 @@ import { DashboardComponent } from './dashboard.component';
 import { MyCategoriesComponent } from './my-categories/my-categories.component';
 import { MyArticlesComponent } from './my-articles/my-articles.component';
 import { RouterModule } from '@angular/router';
-import { CardModule, TabsModule } from '@annu/ng-lib';
+import { CardModule, CategoryEditorModule, SearchBoxModule, TabsModule } from '@annu/ng-lib';
 
 
 
@@ -19,6 +19,8 @@ import { CardModule, TabsModule } from '@annu/ng-lib';
     RouterModule,
     TabsModule,
     CardModule,
+    SearchBoxModule,
+    CategoryEditorModule,
   ],
   exports: [
     DashboardComponent,

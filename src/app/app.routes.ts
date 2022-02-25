@@ -55,4 +55,7 @@ export const routes: Routes = [
 
   // Author Routes
   ...authorRoutes,
+
+  //Any Other route (non-existant routes)
+  { path: '**', redirectTo: '', pathMatch: 'full'},  // or set to ErrorComponentPage
 ];
