@@ -16,7 +16,6 @@ import { appConfig } from "./config";
 // Main Nav Routes
 export const mainRoutes = [
   { path: 'contact-us', component: ContactUsComponent, data: { title: 'Contact Us' } },
-  { path: 'my-profile', component: MyProfileComponent, data: { title: 'My Profile' } },
 
 ]
 
@@ -39,7 +38,7 @@ export const authorRoutes = [
       {
         path: 'my-categories', component: MyCategoriesComponent, data: { title: 'My Categories' },
         children: [
-          { path: ':name', component: MyCategoryComponent, data: { title: 'My Category' } },
+          { path: ':id', component: MyCategoryComponent, data: { title: 'My Category' } },
         ]
       },
       { path: 'my-articles', component: MyArticlesComponent, data: { title: 'My Articles' } },

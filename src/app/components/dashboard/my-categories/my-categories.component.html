@@ -8,7 +8,11 @@
         </p>
     </anu-card-body>
     <anu-card-footer class="row spacing-around-vertical right">
-        <a class="" [routerLink]="['add']">Add new Category</a>
+        <div *ngIf="route.firstChild"  class="row stretch">
+            <a [routerLink]="['.']">Back to Categories</a>
+            <a [routerLink]="['add']">Add new Category</a>
+        </div>
+        <a *ngIf="!route.firstChild" [routerLink]="['add']">Add new Category</a>
     </anu-card-footer>
 </anu-card>
 
@@ -16,34 +20,11 @@
 <ng-container *ngIf="!route.firstChild">
     <anu-search-box [items]="categories" [keys]="searchKeys" (changed)="onSearch($event)"></anu-search-box>
     <label>Results: {{filteredCategories.length}}/{{categories.length}}</label>
-    <div class="row">
+    <div class="row results">
         <div *ngFor="let cat of filteredCategories" class="col-sm-12 col-md-6 col-lg-6">
-            <anu-card class="spacing-around-horizontal-lg spacing-around-vertical shadow  spacing-vertical">
-                <anu-card-title>
-                    <h2 [innerHtml]="cat.title"></h2>
-                    <small class="row nowrap dates">
-                        <div><strong>Updated:
-                            </strong><span><small>{{utilsSvc.dateToLocalString(cat.updated)}}</small></span></div>
-                        <div><strong>Created:
-                            </strong><span><small>{{utilsSvc.dateToLocalString(cat.created)}}</small></span></div>
-                    </small>
-                </anu-card-title>
-                <anu-card-body>
-                    <p [innerHtml]="cat.description"></p>
-                </anu-card-body>
-                <anu-card-footer>
-                    <div class="row right">
-                        <div class="spacing-around-horizontal">
-                            <span *ngIf="cat.isLive" class="success">Published</span>
-                            <a *ngIf="!cat.isLive" [routerLink]="[cat.name]">Publish</a>
-                        </div>
-                        <div>
-                            <a [routerLink]="[cat.name]">Update</a>
-                        </div>
-                    </div>
-                </anu-card-footer>
-            </anu-card>
+            <anu-category [updateHref]="cat?.id || ''" [value]="cat"></anu-category>
         </div>
+        <anu-spinner [show]="loading" ></anu-spinner>
     </div>
 </ng-container>
 <router-outlet></router-outlet>

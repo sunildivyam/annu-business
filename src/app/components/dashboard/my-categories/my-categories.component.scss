@@ -12,4 +12,9 @@
         flex-direction: column;
         width: 100%;
     }
+
+    .results {
+        position: relative;
+        min-height: 5rem;
+    }
 }

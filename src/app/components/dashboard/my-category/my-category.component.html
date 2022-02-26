@@ -1,10 +1,12 @@
-<h2>My Category</h2>
-<ng-container *ngIf="category">
-    <anu-category-editor [value]="category" (changed)="categoryChanged($event)"></anu-category-editor>
-    <anu-error *ngIf="category && error" [code]="error.code" [message]="error.message"></anu-error>
-    <div class="container center">
-        <a class="btn" href="#" (click)="saveCategory($event)">Save</a>
-    </div>
-</ng-container>
-
-<anu-error *ngIf="!category && error" [code]="error.code" [message]="error.message"></anu-error>
+<anu-card class="shadow spacing-vertical form-body">
+    <anu-card-title>
+        <h2>Category Form</h2>
+    </anu-card-title>
+    <anu-card-body>
+        <ng-container *ngIf="found">
+            <anu-category-editor [value]="category" (saveClicked)="saveCategory($event)"></anu-category-editor>
+        </ng-container>
+        <anu-error *ngIf="error" [code]="error.code" [message]="error.message"></anu-error>
+        <anu-spinner [show]="loading"></anu-spinner>
+    </anu-card-body>
+</anu-card>

@@ -10,11 +10,12 @@ const ADD_CATEGORY = 'add';
   styleUrls: ['./my-category.component.scss']
 })
 export class MyCategoryComponent implements OnInit {
-  category: Category | null = null;
-  categoryName: string = '';
+  category!: Category | null;
+  categoryId: string = '';
 
   error: any = null;
-  saveSuccess: boolean = true;
+  found: boolean = false;
+  loading: boolean = true;
 
   constructor(
     private articlesFireSvc: ArticlesFirebaseService,
@@ -23,76 +24,69 @@ export class MyCategoryComponent implements OnInit {
     private router: Router) {
 
     this.route.params.subscribe(params => {
-      this.categoryName = params['name'];
-      this.getCategory(this.categoryName);
+      this.error = null;
+      this.found = true;
+      this.categoryId = params['id'];
+      this.getCategory(this.categoryId);
     });
   }
 
   ngOnInit(): void { }
 
-  public async getCategory(catName: string) {
+  public async getCategory(id: string) {
     this.error = null;
+    this.loading = true;
 
-    if (catName === ADD_CATEGORY) {
-      this.category = {
-        name: 'sample-category',
-        title: 'Sample category',
-        description: 'Sample Description',
-        isLive: false,
-      }
-    } else {
+    if (id && id !== ADD_CATEGORY) {
       const queryConfig: QueryConfig = {
-        name: catName,
+        id,
         userId: this.authFireSvc.getCurrentUserId()
       }
+
       try {
         const foundCategories = await this.articlesFireSvc.getCategories(queryConfig);
         if (foundCategories.length) {
+          this.found = true;
           this.category = foundCategories[0];
         } else {
-          this.category = null;
-          this.error = { code: '404', message: `Category does not exist - ${catName}` }
+          this.found = false;
+          this.error = { code: '404', message: `Category does not exist - ${id}` }
         }
+
+        this.loading = false;
       } catch (error) {
-        this.category = null;
+        this.found = false;
+        this.loading = false;
         this.error = error;
       }
-    }
-  }
-
-  public categoryChanged(category: Category): void {
-    this.category = category;
-  }
-
-  private async addCategory() {
-    try {
-      const addedCat = await this.articlesFireSvc.addCategory(this.category as Category);
-      this.saveSuccess = true;
-      this.router.navigate([addedCat.name], {relativeTo: this.route});
-    } catch (error: any) {
-      this.error = error;
+    } else {
+      this.found = true;
+      this.category = null;
+      this.loading = false;
     }
   }
 
   private async updateCategory() {
+    this.error = null;
+    this.loading = true;
+
     try {
       const updatedCat = await this.articlesFireSvc.setCategory(this.category as Category);
       this.category = updatedCat;
-      this.saveSuccess = true;
+      this.loading = false;
+
+      if (this.categoryId === ADD_CATEGORY || this.category.id !== this.categoryId) {
+        this.router.navigate([updatedCat.id], { relativeTo: this.route.parent });
+      }
+
     } catch (error: any) {
       this.error = error;
+      this.loading = false;
     }
   }
 
-  public async saveCategory(event: any) {
-    event.preventDefault();
-    this.error = null;
-    this.saveSuccess = false;
-
-    if (this.categoryName === ADD_CATEGORY) {
-      this.addCategory();
-    } else {
-      this.updateCategory();
-    }
+  public saveCategory(category: Category) {
+    this.category = category;
+    this.updateCategory();
   }
 }
