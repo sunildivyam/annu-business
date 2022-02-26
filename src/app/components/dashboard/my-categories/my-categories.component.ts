@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ArticlesFirebaseService, Category } from '@annu/ng-lib';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ArticlesFirebaseService, Category, UtilsService } from '@annu/ng-lib';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-my-categories',
@@ -11,13 +13,23 @@ export class MyCategoriesComponent implements OnInit {
   filteredCategories: Array<Category> = [];
   searchKeys: Array<string> = ['name', 'title'];
 
-  constructor(private articlesFireSvc: ArticlesFirebaseService) { }
+  constructor(
+    public route: ActivatedRoute,
+    private router: Router,
+    private articlesFireSvc: ArticlesFirebaseService,
+    public utilsSvc: UtilsService) {
 
-  ngOnInit(): void {
-    this.getCategories();
-  }
+      this.router.events.pipe(filter(ev => ev instanceof NavigationEnd)).subscribe(() => {
+        if (!this.route.firstChild) {
+          this.getCategories();
+        }
+      })
+    }
+
+  ngOnInit(): void { }
 
   public async getCategories() {
+    console.log('Fetching Categories');
     this.categories = await this.articlesFireSvc.getCategories({});
     this.filteredCategories = this.categories;
   }

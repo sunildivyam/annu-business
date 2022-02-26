@@ -1,0 +1,15 @@
+:host {
+    .dates {
+        justify-content: space-between;
+    }
+
+    .overview {
+        background-color: var(--anu-secondary-deeplight);
+    }
+
+    router-outlet {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+}

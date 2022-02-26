@@ -9,6 +9,7 @@ import {
   DashboardComponent,
   MyCategoriesComponent,
   MyArticlesComponent,
+  MyCategoryComponent,
 } from "./components";
 import { appConfig } from "./config";
 
@@ -35,7 +36,12 @@ export const authorRoutes = [
   {
     path: 'dashboard', component: DashboardComponent, data: { title: 'My Dashboard' },
     children: [
-      { path: 'my-categories', component: MyCategoriesComponent, data: { title: 'My Categories' } },
+      {
+        path: 'my-categories', component: MyCategoriesComponent, data: { title: 'My Categories' },
+        children: [
+          { path: ':name', component: MyCategoryComponent, data: { title: 'My Category' } },
+        ]
+      },
       { path: 'my-articles', component: MyArticlesComponent, data: { title: 'My Articles' } },
     ]
   },
@@ -57,5 +63,5 @@ export const routes: Routes = [
   ...authorRoutes,
 
   //Any Other route (non-existant routes)
-  { path: '**', redirectTo: '', pathMatch: 'full'},  // or set to ErrorComponentPage
+  { path: '**', redirectTo: '', pathMatch: 'full' },  // or set to ErrorComponentPage
 ];

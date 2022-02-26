@@ -1,29 +1,49 @@
-<h2> My Categories</h2>
-<p>
-    Manage all of your categories. Add new category or update existing one.
-</p>
-<anu-search-box [items]="categories" [keys]="searchKeys" (changed)="onSearch($event)"></anu-search-box>
-<label>Results: {{filteredCategories.length}}/{{categories.length}}</label>
-<div class="row">
-    <div *ngFor="let cat of filteredCategories" class="col-sm-12 col-md-6 col-lg-6">
-        <anu-card class="spacing-around-horizontal-lg spacing-around-vertical shadow  spacing-vertical">
-            <anu-card-title>
-                <h2 [innerHtml]="cat.title"></h2>
-            </anu-card-title>
-            <anu-card-body>
-                <p [innerHtml]="cat.description"></p>
-            </anu-card-body>
-            <anu-card-footer>
-                <div class="row right">
-                    <div class="spacing-around-horizontal">
-                        <span *ngIf="cat.isLive" class="success">Published</span>
-                        <a *ngIf="!cat.isLive" [routerLink]="[cat.name]">Publish</a>
+<anu-card class="overview spacing-around-vertical spacing-vertical">
+    <anu-card-title>
+        <h2> My Categories</h2>
+    </anu-card-title>
+    <anu-card-body>
+        <p>
+            Manage all of your categories. Add new category or update existing one.
+        </p>
+    </anu-card-body>
+    <anu-card-footer class="row spacing-around-vertical right">
+        <a class="" [routerLink]="['add']">Add new Category</a>
+    </anu-card-footer>
+</anu-card>
+
+
+<ng-container *ngIf="!route.firstChild">
+    <anu-search-box [items]="categories" [keys]="searchKeys" (changed)="onSearch($event)"></anu-search-box>
+    <label>Results: {{filteredCategories.length}}/{{categories.length}}</label>
+    <div class="row">
+        <div *ngFor="let cat of filteredCategories" class="col-sm-12 col-md-6 col-lg-6">
+            <anu-card class="spacing-around-horizontal-lg spacing-around-vertical shadow  spacing-vertical">
+                <anu-card-title>
+                    <h2 [innerHtml]="cat.title"></h2>
+                    <small class="row nowrap dates">
+                        <div><strong>Updated:
+                            </strong><span><small>{{utilsSvc.dateToLocalString(cat.updated)}}</small></span></div>
+                        <div><strong>Created:
+                            </strong><span><small>{{utilsSvc.dateToLocalString(cat.created)}}</small></span></div>
+                    </small>
+                </anu-card-title>
+                <anu-card-body>
+                    <p [innerHtml]="cat.description"></p>
+                </anu-card-body>
+                <anu-card-footer>
+                    <div class="row right">
+                        <div class="spacing-around-horizontal">
+                            <span *ngIf="cat.isLive" class="success">Published</span>
+                            <a *ngIf="!cat.isLive" [routerLink]="[cat.name]">Publish</a>
+                        </div>
+                        <div>
+                            <a [routerLink]="[cat.name]">Update</a>
+                        </div>
                     </div>
-                    <div>
-                        <a [routerLink]="[cat.name]">Update</a>
-                    </div>
-                </div>
-            </anu-card-footer>
-        </anu-card>
+                </anu-card-footer>
+            </anu-card>
+        </div>
     </div>
-</div>
+</ng-container>
+<router-outlet></router-outlet>

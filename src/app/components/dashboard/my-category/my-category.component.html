@@ -1,0 +1,10 @@
+<h2>My Category</h2>
+<ng-container *ngIf="category">
+    <anu-category-editor [value]="category" (changed)="categoryChanged($event)"></anu-category-editor>
+    <anu-error *ngIf="category && error" [code]="error.code" [message]="error.message"></anu-error>
+    <div class="container center">
+        <a class="btn" href="#" (click)="saveCategory($event)">Save</a>
+    </div>
+</ng-container>
+
+<anu-error *ngIf="!category && error" [code]="error.code" [message]="error.message"></anu-error>
