@@ -17,44 +17,12 @@ $site-width: 1080px;
         & > * {
             max-width: #{$site-width};
         }
-
-        header {
-            padding: 0 1rem;
-
-            @include large {
-                padding: 0 1rem;
-            }
-
-            @include medium {
-                padding: 0;
-            }
-
-            @include small {
-                padding: 0;
-            }
-        }
     }
 
     .footer-container {
         background-color: var(--anu-accent-dark);
         & > * {
             max-width: #{$site-width};
-        }
-
-        footer {
-            padding: 0 1rem;
-
-            @include large {
-                padding: 0 1rem;
-            }
-
-            @include medium {
-                padding: 0;
-            }
-
-            @include small {
-                padding: 0;
-            }
         }
     }
 }
