@@ -1,19 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { ArticlesFirebaseService, AuthFirebaseService, Category, UtilsService } from '@annu/ng-lib';
-import { filter } from 'rxjs';
+import { ArticlesFirebaseService, AuthFirebaseService, Category, QueryConfig, UtilsService } from '@annu/ng-lib';
+import { filter, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-my-categories',
   templateUrl: './my-categories.component.html',
   styleUrls: ['./my-categories.component.scss']
 })
-export class MyCategoriesComponent implements OnInit {
+export class MyCategoriesComponent implements OnInit, OnDestroy {
   categories: Array<Category> = [];
   filteredCategories: Array<Category> = [];
   searchKeys: Array<string> = ['name', 'title'];
 
   loading: boolean = true;
+  error: any;
+  routeStartEvent: Subscription;
+  routeEndEvent: Subscription;
 
   constructor(
     public route: ActivatedRoute,
@@ -22,25 +25,39 @@ export class MyCategoriesComponent implements OnInit {
     private authFireSvc: AuthFirebaseService,
     public utilsSvc: UtilsService) {
 
-      this.router.events.pipe(filter(ev => ev instanceof NavigationStart)).subscribe(() => {
-        this.loading = true;
-      })
+    this.routeStartEvent = this.router.events.pipe(filter(ev => ev instanceof NavigationStart)).subscribe(() => {
+      this.loading = true;
+      this.error = null;
+    })
 
-      this.router.events.pipe(filter(ev => ev instanceof NavigationEnd)).subscribe(() => {
-        if (!this.route.firstChild) {
-          this.getCategories();
-        } else {
-          this.loading = false;
-        }
-      })
-    }
+    this.routeEndEvent = this.router.events.pipe(filter(ev => ev instanceof NavigationEnd)).subscribe(() => {
+      if (!this.route.firstChild) {
+        this.getCategories();
+      } else {
+        this.loading = false;
+      }
+    })
+  }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    this.routeEndEvent.unsubscribe();
+  }
 
   public async getCategories() {
-    this.categories = await this.articlesFireSvc.getCategories({userId: this.authFireSvc.getCurrentUserId()});
-    this.filteredCategories = this.categories;
-    this.loading = false;
+    try {
+      const queryConfig: QueryConfig = {
+        userId: this.authFireSvc.getCurrentUserId()
+      };
+      this.categories = await this.articlesFireSvc.getCategories(queryConfig);
+      this.filteredCategories = this.categories;
+      this.loading = false;
+    } catch (error: any) {
+      this.loading = false;
+      this.error = error;
+    }
   }
 
   public onSearch(foundCategories: Array<Category>): void {

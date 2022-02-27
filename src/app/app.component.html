@@ -3,7 +3,7 @@
   <div class="container center header-container">
     <header class="container left">
       <anu-menu [items]="mainRoutes" [heading]="appConfig.title">
-        <anu-login-status theme="" loginPageUrl="/login" profilePageUrl="/dashboard" loggedOutPageUrl="/login"></anu-login-status>
+        <anu-login-status [loginPageUrl]="appConfig.loginUrl || ''" [profilePageUrl]="appConfig.profileUrl || ''" [loggedOutPageUrl]="appConfig.logoutUrl || ''"></anu-login-status>
       </anu-menu>
     </header>
   </div>
@@ -22,21 +22,3 @@
     </footer>
   </div>
 </div>
-
-<!--
-<div class="appContainer container">
-  <header class="appHeader row">
-
-  </header>
-  <header class="appHeader row">
-    <section class="col-12 right"><anu-theme-picker></anu-theme-picker></section>
-  </header>
-  <section class="appContent row">
-    <main class="content col-sm-12 col-md-9 col-lg-8"   role="main">
-      <router-outlet></router-outlet>
-    </main>
-  </section>
-  <footer class="appFooter row">
-    <anu-footer-nav [copyrightText]="appConfig.copyrightText" [items]="mainRoutes"></anu-footer-nav>
-  </footer>
-</div> -->

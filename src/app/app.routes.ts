@@ -12,6 +12,8 @@ import {
   MyCategoryComponent,
 } from "./components";
 import { appConfig } from "./config";
+import { IsLoggedInGuard } from '@annu/ng-lib';
+
 
 // Main Nav Routes
 export const mainRoutes = [
@@ -34,6 +36,8 @@ export const tNcRoutes = [
 export const authorRoutes = [
   {
     path: 'dashboard', component: DashboardComponent, data: { title: 'My Dashboard' },
+    canActivate: [IsLoggedInGuard],
+    canActivateChild: [IsLoggedInGuard],
     children: [
       {
         path: 'my-categories', component: MyCategoriesComponent, data: { title: 'My Categories' },

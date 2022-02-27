@@ -4,7 +4,8 @@ export const firebaseui = {
     siteName: 'AnnuNgLib Components Library',
     tosUrl: '/tnc', // Terms of service page url
     privacyPolicyUrl: '/privacy-policy',  // Privacy policy url
-    signInSuccessUrl: '/components/auth/login-status',  // User is redirected to this url after successful login.
+    // signInSuccessUrl: '/components/auth/login-status',  // User is redirected to this url after successful login.
+
     // Callback methods, on login events, like success, failure etc. and
     // can be set to handler functions from Login component consumer.
     callbacks: {

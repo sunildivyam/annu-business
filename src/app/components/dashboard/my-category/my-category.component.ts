@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArticlesFirebaseService, AuthFirebaseService, Category, QueryConfig } from '@annu/ng-lib';
+import { Subscription } from 'rxjs';
 
 const ADD_CATEGORY = 'add';
 
@@ -9,13 +10,14 @@ const ADD_CATEGORY = 'add';
   templateUrl: './my-category.component.html',
   styleUrls: ['./my-category.component.scss']
 })
-export class MyCategoryComponent implements OnInit {
+export class MyCategoryComponent implements OnInit, OnDestroy {
   category!: Category | null;
   categoryId: string = '';
 
   error: any = null;
   found: boolean = false;
   loading: boolean = true;
+  paramsSubscription: Subscription;
 
   constructor(
     private articlesFireSvc: ArticlesFirebaseService,
@@ -23,7 +25,7 @@ export class MyCategoryComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router) {
 
-    this.route.params.subscribe(params => {
+    this.paramsSubscription = this.route.params.subscribe(params => {
       this.error = null;
       this.found = true;
       this.categoryId = params['id'];
@@ -32,6 +34,10 @@ export class MyCategoryComponent implements OnInit {
   }
 
   ngOnInit(): void { }
+
+  ngOnDestroy(): void {
+      this.paramsSubscription.unsubscribe();
+  }
 
   public async getCategory(id: string) {
     this.error = null;
