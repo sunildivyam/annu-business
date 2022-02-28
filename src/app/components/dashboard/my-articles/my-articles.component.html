@@ -1,48 +1,34 @@
-<h2> My Articles</h2>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
-<p>my-articles works!</p>
+<anu-card class="overview spacing-around-vertical spacing">
+    <anu-card-title>
+        <h2> My Articles</h2>
+    </anu-card-title>
+    <anu-card-body>
+        <p>
+            Manage all of your articles. Add new article or update existing one.
+        </p>
+    </anu-card-body>
+    <anu-card-footer class="row spacing-around-vertical right">
+        <div *ngIf="route.firstChild"  class="row stretch">
+            <a [routerLink]="['.']">Back to Articles</a>
+            <a [routerLink]="['add']">Add new Article</a>
+        </div>
+        <a *ngIf="!route.firstChild" [routerLink]="['add']">Add new Article</a>
+    </anu-card-footer>
+</anu-card>
+
+
+<ng-container *ngIf="!route.firstChild">
+    <anu-search-box [items]="articles" [keys]="searchKeys" (changed)="onSearch($event)"></anu-search-box>
+    <label>Results: {{filteredArticles.length}}/{{articles.length}}</label>
+    <div class="row results">
+        <!-- <anu-article-list class="col-12" [items]="filteredArticles" href="./"></anu-article-list> -->
+
+        <div *ngFor="let art of filteredArticles" class="col-sm-12 col-md-6 col-lg-6">
+            <anu-article [updateHref]="[art?.id || '']" [value]="art"></anu-article>
+        </div>
+
+        <anu-error *ngIf="error" [code]="error?.code"[message]="error?.message"></anu-error>
+        <anu-spinner [show]="loading" ></anu-spinner>
+    </div>
+</ng-container>
+<router-outlet></router-outlet>

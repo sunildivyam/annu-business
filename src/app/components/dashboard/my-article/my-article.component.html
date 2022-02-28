@@ -1,10 +1,7 @@
-<anu-card class="shadow spacing form-body">
-    <anu-card-title>
-        <h2>Category Form</h2>
-    </anu-card-title>
+<anu-card class="form-body">
     <anu-card-body>
         <ng-container *ngIf="found">
-            <anu-category-editor [value]="category" (saveClicked)="saveCategory($event)"></anu-category-editor>
+            <anu-article-editor [categories]="categories" [value]="article" (saveClicked)="saveArticle($event)"></anu-article-editor>
         </ng-container>
         <anu-error *ngIf="error" [code]="error.code" [message]="error.message"></anu-error>
         <anu-spinner [show]="loading"></anu-spinner>

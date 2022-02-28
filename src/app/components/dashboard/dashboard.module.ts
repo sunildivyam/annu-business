@@ -4,8 +4,9 @@ import { DashboardComponent } from './dashboard.component';
 import { MyCategoriesComponent } from './my-categories/my-categories.component';
 import { MyArticlesComponent } from './my-articles/my-articles.component';
 import { RouterModule } from '@angular/router';
-import { CardModule, CategoryEditorModule, CategoryModule, ErrorModule, SearchBoxModule, SpinnerModule, TabsModule } from '@annu/ng-lib';
+import { CardModule, CategoryEditorModule, CategoryModule, ArticleModule, ArticleEditorModule, ArticleListModule, ErrorModule, SearchBoxModule, SpinnerModule, TabsModule } from '@annu/ng-lib';
 import { MyCategoryComponent } from './my-category/my-category.component';
+import { MyArticleComponent } from './my-article';
 
 
 
@@ -15,6 +16,7 @@ import { MyCategoryComponent } from './my-category/my-category.component';
     MyCategoriesComponent,
     MyArticlesComponent,
     MyCategoryComponent,
+    MyArticleComponent,
   ],
   imports: [
     CommonModule,
@@ -24,6 +26,9 @@ import { MyCategoryComponent } from './my-category/my-category.component';
     SearchBoxModule,
     CategoryModule,
     CategoryEditorModule,
+    ArticleModule,
+    ArticleEditorModule,
+    ArticleListModule,
     ErrorModule,
     SpinnerModule,
   ],
@@ -32,6 +37,7 @@ import { MyCategoryComponent } from './my-category/my-category.component';
     MyCategoriesComponent,
     MyArticlesComponent,
     MyCategoryComponent,
+    MyArticleComponent,
   ],
 })
 export class DashboardModule { }

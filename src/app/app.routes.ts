@@ -10,6 +10,7 @@ import {
   MyCategoriesComponent,
   MyArticlesComponent,
   MyCategoryComponent,
+  MyArticleComponent,
 } from "./components";
 import { appConfig } from "./config";
 import { IsLoggedInGuard } from '@annu/ng-lib';
@@ -45,7 +46,12 @@ export const authorRoutes = [
           { path: ':id', component: MyCategoryComponent, data: { title: 'My Category' } },
         ]
       },
-      { path: 'my-articles', component: MyArticlesComponent, data: { title: 'My Articles' } },
+      {
+        path: 'my-articles', component: MyArticlesComponent, data: { title: 'My Articles' },
+        children: [
+          { path: ':id', component: MyArticleComponent, data: { title: 'My Article' } },
+        ]
+      },
     ]
   },
 ]

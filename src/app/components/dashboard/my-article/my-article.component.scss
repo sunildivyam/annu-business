@@ -1,0 +1,10 @@
+:host {
+    display: flex;
+    flex-direction: column;
+
+    .form-body {
+        position: relative;
+        min-height: 5rem;
+        background-color: var(--anu-primary-deep-light);
+    }
+}
