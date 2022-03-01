@@ -12,6 +12,7 @@ import { MyProfileComponent } from './components/my-profile/my-profile.component
 import { TncComponent } from './components/tnc/tnc.component';
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { DashboardModule } from './components/dashboard/dashboard.module';
+import { ArticleViewsModule } from './components/article-views/article-views.module';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { DashboardModule } from './components/dashboard/dashboard.module';
     // annu-ng-lib - components modules
     AnnuNgLibModule.forRoot(environment.libConfig),
     DashboardModule,
+    ArticleViewsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

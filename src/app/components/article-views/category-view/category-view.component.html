@@ -1,0 +1,15 @@
+<anu-category *ngIf="!error && category && !route.firstChild" [value]="category" [showMetaInfo]="false"></anu-category>
+
+<div *ngIf="!route.firstChild" class="container articles-container">
+    <ng-container *ngFor="let article of categoryArticles">
+        <anu-article [titleHref]="[article?.id || '']" [readMoreHref]="[article?.id || '']" [value]="article"
+            [showMetaInfo]="false"></anu-article>
+    </ng-container>
+    <anu-error *ngIf="errorArticles" [code]="errorArticles.code" [message]="errorArticles.message"></anu-error>
+</div>
+<anu-error *ngIf="error" [code]="error.code" [message]="error.message"></anu-error>
+<anu-spinner [show]="loading"></anu-spinner>
+
+<router-outlet></router-outlet>
+
+<h2 *ngIf="route.firstChild" >Read more about- <a [routerLink]="['../', category?.id]">{{category?.title}}</a></h2>

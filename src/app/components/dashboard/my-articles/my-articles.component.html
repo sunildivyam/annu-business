@@ -1,4 +1,4 @@
-<anu-card class="overview spacing-around-vertical spacing">
+<anu-card class="overview shadow primary-lightest-bg spacing-around-vertical spacing">
     <anu-card-title>
         <h2> My Articles</h2>
     </anu-card-title>
@@ -24,7 +24,7 @@
         <!-- <anu-article-list class="col-12" [items]="filteredArticles" href="./"></anu-article-list> -->
 
         <div *ngFor="let art of filteredArticles" class="col-12">
-            <anu-article [updateHref]="[art?.id || '']" [value]="art"></anu-article>
+            <anu-article class="shadow spacing-around-vertical" [updateHref]="[art?.id || '']" [value]="art"></anu-article>
         </div>
 
         <anu-error *ngIf="error" [code]="error?.code"[message]="error?.message"></anu-error>

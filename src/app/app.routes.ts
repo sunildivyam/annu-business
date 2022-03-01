@@ -11,6 +11,8 @@ import {
   MyArticlesComponent,
   MyCategoryComponent,
   MyArticleComponent,
+  ArticleViewComponent,
+  CategoryViewComponent,
 } from "./components";
 import { appConfig } from "./config";
 import { IsLoggedInGuard } from '@annu/ng-lib';
@@ -56,6 +58,19 @@ export const authorRoutes = [
   },
 ]
 
+// Articles Public Routes
+export const articlesPublicRoutes = [
+  {
+    path: ':categoryId', component: CategoryViewComponent , data: { title: 'Category view' },
+    children: [
+      {
+        path: ':articleId', component: ArticleViewComponent, data: { title: 'Category view' }
+      },
+    ]
+  }
+]
+
+
 export const routes: Routes = [
   { path: '', component: HomeComponent, data: { title: appConfig.title } },
 
@@ -70,6 +85,9 @@ export const routes: Routes = [
 
   // Author Routes
   ...authorRoutes,
+
+  // Article Public Routes
+  ...articlesPublicRoutes,
 
   //Any Other route (non-existant routes)
   { path: '**', redirectTo: '', pathMatch: 'full' },  // or set to ErrorComponentPage

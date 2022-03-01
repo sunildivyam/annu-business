@@ -1,4 +1,4 @@
-<anu-card class="overview spacing-around-vertical spacing-vertical">
+<anu-card class="shadow primary-lightest-bg spacing-around-vertical spacing">
     <anu-card-title>
         <h2> My Categories</h2>
     </anu-card-title>
@@ -22,7 +22,7 @@
     <label>Results: {{filteredCategories.length}}/{{categories.length}}</label>
     <div class="row results">
         <div *ngFor="let cat of filteredCategories" class="col-sm-12 col-md-6 col-lg-6">
-            <anu-category [updateHref]="cat?.id || ''" [value]="cat"></anu-category>
+            <anu-category class="shadow spacing spacing-around-vertical" [updateHref]="[cat?.id || '']" [value]="cat"></anu-category>
         </div>
         <anu-error *ngIf="error" [code]="error?.code"[message]="error?.message"></anu-error>
         <anu-spinner [show]="loading" ></anu-spinner>

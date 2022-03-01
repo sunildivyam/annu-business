@@ -1,0 +1,4 @@
+<anu-article-view *ngIf="!error && article" [value]="article" [showMetaInfo]="false"></anu-article-view>
+
+<anu-error *ngIf="error" [code]="error.code" [message]="error.message"></anu-error>
+<anu-spinner [show]="loading"></anu-spinner>
