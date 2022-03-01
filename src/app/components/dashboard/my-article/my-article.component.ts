@@ -11,7 +11,7 @@ const ADD_ARTICLE = 'add';
   styleUrls: ['./my-article.component.scss']
 })
 export class MyArticleComponent implements OnInit, OnDestroy {
-  article: Article = {};
+  article: Article | null = null;
   articleId: string = '';
   categories: Array<Category> = [];
 
@@ -19,6 +19,7 @@ export class MyArticleComponent implements OnInit, OnDestroy {
   found: boolean = false;
   loading: boolean = true;
   paramsSubscription: Subscription;
+  showUpdateConfirmationModal: boolean = false;
 
   constructor(
     private articlesFireSvc: ArticlesFirebaseService,
@@ -38,7 +39,7 @@ export class MyArticleComponent implements OnInit, OnDestroy {
   ngOnInit(): void { }
 
   ngOnDestroy(): void {
-      this.paramsSubscription.unsubscribe();
+    this.paramsSubscription.unsubscribe();
   }
 
   public async getArticle(id: string) {
@@ -69,7 +70,7 @@ export class MyArticleComponent implements OnInit, OnDestroy {
       }
     } else {
       this.found = true;
-      this.article = {};
+      this.article = null;
       this.loading = false;
     }
   }
@@ -109,7 +110,20 @@ export class MyArticleComponent implements OnInit, OnDestroy {
   }
 
   public saveArticle(article: Article) {
-    this.article = article;
-    this.updateArticle();
+    this.article = { ...article };
+    if (this.articleId !== ADD_ARTICLE && this.article.id !== this.articleId) {
+      // Title has been changed, hence id has been chaged, means you are going to add a new article, probably a duplicate with different title.
+      this.showUpdateConfirmationModal = true;
+    } else {
+      this.updateArticle();
+    }
+  }
+
+  public onDuplicateArticleAction(event: any, isYes: boolean = false): void {
+    event.preventDefault();
+    this.showUpdateConfirmationModal = false;
+    if (isYes) {
+      this.updateArticle();
+    }
   }
 }

@@ -18,6 +18,7 @@ export class MyCategoryComponent implements OnInit, OnDestroy {
   found: boolean = false;
   loading: boolean = true;
   paramsSubscription: Subscription;
+  showUpdateConfirmationModal: boolean = false;
 
   constructor(
     private articlesFireSvc: ArticlesFirebaseService,
@@ -92,7 +93,20 @@ export class MyCategoryComponent implements OnInit, OnDestroy {
   }
 
   public saveCategory(category: Category) {
-    this.category = category;
-    this.updateCategory();
+    this.category = { ...category };
+    if (this.categoryId !== ADD_CATEGORY && this.category.id !== this.categoryId) {
+      // Title has been changed, hence id has been chaged, means you are going to add a new category, probably a duplicate with different title.
+      this.showUpdateConfirmationModal = true;
+    } else {
+      this.updateCategory();
+    }
+  }
+
+  public onDuplicateCategoryAction(event: any, isYes: boolean = false): void {
+    event.preventDefault();
+    this.showUpdateConfirmationModal = false;
+    if (isYes) {
+      this.updateCategory();
+    }
   }
 }

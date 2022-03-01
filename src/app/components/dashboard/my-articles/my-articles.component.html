@@ -23,7 +23,7 @@
     <div class="row results">
         <!-- <anu-article-list class="col-12" [items]="filteredArticles" href="./"></anu-article-list> -->
 
-        <div *ngFor="let art of filteredArticles" class="col-sm-12 col-md-6 col-lg-6">
+        <div *ngFor="let art of filteredArticles" class="col-12">
             <anu-article [updateHref]="[art?.id || '']" [value]="art"></anu-article>
         </div>
 
