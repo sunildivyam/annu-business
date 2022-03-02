@@ -1,13 +1,16 @@
-<anu-card class="shadow spacing form-body">
-    <anu-card-title>
-        <h2>Category Form</h2>
-    </anu-card-title>
+<anu-card class="">
     <anu-card-body>
-        <ng-container *ngIf="found">
-            <anu-category-editor [value]="category" (saveClicked)="saveCategory($event)"></anu-category-editor>
-        </ng-container>
-        <anu-error *ngIf="error" [code]="error.code" [message]="error.message"></anu-error>
-        <anu-spinner [show]="loading"></anu-spinner>
+        <div class="flex-container spacing-around-vertical">
+            <div class="left col-12 relative">
+                <ng-container *ngIf="found">
+                    <anu-category-editor [value]="category" (saveClicked)="saveCategory($event)"></anu-category-editor>
+                </ng-container>
+                <div>
+                <anu-error *ngIf="error" [code]="error.code" [message]="error.message"></anu-error>
+                <anu-spinner [show]="loading"></anu-spinner>
+            </div>
+            </div>
+        </div>
     </anu-card-body>
 </anu-card>
 
@@ -18,7 +21,8 @@
         <p>You are about to duplicate an existing Category</p>
         <p><strong>Existing Category Id: </strong><span class="error">{{categoryId}}</span></p>
         <p><strong>Replacing with Category Id: </strong><span class="success">{{category?.id}}</span></p>
-        <p>This action will not delete the existing Category with id - <span class="error">{{categoryId}}</span>, but will create a new Category with
+        <p>This action will not delete the existing Category with id - <span class="error">{{categoryId}}</span>, but
+            will create a new Category with
             id -<span class="success">{{category?.id}}</span>.</p>
 
         <h3 class="warning">Do you want to add a duplicate of Category - <span class="error">{{categoryId}}</span>?</h3>

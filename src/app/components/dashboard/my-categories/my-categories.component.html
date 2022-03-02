@@ -1,31 +1,47 @@
-<anu-card class="shadow primary-lightest-bg spacing-around-vertical spacing">
-    <anu-card-title>
-        <h2> My Categories</h2>
-    </anu-card-title>
-    <anu-card-body>
-        <p>
-            Manage all of your categories. Add new category or update existing one.
-        </p>
-    </anu-card-body>
-    <anu-card-footer class="row spacing-around-vertical right">
-        <div *ngIf="route.firstChild"  class="row stretch">
-            <a [routerLink]="['.']">Back to Categories</a>
-            <a [routerLink]="['add']">Add new Category</a>
-        </div>
-        <a *ngIf="!route.firstChild" [routerLink]="['add']">Add new Category</a>
-    </anu-card-footer>
-</anu-card>
-
-
-<ng-container *ngIf="!route.firstChild">
-    <anu-search-box [items]="categories" [keys]="searchKeys" (changed)="onSearch($event)"></anu-search-box>
-    <label>Results: {{filteredCategories.length}}/{{categories.length}}</label>
-    <div class="row results">
-        <div *ngFor="let cat of filteredCategories" class="col-sm-12 col-md-6 col-lg-6">
-            <anu-category class="shadow spacing spacing-around-vertical" [updateHref]="[cat?.id || '']" [value]="cat"></anu-category>
-        </div>
-        <anu-error *ngIf="error" [code]="error?.code"[message]="error?.message"></anu-error>
-        <anu-spinner [show]="loading" ></anu-spinner>
+<div class="flex-container secondary-lighter-bg spacing-around-vertical">
+    <div class="left col-12">
+        <anu-card class="col-12 spacing">
+            <anu-card-title *ngIf="!route.firstChild">
+                <h2> My Categories</h2>
+            </anu-card-title>
+            <anu-card-body *ngIf="!route.firstChild">
+                <p>
+                    Manage all of your categories. Add new category or update existing one.
+                </p>
+            </anu-card-body>
+            <anu-card-footer class="row right">
+                <ng-container *ngIf="route.firstChild">
+                    <div class="col-12 center">
+                        <h2>Category Form</h2>
+                        <p>Update category details and publish.</p>
+                    </div>
+                    <div class="row stretch">
+                        <a [routerLink]="['.']">Back to Categories</a>
+                        <a [routerLink]="['add']">Add new Category</a>
+                    </div>
+                </ng-container>
+                <a *ngIf="!route.firstChild" [routerLink]="['add']">Add new Category</a>
+            </anu-card-footer>
+        </anu-card>
     </div>
-</ng-container>
+</div>
+
+
+<div class="flex-container spacing-around-vertical" *ngIf="!route.firstChild">
+    <div class="left col-12">
+        <anu-search-box class="col-12" [items]="categories" [keys]="searchKeys" (changed)="onSearch($event)">
+        </anu-search-box>
+        <label>Results: {{filteredCategories.length}}/{{categories.length}}</label>
+        <div class="row results">
+            <div *ngFor="let cat of filteredCategories" class="col-sm-12 col-md-6 col-lg-6">
+                <anu-category class="shadow spacing spacing-around-vertical" [updateHref]="[cat?.id || '']"
+                    [value]="cat">
+                </anu-category>
+            </div>
+            <anu-error *ngIf="error" [code]="error?.code" [message]="error?.message"></anu-error>
+            <anu-spinner [show]="loading"></anu-spinner>
+        </div>
+    </div>
+</div>
+
 <router-outlet></router-outlet>

@@ -5,7 +5,7 @@ export const appConfig: AppConfig = {
     title: 'Annu Business',
     description: 'Annu Business serves you with business consulation, how to start a business, how to run a business, what business you can start.',
     copyrightText: 'copyright©annu-business',
-    themeName: 'armyGreen',
+    themeName: 'pureGold',
     loginUrl: '/login',
     logoutUrl: '/login',
     profileUrl: '/dashboard',

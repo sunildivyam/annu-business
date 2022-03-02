@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ArticleViewsComponent } from './article-views.component';
 import { CategoryViewComponent } from './category-view/category-view.component';
 import { ArticleViewComponent } from './article-view/article-view.component';
 import { RouterModule } from '@angular/router';
@@ -10,7 +9,6 @@ import { ArticleModule, ArticleViewModule, CategoryModule, ErrorModule, SpinnerM
 
 @NgModule({
   declarations: [
-    ArticleViewsComponent,
     CategoryViewComponent,
     ArticleViewComponent,
   ],
@@ -24,7 +22,6 @@ import { ArticleModule, ArticleViewModule, CategoryModule, ErrorModule, SpinnerM
     ArticleViewModule
   ],
   exports: [
-    ArticleViewsComponent,
     CategoryViewComponent,
     ArticleViewComponent,
   ],

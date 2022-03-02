@@ -1,1 +1,31 @@
-<h1>Featured</h1>
+<div class="flex-container spacing-around-vertical">
+    <div class="row">
+        We are world's renowened business consultants.
+    </div>
+</div>
+
+<div class="flex-container secondary-lighter-bg spacing-around-vertical">
+    <div class="row">
+        <anu-card *ngFor="let cat of featuredCategories" class="stretch shadow border-round spacing spacing-around-vertical primary-deep-light-bg col-lg-3 col-md-6 col-sm-12">
+            <anu-card-image>
+                <div class="featured-icon">Icon</div>
+            </anu-card-image>
+            <anu-card-body>
+                {{cat.shortTitle}}
+            </anu-card-body>
+        </anu-card>
+    </div>
+</div>
+
+<div class="flex-container primary-lighter-bg spacing-around-vertical">
+    <div class="row">
+        <anu-card *ngFor="let cat of allCategoryArticles" class="stretch shadow border-round spacing spacing-around-vertical primary-deep-light-bg col-lg-3 col-md-6 col-sm-12">
+            <anu-card-body>
+                <h2>{{cat?.title}}</h2>
+                <ul *ngFor="let art of cat?.articles" class="stretch shadow border-round spacing spacing-around-vertical primary-deep-light-bg col-lg-3 col-md-6 col-sm-12">
+                    <li><h2>{{art?.metaInfo?.title}}</h2></li>
+                </ul>
+            </anu-card-body>
+        </anu-card>
+    </div>
+</div>

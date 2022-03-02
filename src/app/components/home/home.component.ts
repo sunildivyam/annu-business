@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ArticlesFirebaseService, QueryConfig } from '@annu/ng-lib';
+import { Article, ArticlesFirebaseService, Category, QueryConfig } from '@annu/ng-lib';
 
 @Component({
   selector: 'app-home',
@@ -7,21 +7,24 @@ import { ArticlesFirebaseService, QueryConfig } from '@annu/ng-lib';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  featuredCategories: Array<Category> = [];
+  allCategoryArticles: Array<any> = [];
 
   constructor(private articleFireSvc: ArticlesFirebaseService) { }
 
   ngOnInit(): void {
+    this.loadPageData();
   }
 
   private async loadPageData() {
-    const cats = await this.getAllCategories() || [];
-  }
-
-  private async getAllCategories() {
-    const queryConfig: QueryConfig = {
-      isLive: true,
-    }
-
-    return await this.articleFireSvc.getCategories(queryConfig);
+    this.featuredCategories = await this.articleFireSvc.getCategories({isLive: true, orderField: 'updated', pageSize: 4, isNextPages: true, startPage: null})
+    this.featuredCategories.forEach(async (cat: Category) => {
+      const articles = await this.articleFireSvc.getArticles({isLive: true, articleCategoryId: cat.id, orderField: 'updated', pageSize: 5, isNextPages: true, startPage: null});
+      this.allCategoryArticles.push(
+        {
+          category: cat,
+          articles: articles || []
+        });
+    });
   }
 }
