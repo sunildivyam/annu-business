@@ -4,16 +4,33 @@
 </div>
 
 <div *ngIf="!route.firstChild" class="flex-container">
-    <ng-container *ngFor="let article of categoryArticles">
-        <anu-article [titleHref]="[article?.id || '']" [readMoreHref]="[article?.id || '']" [value]="article"
-            [showMetaInfo]="false"></anu-article>
-    </ng-container>
-    <anu-error *ngIf="errorArticles" [code]="errorArticles.code" [message]="errorArticles.message"></anu-error>
+    <div class="row">
+        <div class="col-sm-12 col-md-8 col-lg-9">
+            <ng-container *ngFor="let article of categoryArticles">
+                <anu-article [titleHref]="[article?.id || '']" [readMoreHref]="[article?.id || '']" [value]="article"
+                    [showMetaInfo]="false"></anu-article>
+            </ng-container>
+        </div>
+        <div class="col-sm-12 col-md-4 col-lg-3">
+            <div class="" *ngFor="let catGrp of allCategoryArticles">
+                <h4 class="primary-normal-bg spacing shadow"><a [routerLink]="['../', catGrp?.category?.id]">{{catGrp?.category?.title}}</a></h4>
+                <ul class="spacing-vertical">
+                    <li class="" *ngFor="let art of catGrp?.articles">
+                        <a [routerLink]="['../', catGrp?.category?.id, art?.id]">{{art?.metaInfo?.title}}</a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['../', catGrp?.category?.id]">Read more...</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <anu-error *ngIf="errorArticles" [code]="errorArticles.code" [message]="errorArticles.message"></anu-error>
+    </div>
 </div>
 <div class="flex-container">
     <div>
         <anu-error *ngIf="error" [code]="error.code" [message]="error.message"></anu-error>
-        <anu-spinner [show]="loading"></anu-spinner>
+        <!-- <anu-spinner [show]="loading"></anu-spinner> -->
     </div>
 </div>
 
