@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { Article, ArticlesFirebaseService, Category, QueryConfig } from '@annu/ng-lib';
+import { Article, ArticlesFirebaseService, Category, MetaService, QueryConfig } from '@annu/ng-lib';
 import { Subscription, filter } from 'rxjs';
-const DEFAULT_PAGE_SIZE = 5;
+import { DEFAULT_PAGE_SIZE } from '../../../config';
 
 @Component({
   selector: 'app-category-view',
@@ -16,7 +16,6 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
 
   // Additional Articles and categroies
   allCategories: Array<Category> = [];
-  allCategoryArticles: Array<any> = [];
 
   loading: boolean = true;
   error: any;
@@ -24,11 +23,13 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
   routeStartEvent: Subscription;
   routeEndEvent: Subscription;
   paramsSubscription: Subscription;
+  defaultPageSize: number = DEFAULT_PAGE_SIZE;
 
   constructor(
     public route: ActivatedRoute,
     private router: Router,
-    private articlesFireSvc: ArticlesFirebaseService) {
+    private articlesFireSvc: ArticlesFirebaseService,
+    private metaService: MetaService) {
     // Router Start
     this.routeStartEvent = this.router.events.pipe(filter(ev => ev instanceof NavigationStart)).subscribe(() => {
       this.loading = true;
@@ -38,6 +39,12 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
     this.routeEndEvent = this.router.events.pipe(filter(ev => ev instanceof NavigationEnd)).subscribe(() => {
       this.getCategory();
       this.loadAdditionalPageData();
+
+      if (!this.route.firstChild) {
+        this.getCategoryArticles()
+      } else {
+        this.categoryArticles = [];
+      }
     })
 
     // Params change
@@ -65,11 +72,6 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
       const cats = await this.articlesFireSvc.getCategories(queryConfig);
       if (cats && cats.length) {
         this.category = cats[0];
-        if (!this.route.firstChild) {
-          this.categoryArticles = await this.getCategoryArticles() || [];
-        } else {
-          this.categoryArticles = [];
-        }
       } else {
         this.error = { code: '404', message: `Page does not exist - ${this.categoryId}` }
       }
@@ -82,31 +84,24 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
   }
 
   public async getCategoryArticles() {
-    this.errorArticles = false;
+    this.errorArticles = null;
     try {
       const queryConfig: QueryConfig = {
         isLive: true,
         articleCategoryId: this.categoryId,
         orderField: 'updated',
+        pageSize: DEFAULT_PAGE_SIZE,
+        startPage: null,
       };
-      return await this.articlesFireSvc.getArticles(queryConfig);
+
+      this.categoryArticles = await this.articlesFireSvc.getArticles(queryConfig);
     } catch (error: any) {
-      this.errorArticles = true;
-      throw new Error(error);
+      this.errorArticles = error;
+      this.categoryArticles = [];
     }
   }
 
   private async loadAdditionalPageData() {
     this.allCategories = await this.articlesFireSvc.getCategories({ isLive: true, orderField: 'updated' })
-
-    this.allCategories.forEach(async (cat: Category) => {
-      const articles = await this.articlesFireSvc.getArticles({ isLive: true, articleCategoryId: cat.id, orderField: 'updated', pageSize: DEFAULT_PAGE_SIZE, isNextPages: true, startPage: null });
-      this.allCategoryArticles = [];
-      this.allCategoryArticles.push(
-        {
-          category: cat,
-          articles: articles || []
-        });
-    });
   }
 }

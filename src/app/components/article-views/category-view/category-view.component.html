@@ -1,40 +1,30 @@
 <div *ngIf="!route.firstChild" class="flex-container secondary-lighter-bg spacing spacing-around-vertical">
     <anu-category *ngIf="!error && category" [value]="category" [showMetaInfo]="false">
     </anu-category>
+    <anu-error *ngIf="error" [code]="error.code" [message]="error.message"></anu-error>
 </div>
 
-<div *ngIf="!route.firstChild" class="flex-container">
+<div class="flex-container">
     <div class="row">
         <div class="col-sm-12 col-md-8 col-lg-9">
-            <ng-container *ngFor="let article of categoryArticles">
-                <anu-article [titleHref]="[article?.id || '']" [readMoreHref]="[article?.id || '']" [value]="article"
-                    [showMetaInfo]="false"></anu-article>
+            <ng-container *ngIf="!route.firstChild">
+                <anu-article *ngFor="let article of categoryArticles" [titleHref]="[article?.id || '']"
+                    [readMoreHref]="[article?.id || '']" [value]="article" [showMetaInfo]="false"></anu-article>
+                <anu-error *ngIf="errorArticles" [code]="errorArticles.code" [message]="errorArticles.message">
+                </anu-error>
             </ng-container>
+            <!-- Article view child routes -->
+            <router-outlet></router-outlet>
         </div>
         <div class="col-sm-12 col-md-4 col-lg-3">
-            <div class="" *ngFor="let catGrp of allCategoryArticles">
-                <h4 class="primary-normal-bg spacing shadow"><a [routerLink]="['../', catGrp?.category?.id]">{{catGrp?.category?.title}}</a></h4>
-                <ul class="spacing-vertical">
-                    <li class="" *ngFor="let art of catGrp?.articles">
-                        <a [routerLink]="['../', catGrp?.category?.id, art?.id]">{{art?.metaInfo?.title}}</a>
-                    </li>
-                    <li>
-                        <a [routerLink]="['../', catGrp?.category?.id]">Read more...</a>
-                    </li>
-                </ul>
-            </div>
+            <ng-container *ngFor="let cat of allCategories">
+                <anu-category-articles-list href="../" class="spacing" [category]="cat" orderBy="updated"
+                    [pageSize]="defaultPageSize" [headerClassNames]="['shadow', 'primary-lighter-bg', 'spacing']"
+                    [listClassNames]="[]"></anu-category-articles-list>
+            </ng-container>
         </div>
-        <anu-error *ngIf="errorArticles" [code]="errorArticles.code" [message]="errorArticles.message"></anu-error>
     </div>
 </div>
-<div class="flex-container">
-    <div>
-        <anu-error *ngIf="error" [code]="error.code" [message]="error.message"></anu-error>
-        <!-- <anu-spinner [show]="loading"></anu-spinner> -->
-    </div>
-</div>
-
-<router-outlet></router-outlet>
 
 <div *ngIf="route.firstChild" class="flex-container spacing secondary-normal-bg">
     <h2>Read more about- <a [routerLink]="['../', category?.id]">{{category?.title}}</a></h2>

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CategoryViewComponent } from './category-view/category-view.component';
 import { ArticleViewComponent } from './article-view/article-view.component';
 import { RouterModule } from '@angular/router';
-import { ArticleModule, ArticleViewModule, CategoryModule, ErrorModule, SpinnerModule } from '@annu/ng-lib';
+import { ArticleModule, ArticleViewModule, CategoryArticlesListModule, CategoryModule, ErrorModule, SpinnerModule } from '@annu/ng-lib';
 
 
 
@@ -19,7 +19,8 @@ import { ArticleModule, ArticleViewModule, CategoryModule, ErrorModule, SpinnerM
     ArticleModule,
     ErrorModule,
     SpinnerModule,
-    ArticleViewModule
+    ArticleViewModule,
+    CategoryArticlesListModule,
   ],
   exports: [
     CategoryViewComponent,

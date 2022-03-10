@@ -2,8 +2,12 @@
   <!-- App Header -->
   <div class="flex-container primary-normal-bg center">
     <header class="container left">
-      <anu-menu [items]="mainRoutes" [heading]="appConfig.title">
-        <anu-login-status [loginPageUrl]="appConfig.loginUrl || ''" [profilePageUrl]="appConfig.profileUrl || ''" [loggedOutPageUrl]="appConfig.logoutUrl || ''"></anu-login-status>
+      <anu-menu [items]="mainRoutes" [heading]="appConfig.title" (openStatusChanged)="mainMenuOpenStatusChanged($event)"
+        [opened]="isMainNavOpen">
+        <anu-login-status (profileClicked)="loginStatusClicked()" (signOutClicked)="loginStatusClicked()"
+          (signInClicked)="loginStatusClicked()" [loginPageUrl]="appConfig.loginUrl || ''"
+          [profilePageUrl]="appConfig.profileUrl || ''" [loggedOutPageUrl]="appConfig.logoutUrl || ''">
+        </anu-login-status>
       </anu-menu>
     </header>
   </div>
@@ -16,7 +20,8 @@
   <!-- App Footer -->
   <div class="flex-container primary-deep-dark-bg center">
     <footer class="container left spacing-vertical">
-      <anu-footer-nav class="primary-deep-dark-bg" [copyrightText]="appConfig.copyrightText" [items]="mainRoutes"></anu-footer-nav>
+      <anu-footer-nav class="primary-deep-dark-bg" [copyrightText]="appConfig.copyrightText" [items]="mainRoutes">
+      </anu-footer-nav>
     </footer>
   </div>
 </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Article, ArticlesFirebaseService, QueryConfig } from '@annu/ng-lib';
+import { Article, ArticlesFirebaseService, MetaInfo, MetaService, QueryConfig } from '@annu/ng-lib';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -18,6 +18,7 @@ export class ArticleViewComponent implements OnInit {
 
   constructor(
     private articlesFireSvc: ArticlesFirebaseService,
+    private metaService: MetaService,
     private route: ActivatedRoute,
     private router: Router) {
 
@@ -46,6 +47,7 @@ export class ArticleViewComponent implements OnInit {
       const foundArticles = await this.articlesFireSvc.getArticles(queryConfig);
       if (foundArticles && foundArticles.length) {
         this.article = foundArticles[0];
+        this.metaService.setPageMeta(this.article.metaInfo as MetaInfo);
       } else {
         this.error = { code: '404', message: `Page does not exist - ${id}` }
       }
