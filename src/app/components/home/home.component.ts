@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Article, ArticlesFirebaseService, Category, QueryConfig } from '@annu/ng-lib';
+import { ActivatedRoute } from '@angular/router';
+import { Article, ArticlesFirebaseService, ARTICLES_ROUTE_RESOLVER_DATA_KEYS, Category, CategoryGroup, HomeViewRouteData, QueryConfig } from '@annu/ng-lib';
 
 const FEATURED_CATEGORIES_COUNT = 4;
 const DEFAULT_PAGE_SIZE = 5;
@@ -12,28 +13,21 @@ const DEFAULT_DESCRIPTION_CHAR_COUNT = 300;
 })
 export class HomeComponent implements OnInit {
   featuredCategories: Array<Category> = [];
-  allCategories: Array<Category> = [];
-  allCategoryArticles: Array<any> = [];
+  allCategoriesGroups: Array<CategoryGroup> = [];
   descriptionCharCount: number = DEFAULT_DESCRIPTION_CHAR_COUNT;
+  error: any;
 
-  constructor(private articlesFireSvc: ArticlesFirebaseService) { }
+  constructor(public route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.loadPageData();
-  }
+    const homeViewData = this.route.snapshot.data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.HOME_VIEW] as HomeViewRouteData || {};
 
-  private async loadPageData() {
-    this.allCategories = await this.articlesFireSvc.getCategories({isLive: true, orderField: 'updated'})
+    this.allCategoriesGroups = homeViewData?.allCategoriesGroups as Array<CategoryGroup> || [];
+    this.error = homeViewData?.errorAllCategoriesGroups;
+
     // Extracts 1st few categories as featured categories.
 
-    this.featuredCategories = this.allCategories.slice(0, FEATURED_CATEGORIES_COUNT);
-    this.allCategories.forEach(async (cat: Category) => {
-      const articles = await this.articlesFireSvc.getArticles({isLive: true, articleCategoryId: cat.id, orderField: 'updated', pageSize: DEFAULT_PAGE_SIZE, isNextPages: true, startPage: null});
-      this.allCategoryArticles.push(
-        {
-          category: cat,
-          articles: articles || []
-        });
-    });
+    this.featuredCategories = this.allCategoriesGroups.slice(0, FEATURED_CATEGORIES_COUNT).map((cg: CategoryGroup) => cg.category as Category) || [];
   }
+
 }

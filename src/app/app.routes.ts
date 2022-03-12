@@ -14,8 +14,14 @@ import {
   ArticleViewComponent,
   CategoryViewComponent,
 } from "./components";
-import { appConfig } from "./config";
-import { IsLoggedInGuard } from '@annu/ng-lib';
+import { appConfig, DEFAULT_PAGE_SIZE } from "./config";
+import {
+  IsLoggedInGuard,
+  HomeViewRouteResolver,
+  CategoryViewRouteResolver,
+  ArticleViewRouteResolver,
+  ARTICLES_ROUTE_RESOLVER_DATA_KEYS,
+ } from '@annu/ng-lib';
 
 
 // Main Nav Routes
@@ -61,10 +67,14 @@ export const authorRoutes = [
 // Articles Public Routes
 export const articlesPublicRoutes = [
   {
-    path: ':categoryId', component: CategoryViewComponent , data: { title: 'Category view' },
+    path: ':categoryId', component: CategoryViewComponent,
+    data: { title: 'Category view', pageSize: DEFAULT_PAGE_SIZE },
+    resolve: { [ARTICLES_ROUTE_RESOLVER_DATA_KEYS.CATEGORY_VIEW]: CategoryViewRouteResolver },
     children: [
       {
-        path: ':articleId', component: ArticleViewComponent, data: { title: 'Category view' }
+        path: ':articleId', component: ArticleViewComponent,
+        data: { title: 'Article view' },
+        resolve: { [ARTICLES_ROUTE_RESOLVER_DATA_KEYS.ARTICLE_VIEW]: ArticleViewRouteResolver },
       },
     ]
   }
@@ -72,7 +82,6 @@ export const articlesPublicRoutes = [
 
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent, data: { title: appConfig.title } },
 
   // Main Routes
   ...mainRoutes,
@@ -86,8 +95,13 @@ export const routes: Routes = [
   // Author Routes
   ...authorRoutes,
 
-  // Article Public Routes
-  ...articlesPublicRoutes,
+  // Home and children routes
+  {
+    path: '', component: HomeComponent, data: { title: appConfig.title, pageSize: DEFAULT_PAGE_SIZE },
+    resolve: { [ARTICLES_ROUTE_RESOLVER_DATA_KEYS.HOME_VIEW]: HomeViewRouteResolver},
+    // Article Public Routes
+    children: [...articlesPublicRoutes],
+  },
 
   //Any Other route (non-existant routes)
   { path: '**', redirectTo: '', pathMatch: 'full' },  // or set to ErrorComponentPage

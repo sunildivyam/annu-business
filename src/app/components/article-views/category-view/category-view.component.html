@@ -10,16 +10,14 @@
             <ng-container *ngIf="!route.firstChild">
                 <anu-article *ngFor="let article of categoryArticles" [titleHref]="[article?.id || '']"
                     [readMoreHref]="[article?.id || '']" [value]="article" [showMetaInfo]="false"></anu-article>
-                <anu-error *ngIf="errorArticles" [code]="errorArticles.code" [message]="errorArticles.message">
-                </anu-error>
             </ng-container>
             <!-- Article view child routes -->
             <router-outlet></router-outlet>
         </div>
         <div class="col-sm-12 col-md-4 col-lg-3">
-            <ng-container *ngFor="let cat of allCategories">
-                <anu-category-articles-list href="../" class="spacing" [category]="cat" orderBy="updated"
-                    [pageSize]="defaultPageSize" [headerClassNames]="['shadow', 'primary-lighter-bg', 'spacing']"
+            <ng-container *ngFor="let catGroup of allCategoriesGroups">
+                <anu-category-articles-list href="../" class="spacing" [category]="catGroup?.category || null"
+                    [articles]="catGroup?.articles || []" [headerClassNames]="['shadow', 'primary-lighter-bg', 'spacing']"
                     [listClassNames]="[]"></anu-category-articles-list>
             </ng-container>
         </div>
