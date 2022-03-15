@@ -31,10 +31,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       // Extracts 1st few categories as featured categories.
 
       this.featuredCategories = this.allCategoriesGroups
-      .filter((cg: CategoryGroup) => cg.category?.isFeatured === true)
-      .map((cg: CategoryGroup) => cg.category as Category) || [];
+        .filter((cg: CategoryGroup) => cg.category?.isFeatured === true)
+        .map((cg: CategoryGroup) => cg.category as Category) || [];
 
-      this.metaService.setPageMeta(appConfig.metaInfo);
+      if (!this.route.firstChild) {
+        this.metaService.setPageMeta(appConfig.metaInfo);
+      }
 
       console.log('HOME VIEW - NAVIGATION-END: FILLING DATA TO VIEW - ENDED')
     })

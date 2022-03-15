@@ -36,7 +36,9 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
       this.error = categoryViewData?.errorCategoryGroup;
       this.errorAllCategories = categoryViewData?.errorAllCategoriesGroups;
 
-      this.metaService.setPageMeta({ ...this.category?.metaInfo as MetaInfo, title: `${appConfig.metaInfo.title} - ${this.category?.metaInfo?.title}` });
+      if (!this.route.firstChild) {
+        this.metaService.setPageMeta({ ...this.category?.metaInfo as MetaInfo, title: `${appConfig.metaInfo.title} - ${this.category?.metaInfo?.title}` });
+      }
 
       console.log('CATEGORY VIEW - NAVIGATION-END: FILLING DATA TO VIEW - ENDED')
     })
