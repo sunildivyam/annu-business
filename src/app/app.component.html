@@ -2,7 +2,7 @@
   <!-- App Header -->
   <div class="flex-container primary-normal-bg center">
     <header class="container left">
-      <anu-menu [items]="mainRoutes" [heading]="appConfig.title" (openStatusChanged)="mainMenuOpenStatusChanged($event)"
+      <anu-menu [items]="mainRoutes" [heading]="appConfig.metaInfo.title || ''" (openStatusChanged)="mainMenuOpenStatusChanged($event)"
         [opened]="isMainNavOpen">
         <anu-login-status (profileClicked)="loginStatusClicked()" (signOutClicked)="loginStatusClicked()"
           (signInClicked)="loginStatusClicked()" [loginPageUrl]="appConfig.loginUrl || ''"

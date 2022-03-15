@@ -97,7 +97,7 @@ export const routes: Routes = [
 
   // Home and children routes
   {
-    path: '', component: HomeComponent, data: { title: appConfig.title, pageSize: DEFAULT_PAGE_SIZE },
+    path: '', component: HomeComponent, data: { title: appConfig.metaInfo.title, pageSize: DEFAULT_PAGE_SIZE },
     resolve: { [ARTICLES_ROUTE_RESOLVER_DATA_KEYS.HOME_VIEW]: HomeViewRouteResolver},
     // Article Public Routes
     children: [...articlesPublicRoutes],
