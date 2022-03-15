@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Article, MetaInfo, MetaService, ArticleViewRouteData, ARTICLES_ROUTE_RESOLVER_DATA_KEYS } from '@annu/ng-lib';
 import { filter, Subscription } from 'rxjs';
-
+import { appConfig } from '../../../config';
 
 @Component({
   selector: 'app-article-view',
@@ -23,7 +23,7 @@ export class ArticleViewComponent implements OnInit {
       const articleViewData: ArticleViewRouteData = { ...this.route.snapshot.data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.ARTICLE_VIEW] } || {};
       this.article = articleViewData.article as Article;
       this.error = articleViewData.errorArticle;
-      this.metaService.setPageMeta(this.article?.metaInfo as MetaInfo);
+      this.metaService.setPageMeta({ ...this.article?.metaInfo as MetaInfo, title: `${appConfig.title} - ${this.article?.metaInfo?.title}` });
       console.log('ARTICLE VIEW - NAVIGATION-END: FILLING DATA TO VIEW - ENDED')
     })
   }
