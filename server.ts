@@ -18,6 +18,8 @@ export function app(): express.Express {
   const distFolder = join(process.cwd(), 'dist/annu-business/browser');
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
+  console.log('STARTING SERVER APP')
+  console.log('INDEX FILENAME - ', indexHtml)
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
   server.engine('html', ngExpressEngine({
     bootstrap: AppServerModule,
@@ -35,7 +37,23 @@ export function app(): express.Express {
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
-    res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
+    console.log('RENDERING INDEX.HTML - STARTING - ', indexHtml, ' *** REQ URL-', req.url)
+    res.render(indexHtml, {
+      req,
+      providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }]
+    },
+      (error, html) => {
+        if (error) {
+          res.status(500).send(error);
+          console.log('RENDERING INDEX.HTML - ERROR - ', indexHtml, ' *** REQ URL-', req.url, ' *** WITH HeaderSent - ', res.headersSent);
+        } else {
+          // console.log('HTML --- ', html);
+          res.status(200).send(html);
+          console.log('RENDERING INDEX.HTML - ENDED - ', indexHtml, ' *** REQ URL-', req.url, ' *** WITH HeaderSent - ', res.headersSent);
+        }
+
+      });
+    console.log('SERVER ROUTE EXIT - *** REQ-', req.url)
   });
 
   return server;
