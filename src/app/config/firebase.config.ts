@@ -1,4 +1,4 @@
-import { FirebaseConfig, FIREBASE_AUTH_SIGNIN_METHODS } from "@annu/ng-lib";
+import { FirebaseConfig, FirebaseStoreConfig, FIREBASE_AUTH_SIGNIN_METHODS } from "@annu/ng-lib";
 import { appConfig } from "./app.config";
 
 
@@ -65,3 +65,13 @@ export const firebaseui = {
     messagingSenderId: '140977750488',
     measurementId: 'G-36J6R2BDWD',
   } as FirebaseConfig
+
+
+export const firebaseStoreConfig: FirebaseStoreConfig = {
+  baseStoreUrl: 'annu-business/articles',
+  maxKBs: 1024,
+  maxWidth: 400,
+  maxHeight: 300,
+  minWidth: 100,
+  minHeight: 100,
+}

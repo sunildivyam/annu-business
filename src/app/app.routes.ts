@@ -1,9 +1,8 @@
 import { Routes } from "@angular/router";
 import {
-  HomeComponent,
+  ArticleViewsHomeComponent,
   ContactUsComponent,
   LoginComponent,
-  MyProfileComponent,
   TncComponent,
   PrivacyPolicyComponent,
   DashboardComponent,
@@ -17,7 +16,7 @@ import {
 import { appConfig, DEFAULT_PAGE_SIZE } from "./config";
 import {
   IsLoggedInGuard,
-  HomeViewRouteResolver,
+  ArticlesHomeViewRouteResolver,
   CategoryViewRouteResolver,
   ArticleViewRouteResolver,
   ARTICLES_ROUTE_RESOLVER_DATA_KEYS,
@@ -97,8 +96,8 @@ export const routes: Routes = [
 
   // Home and children routes
   {
-    path: '', component: HomeComponent, data: { title: appConfig.metaInfo.title, pageSize: DEFAULT_PAGE_SIZE },
-    resolve: { [ARTICLES_ROUTE_RESOLVER_DATA_KEYS.HOME_VIEW]: HomeViewRouteResolver},
+    path: '', component: ArticleViewsHomeComponent, data: { title: appConfig.metaInfo.title, pageSize: DEFAULT_PAGE_SIZE },
+    resolve: { [ARTICLES_ROUTE_RESOLVER_DATA_KEYS.ARTICLES_HOME_VIEW]: ArticlesHomeViewRouteResolver},
     // Article Public Routes
     children: [...articlesPublicRoutes],
   },

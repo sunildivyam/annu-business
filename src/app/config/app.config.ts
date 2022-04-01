@@ -29,5 +29,23 @@ export const appConfig: AppConfig = {
       "site_name": "Annu Business",
       "audio": "",
       "video": ""
-    }
+    },
+    mainMenuItems: [
+      {
+        title: 'Business Ideas',
+        href: ['./best-business-ideas'],
+      },
+      {
+        title: 'Start MSME',
+        href: ['./start-msme-business'],
+      },
+      {
+        title: 'Buying Guide',
+        href: ['./buying-guide'],
+      },
+      {
+        title: 'Manufacturing Business',
+        href: ['./start-manufacturing-business'],
+      }
+    ]
   };

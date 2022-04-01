@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppConfig, AuthFirebaseService } from '@annu/ng-lib';
 import { Subscription } from 'rxjs';
-import { appConfig } from '../../config/app.config';
+import { appConfig } from '../../../config';
 
 @Component({
   selector: 'app-login',
