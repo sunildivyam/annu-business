@@ -35,6 +35,11 @@ export function app(): express.Express {
     maxAge: '1y'
   }));
 
+  // Routes that skips server side rendering
+  server.get(['/dashboard', '/dashboard/**'], (req, res)=> {
+    res.sendFile(join(distFolder, `${indexHtml}.html`));
+  });
+
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
     console.log('RENDERING INDEX.HTML - STARTING - ', indexHtml, ' *** REQ URL-', req.url)
