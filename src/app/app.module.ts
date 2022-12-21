@@ -11,7 +11,6 @@ import { AppCoreModule } from './components/app-core/app-core.module';
 import { ErrorPagesModule } from './components/error-pages/error-pages.module';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from './auth.interceptor';
 
 
 @NgModule({
@@ -34,9 +33,7 @@ import { AuthInterceptor } from './auth.interceptor';
     AppCoreModule,
     ErrorPagesModule,
   ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useValue: AuthInterceptor, multi: true }
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
