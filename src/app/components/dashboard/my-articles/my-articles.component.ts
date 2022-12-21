@@ -11,7 +11,7 @@ import { filter, Subscription } from 'rxjs';
 export class MyArticlesComponent implements OnInit, OnDestroy {
   articles: Array<Article> = [];
   filteredArticles: Array<Article> = [];
-  searchKeys: Array<string> = ['name', 'title'];
+  searchKeys: Array<string> = ['id', 'metaInfo.title'];
 
   loading: boolean = true;
   error: any;
@@ -22,8 +22,7 @@ export class MyArticlesComponent implements OnInit, OnDestroy {
     public route: ActivatedRoute,
     private router: Router,
     private articlesFireSvc: ArticlesFirebaseService,
-    private authFireSvc: AuthFirebaseService,
-    public utilsSvc: UtilsService) {
+    private authFireSvc: AuthFirebaseService) {
 
     this.routeStartEvent = this.router.events.pipe(filter(ev => ev instanceof NavigationStart)).subscribe(() => {
       this.loading = true;

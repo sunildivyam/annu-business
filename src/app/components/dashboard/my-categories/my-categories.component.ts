@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { ArticlesFirebaseService, AuthFirebaseService, Category, QueryConfig, UtilsService } from '@annu/ng-lib';
+import { ArticlesFirebaseService, AuthFirebaseService, Category, QueryConfig } from '@annu/ng-lib';
 import { filter, Subscription } from 'rxjs';
 
 @Component({
@@ -11,7 +11,7 @@ import { filter, Subscription } from 'rxjs';
 export class MyCategoriesComponent implements OnInit, OnDestroy {
   categories: Array<Category> = [];
   filteredCategories: Array<Category> = [];
-  searchKeys: Array<string> = ['name', 'title'];
+  searchKeys: Array<string> = ['id', 'metaInfo.title'];
 
   loading: boolean = true;
   error: any;
@@ -22,8 +22,7 @@ export class MyCategoriesComponent implements OnInit, OnDestroy {
     public route: ActivatedRoute,
     private router: Router,
     private articlesFireSvc: ArticlesFirebaseService,
-    private authFireSvc: AuthFirebaseService,
-    public utilsSvc: UtilsService) {
+    private authFireSvc: AuthFirebaseService) {
 
     this.routeStartEvent = this.router.events.pipe(filter(ev => ev instanceof NavigationStart)).subscribe(() => {
       this.loading = true;

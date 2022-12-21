@@ -27,10 +27,11 @@ export class MyArticleComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router) {
 
-    this.paramsSubscription = this.route.params.subscribe(params => {
+    this.paramsSubscription = this.route.params.subscribe(async (params) => {
       this.error = null;
       this.found = true;
       this.articleId = params['id'];
+
       this.getArticle(this.articleId);
       this.getCategories();
     });

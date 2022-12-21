@@ -21,7 +21,15 @@ export class ArticleViewComponent implements OnInit {
     this.routeEndEvent = this.router.events.pipe(filter(ev => ev instanceof NavigationEnd)).subscribe(() => {
       console.log('ARTICLE VIEW - NAVIGATION-END: FILLING DATA TO VIEW - STARTING')
       const articleViewData: ArticleViewRouteData = { ...this.route.snapshot.data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.ARTICLE_VIEW] } || {};
-      this.article = articleViewData.article as Article;
+      this.article = { ...articleViewData.article as Article };
+
+      // if category not found, redirect to home page.
+      if (!this.article || !this.article.id) {
+        const paramCategoryId = this.route.parent?.snapshot.paramMap.get('categoryId');
+        const paramArticleId = this.route.snapshot.paramMap.get('articleId');
+        this.router.navigateByUrl(`?categoryId=${paramCategoryId}&articleId=${paramArticleId}`, { skipLocationChange: true });
+      }
+
       this.error = articleViewData.errorArticle;
 
       if (!this.route.firstChild) {

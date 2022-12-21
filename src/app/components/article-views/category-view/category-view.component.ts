@@ -29,10 +29,17 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
       console.log('CATEGORY VIEW - NAVIGATION-END: FILLING DATA TO VIEW - STARTING')
       const categoryViewData = { ...this.route.snapshot.data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.CATEGORY_VIEW] } as CategoryViewRouteData || {};
 
-      this.category = categoryViewData?.categoryGroup?.category as Category || null;
-      this.categoryArticles = categoryViewData?.categoryGroup?.articles as Array<Article> || [];
+      this.category = { ...categoryViewData?.categoryGroup?.category as Category ?? null };
 
-      this.allCategoriesGroups = categoryViewData?.allCategoriesGroups as Array<CategoryGroup> || [];
+      // if category not found, redirect to home page.
+      if (!this.category || !this.category.id) {
+        const paramCategoryId = this.route.snapshot.paramMap.get('categoryId');
+        this.router.navigateByUrl(`?categoryId=${paramCategoryId}`, { skipLocationChange: true });
+      }
+
+      this.categoryArticles = [...categoryViewData?.categoryGroup?.articles ?? [] as Array<Article>];
+
+      this.allCategoriesGroups = [...categoryViewData?.allCategoriesGroups ?? [] as Array<CategoryGroup>];
       this.error = categoryViewData?.errorCategoryGroup;
       this.errorAllCategories = categoryViewData?.errorAllCategoriesGroups;
 

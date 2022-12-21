@@ -9,7 +9,8 @@
 </div>
 <div class="flex-container spacing-around-vertical">
     <div class="row" *ngIf="!route.firstChild">
-        <anu-card class="col-sm-12 col-md-6 col-lg-4 shadow spacing" [routerLinkActive]="'active'">
+        <!--My Articles-->
+        <anu-card *ngIf="isAuthor" class="col-sm-12 col-md-6 col-lg-4 shadow spacing" [routerLinkActive]="'active'">
             <anu-card-title>
                 <h2>My Articles</h2>
             </anu-card-title>
@@ -22,7 +23,9 @@
                 </div>
             </anu-card-footer>
         </anu-card>
-        <anu-card class="col-sm-12 col-md-6 col-lg-4 shadow spacing" [routerLinkActive]="'active'">
+
+        <!--My Categories-->
+        <anu-card *ngIf="isAdmin" class="col-sm-12 col-md-6 col-lg-4 shadow spacing" [routerLinkActive]="'active'">
             <anu-card-title>
                 <h2>My Categories</h2>
             </anu-card-title>
