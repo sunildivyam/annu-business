@@ -19,9 +19,13 @@
 
   <!-- App Footer -->
   <div class="flex-container primary-lightest-bg center">
-    <footer class="container left spacing-vertical">
+    <footer class="container spacing-vertical">
       <anu-footer-nav class="primary-lightest-bg" [copyrightText]="appConfig.copyrightText" [items]="footerNavItems">
       </anu-footer-nav>
+      <!-- Terms and condition links -->
+      <small class="flex-container">
+        <a *ngFor="let tNcLink of tNcLinks" [routerLink]="tNcLink.href">{{tNcLink.title}}</a>
+      </small>
     </footer>
   </div>
 </div>

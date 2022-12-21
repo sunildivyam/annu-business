@@ -4,8 +4,10 @@
     width: 100%;
 
     .featured-icon {
-        width: 6rem;
-        height: 6rem;
+        display: flex;
+        width: 20rem;
+        height: 20rem;
         border-radius: 50%;
+        overflow: hidden;
     }
 }

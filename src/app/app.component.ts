@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppConfig, MenuItem, ThemeService } from '@annu/ng-lib';
-import { mainRoutes } from './app.routes';
+import { mainRoutes, tNcRoutes } from './app.routes';
 import { appConfig } from './config';
 
 @Component({
@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
   mainMenuItems: Array<MenuItem> = [];
   footerNavItems: Array<MenuItem> = mainRoutes.map(r => ({ title: r.data.title, href: [r.path] }));
   isMainNavOpen: boolean = false;
+  tNcLinks: Array<MenuItem> = tNcRoutes.map(r => ({ title: r.data.title, href: [r.path] }));
 
   constructor(private themeService: ThemeService) {
     this.mainMenuItems = [...appConfig.mainMenuItems];

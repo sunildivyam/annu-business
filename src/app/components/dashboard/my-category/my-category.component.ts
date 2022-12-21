@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ArticlesFirebaseService, AuthFirebaseService, Category, QueryConfig } from '@annu/ng-lib';
+import { ArticlesFirebaseService, AuthFirebaseService, Category, QueryConfig, MetaService } from '@annu/ng-lib';
 import { Subscription } from 'rxjs';
+import { appConfig, dashboardMyCategoryMetaInfo } from '../../../config';
 
 const ADD_CATEGORY = 'add';
 
@@ -24,7 +25,8 @@ export class MyCategoryComponent implements OnInit, OnDestroy {
     private articlesFireSvc: ArticlesFirebaseService,
     private authFireSvc: AuthFirebaseService,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private metaService: MetaService) {
 
     this.paramsSubscription = this.route.params.subscribe(params => {
       this.error = null;
@@ -34,7 +36,9 @@ export class MyCategoryComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.metaService.setPageMeta({ ...dashboardMyCategoryMetaInfo, title: `${appConfig.metaInfo.title} - ${dashboardMyCategoryMetaInfo.title}` });
+  }
 
   ngOnDestroy(): void {
       this.paramsSubscription.unsubscribe();
