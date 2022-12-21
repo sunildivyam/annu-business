@@ -1,0 +1,11 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .featured-icon {
+        width: 6rem;
+        height: 6rem;
+        border-radius: 50%;
+    }
+}

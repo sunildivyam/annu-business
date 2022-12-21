@@ -1,0 +1,47 @@
+<div class="flex-container secondary-lighter-bg spacing-around-vertical">
+    <div class="left col-12">
+        <anu-card class="col-12 spacing">
+            <anu-card-title *ngIf="!route.firstChild">
+                <h2> My Articles</h2>
+            </anu-card-title>
+            <anu-card-body *ngIf="!route.firstChild">
+                <p>
+                    Manage all of your articles. Add new article or update existing one.
+                </p>
+            </anu-card-body>
+            <anu-card-footer class="row spacing-around-vertical right">
+                <ng-container *ngIf="route.firstChild">
+                    <div class="col-12 center">
+                        <h2>Article Form</h2>
+                        <p>Update article details and publish.</p>
+                    </div>
+                    <div class="row stretch">
+                        <a [routerLink]="['.']">Back to Articles</a>
+                        <a [routerLink]="['add']">Add new Article</a>
+                    </div>
+                </ng-container>
+                <a *ngIf="!route.firstChild" [routerLink]="['add']">Add new Article</a>
+            </anu-card-footer>
+        </anu-card>
+    </div>
+</div>
+
+<div class="flex-container spacing-around-vertical" *ngIf="!route.firstChild">
+    <div class="left col-12">
+        <anu-search-box class="col-12" [items]="articles" [keys]="searchKeys" (changed)="onSearch($event)">
+        </anu-search-box>
+        <label>Results: {{filteredArticles.length}}/{{articles.length}}</label>
+        <div class="row results">
+            <!-- <anu-article-list class="col-12" [items]="filteredArticles" href="./"></anu-article-list> -->
+
+            <div *ngFor="let art of filteredArticles" class="col-12">
+                <anu-article class="shadow spacing-around-vertical" [updateHref]="[art?.id || '']" [value]="art">
+                </anu-article>
+            </div>
+
+            <anu-error *ngIf="error" [code]="error?.code" [message]="error?.message"></anu-error>
+            <anu-spinner [show]="loading"></anu-spinner>
+        </div>
+    </div>
+</div>
+<router-outlet></router-outlet>

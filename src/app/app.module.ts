@@ -1,34 +1,42 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { AnnuNgLibModule } from '@annu/ng-lib';
+import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
+import { AppConfigModule, FooterNavModule, LoginStatusModule, MenuModule } from '@annu/ng-lib';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { environment } from '../environments/environment';
-import { ContactUsComponent } from './components/contact-us/contact-us.component';
-import { HomeComponent } from './components/home/home.component';
-import { LoginComponent } from './components/login/login.component';
-import { MyProfileComponent } from './components/my-profile/my-profile.component';
-import { TncComponent } from './components/tnc/tnc.component';
-import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
+import { DashboardModule } from './components/dashboard/dashboard.module';
+import { ArticleViewsModule } from './components/article-views/article-views.module';
+import { AppCoreModule } from './components/app-core/app-core.module';
+import { ErrorPagesModule } from './components/error-pages/error-pages.module';
+
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth.interceptor';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    ContactUsComponent,
-    HomeComponent,
-    LoginComponent,
-    MyProfileComponent,
-    TncComponent,
-    PrivacyPolicyComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
-    AppRoutingModule,
+    BrowserTransferStateModule,   // Needed to access transfered state on browser from SSR.
+
     // annu-ng-lib - components modules
-    AnnuNgLibModule.forRoot(environment.libConfig),
+    AppConfigModule.forRoot(environment.libConfig),
+    MenuModule,
+    FooterNavModule,
+    LoginStatusModule,
+
+    DashboardModule,
+    ArticleViewsModule,
+    AppRoutingModule,
+    AppCoreModule,
+    ErrorPagesModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useValue: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

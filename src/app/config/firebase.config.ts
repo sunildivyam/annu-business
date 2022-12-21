@@ -1,10 +1,14 @@
-import { FirebaseConfig, FIREBASE_AUTH_SIGNIN_METHODS } from "@annu/ng-lib";
+import { FirebaseConfig, FirebaseStoreConfig, FIREBASE_AUTH_SIGNIN_METHODS } from "@annu/ng-lib";
+import { appConfig } from "./app.config";
+
+
 export const firebaseui = {
     signInFlow: 'popup',  // redirect
     siteName: 'AnnuNgLib Components Library',
-    tosUrl: '/tnc', // Terms of service page url
-    privacyPolicyUrl: '/privacy-policy',  // Privacy policy url
-    signInSuccessUrl: '/components/auth/login-status',  // User is redirected to this url after successful login.
+    tosUrl: appConfig.tNcUrl, // Terms of service page url
+    privacyPolicyUrl: appConfig.privacyPolicyUrl,  // Privacy policy url
+    // signInSuccessUrl: '/components/auth/login-status',  // User is redirected to this url after successful login.
+
     // Callback methods, on login events, like success, failure etc. and
     // can be set to handler functions from Login component consumer.
     callbacks: {
@@ -61,3 +65,13 @@ export const firebaseui = {
     messagingSenderId: '140977750488',
     measurementId: 'G-36J6R2BDWD',
   } as FirebaseConfig
+
+
+export const firebaseStoreConfig: FirebaseStoreConfig = {
+  baseStoreUrl: 'annu-business/articles',
+  maxKBs: 1024,
+  maxWidth: 900,
+  maxHeight: 600,
+  minWidth: 100,
+  minHeight: 100,
+}

@@ -1,0 +1,48 @@
+<div class="flex-container spacing-around-vertical">
+    <h1 class="col-12 left">My Dashboard</h1>
+</div>
+
+<div *ngIf="!route.firstChild" class="flex-container secondary-lighter-bg spacing-around-vertical">
+    <div class="left col-12">
+        <p>Manage your profile and authored articles.</p>
+    </div>
+</div>
+<div class="flex-container spacing-around-vertical">
+    <div class="row" *ngIf="!route.firstChild">
+        <!--My Articles-->
+        <anu-card *ngIf="isAuthor" class="col-sm-12 col-md-6 col-lg-4 shadow spacing" [routerLinkActive]="'active'">
+            <anu-card-title>
+                <h2>My Articles</h2>
+            </anu-card-title>
+            <anu-card-body>
+                Manage your articles.
+            </anu-card-body>
+            <anu-card-footer>
+                <div class="container right">
+                    <a [routerLink]="['my-articles']">Manage my articles...</a>
+                </div>
+            </anu-card-footer>
+        </anu-card>
+
+        <!--My Categories-->
+        <anu-card *ngIf="isAdmin" class="col-sm-12 col-md-6 col-lg-4 shadow spacing" [routerLinkActive]="'active'">
+            <anu-card-title>
+                <h2>My Categories</h2>
+            </anu-card-title>
+            <anu-card-body>
+                Manage your categories for your articles.
+            </anu-card-body>
+            <anu-card-footer>
+                <div class="container right">
+                    <a [routerLink]="['my-categories']">Manage my categories...</a>
+                </div>
+            </anu-card-footer>
+        </anu-card>
+    </div>
+    <div class="row" *ngIf="route.firstChild">
+        <a [routerLink]="['./']">{{'<< Back to dashboard'}}</a>
+    </div>
+</div>
+
+
+<router-outlet #dashboardOutlet (activate)="onOutletActivated()"></router-outlet>

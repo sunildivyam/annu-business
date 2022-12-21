@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Route } from '@angular/router';
-import { AppConfig, ThemeService } from '@annu/ng-lib';
+import { AppConfig, MenuItem, ThemeService } from '@annu/ng-lib';
 import { mainRoutes } from './app.routes';
 import { appConfig } from './config';
 
@@ -11,11 +10,26 @@ import { appConfig } from './config';
 })
 export class AppComponent implements OnInit {
   appConfig: AppConfig = appConfig;
-  mainRoutes: Array<Route> = mainRoutes;
+  mainMenuItems: Array<MenuItem> = [];
+  footerNavItems: Array<MenuItem> = mainRoutes.map(r => ({ title: r.data.title, href: [r.path] }));
+  isMainNavOpen: boolean = false;
 
-  constructor(private themeService: ThemeService) {}
+  constructor(private themeService: ThemeService) {
+    this.mainMenuItems = [...appConfig.mainMenuItems];
+    this.footerNavItems = [ ...this.mainMenuItems, ...mainRoutes.map(r => ({ title: r.data.title, href: [r.path] }))];
+  }
 
   ngOnInit(): void {
-    this.themeService.setTheme(this.appConfig.themeName, false);
+    this.themeService.setTheme(this.appConfig.themeName, true);
   }
+
+
+  public loginStatusClicked(): void {
+    this.isMainNavOpen = !this.isMainNavOpen;
+  }
+
+  public mainMenuOpenStatusChanged(opened: boolean): void {
+    this.isMainNavOpen = opened;
+  }
+
 }

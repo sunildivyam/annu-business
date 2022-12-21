@@ -1,0 +1,14 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .login-intro {
+        background-color: var(--anu-secondary-deep-light);
+    }
+
+    .login-container {
+        position: relative;
+        min-height: 5rem;
+    }
+}
