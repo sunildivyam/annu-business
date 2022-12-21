@@ -8,6 +8,11 @@ import { environment } from '../environments/environment';
 import { DashboardModule } from './components/dashboard/dashboard.module';
 import { ArticleViewsModule } from './components/article-views/article-views.module';
 import { AppCoreModule } from './components/app-core/app-core.module';
+import { ErrorPagesModule } from './components/error-pages/error-pages.module';
+
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth.interceptor';
+
 
 @NgModule({
   declarations: [
@@ -27,8 +32,11 @@ import { AppCoreModule } from './components/app-core/app-core.module';
     ArticleViewsModule,
     AppRoutingModule,
     AppCoreModule,
+    ErrorPagesModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useValue: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

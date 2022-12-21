@@ -12,15 +12,18 @@ import {
   MyArticleComponent,
   ArticleViewComponent,
   CategoryViewComponent,
+  UnauthorizedComponent,
 } from "./components";
 import { appConfig, DEFAULT_PAGE_SIZE } from "./config";
 import {
   IsLoggedInGuard,
+  RoleAuthorGuard,
+  RoleAdminGuard,
   ArticlesHomeViewRouteResolver,
   CategoryViewRouteResolver,
   ArticleViewRouteResolver,
   ARTICLES_ROUTE_RESOLVER_DATA_KEYS,
- } from '@annu/ng-lib';
+} from '@annu/ng-lib';
 
 
 // Main Nav Routes
@@ -40,6 +43,12 @@ export const tNcRoutes = [
   { path: 'privacy-policy', component: PrivacyPolicyComponent, data: { title: 'Privacy Policy' } },
 ]
 
+// error Routes
+export const errorRoutes = [
+  { path: 'unauthorized', component: UnauthorizedComponent, data: { title: 'Unauthorized' } },
+]
+
+
 // Author Dashboard Routes
 export const authorRoutes = [
   {
@@ -48,15 +57,19 @@ export const authorRoutes = [
     canActivateChild: [IsLoggedInGuard],
     children: [
       {
-        path: 'my-categories', component: MyCategoriesComponent, data: { title: 'My Categories' },
+        path: 'my-categories', component: MyCategoriesComponent, data: { title: 'My Categories', redirectUrl: '/unauthorized' },
+        canActivate: [RoleAdminGuard],
+        canActivateChild: [RoleAdminGuard],
         children: [
-          { path: ':id', component: MyCategoryComponent, data: { title: 'My Category' } },
+          { path: ':id', component: MyCategoryComponent, data: { title: 'My Category', redirectUrl: '/unauthorized' } },
         ]
       },
       {
-        path: 'my-articles', component: MyArticlesComponent, data: { title: 'My Articles' },
+        path: 'my-articles', component: MyArticlesComponent, data: { title: 'My Articles', redirectUrl: '/unauthorized' },
+        canActivate: [RoleAuthorGuard],
+        canActivateChild: [RoleAuthorGuard],
         children: [
-          { path: ':id', component: MyArticleComponent, data: { title: 'My Article' } },
+          { path: ':id', component: MyArticleComponent, data: { title: 'My Article', redirectUrl: '/unauthorized' } },
         ]
       },
     ]
@@ -91,13 +104,16 @@ export const routes: Routes = [
   // tNc Routes
   ...tNcRoutes,
 
+  // Error Routes
+  ...errorRoutes,
+
   // Author Routes
   ...authorRoutes,
 
   // Home and children routes
   {
     path: '', component: ArticleViewsHomeComponent, data: { title: appConfig.metaInfo.title, pageSize: DEFAULT_PAGE_SIZE },
-    resolve: { [ARTICLES_ROUTE_RESOLVER_DATA_KEYS.ARTICLES_HOME_VIEW]: ArticlesHomeViewRouteResolver},
+    resolve: { [ARTICLES_ROUTE_RESOLVER_DATA_KEYS.ARTICLES_HOME_VIEW]: ArticlesHomeViewRouteResolver },
     // Article Public Routes
     children: [...articlesPublicRoutes],
   },
