@@ -1,1 +1,2 @@
-<p>unauthorized works!</p>
+<p *ngIf="returnUrl">You have been redirected to this page from {{returnUrl}}</p>
+<anu-error code="401" message="You are not authorized to view the page. Please login as a different user or contact administrator to get access to this page."></anu-error>
