@@ -19,7 +19,6 @@ export class ArticleViewComponent implements OnInit {
     private metaService: MetaService,
     private route: ActivatedRoute, private router: Router) {
     this.routeEndEvent = this.router.events.pipe(filter(ev => ev instanceof NavigationEnd)).subscribe(() => {
-      console.log('ARTICLE VIEW - NAVIGATION-END: FILLING DATA TO VIEW - STARTING')
       const articleViewData: ArticleViewRouteData = { ...this.route.snapshot.data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.ARTICLE_VIEW] } || {};
       this.article = { ...articleViewData.article as Article };
 
@@ -35,7 +34,6 @@ export class ArticleViewComponent implements OnInit {
       if (!this.route.firstChild) {
         this.metaService.setPageMeta({ ...this.article?.metaInfo as MetaInfo, title: `${appConfig.metaInfo.title} - ${this.article?.metaInfo?.title}` });
       }
-      console.log('ARTICLE VIEW - NAVIGATION-END: FILLING DATA TO VIEW - ENDED')
     })
   }
 

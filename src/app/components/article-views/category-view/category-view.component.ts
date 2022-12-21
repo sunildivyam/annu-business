@@ -26,7 +26,6 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
     private metaService: MetaService,
     private router: Router) {
     this.routeEndEvent = this.router.events.pipe(filter(ev => ev instanceof NavigationEnd)).subscribe(() => {
-      console.log('CATEGORY VIEW - NAVIGATION-END: FILLING DATA TO VIEW - STARTING')
       const categoryViewData = { ...this.route.snapshot.data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.CATEGORY_VIEW] } as CategoryViewRouteData || {};
 
       this.category = { ...categoryViewData?.categoryGroup?.category as Category ?? null };
@@ -46,8 +45,6 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
       if (!this.route.firstChild) {
         this.metaService.setPageMeta({ ...this.category?.metaInfo as MetaInfo, title: `${appConfig.metaInfo.title} - ${this.category?.metaInfo?.title}` });
       }
-
-      console.log('CATEGORY VIEW - NAVIGATION-END: FILLING DATA TO VIEW - ENDED')
     })
   }
 
