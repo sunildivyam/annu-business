@@ -30,8 +30,12 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
 
       this.category = { ...categoryViewData?.categoryGroup?.category as Category ?? null };
 
-      // if category not found, redirect to home page.
-      if (!this.category || !this.category.id) {
+      /*
+      * if category not found and if it has no child routes, then redirect to home page.
+      * That means when an article route exist and category route does not, then it does not redirect to home,
+      * but shows the article route.
+      */
+      if (!this.route.firstChild && (!this.category || !this.category.id)) {
         const paramCategoryId = this.route.snapshot.paramMap.get('categoryId');
         this.router.navigateByUrl(`?categoryId=${paramCategoryId}`, { skipLocationChange: true });
       }

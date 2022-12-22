@@ -37,12 +37,6 @@ export const authRoutes = [
   { path: 'login', component: LoginComponent, data: { title: 'Sign In' } },
 ]
 
-// tNc Routes
-export const tNcRoutes = [
-  { path: 'tnc', component: TncComponent, data: { title: 'Terms and Conditions' } },
-  { path: 'privacy-policy', component: PrivacyPolicyComponent, data: { title: 'Privacy Policy' } },
-]
-
 // error Routes
 export const errorRoutes = [
   { path: 'unauthorized', component: UnauthorizedComponent, data: { title: 'Unauthorized' } },
@@ -100,9 +94,6 @@ export const routes: Routes = [
 
   // Auth Routes
   ...authRoutes,
-
-  // tNc Routes
-  ...tNcRoutes,
 
   // Error Routes
   ...errorRoutes,

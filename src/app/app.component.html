@@ -24,7 +24,8 @@
       </anu-footer-nav>
       <!-- Terms and condition links -->
       <small class="flex-container">
-        <a *ngFor="let tNcLink of tNcLinks" [routerLink]="tNcLink.href">{{tNcLink.title}}</a>
+        <a [routerLink]="tNcUrl">Terms and conditions</a>
+        <a [routerLink]="privacyPolicyUrl">Privacy policy</a>
       </small>
     </footer>
   </div>

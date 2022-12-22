@@ -22,7 +22,11 @@ export class ArticleViewComponent implements OnInit {
       const articleViewData: ArticleViewRouteData = { ...this.route.snapshot.data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.ARTICLE_VIEW] } || {};
       this.article = { ...articleViewData.article as Article };
 
-      // if category not found, redirect to home page.
+      /*
+      * if article not found and then redirect to home page.
+      * That means when an article route exist and category route does not, then it does not redirect to home,
+      * and shows this article route.
+      */
       if (!this.article || !this.article.id) {
         const paramCategoryId = this.route.parent?.snapshot.paramMap.get('categoryId');
         const paramArticleId = this.route.snapshot.paramMap.get('articleId');

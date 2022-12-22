@@ -7,8 +7,8 @@ export const appConfig: AppConfig = {
     loginUrl: '/login',
     logoutUrl: '/login',
     profileUrl: '/dashboard',
-    tNcUrl: '/tnc',
-    privacyPolicyUrl: '/privacy-policy',
+    tNcUrl: '/terms-and-conditions-lbxuxsj774zpe3xh/terms-and-conditions-lbxv0dakpn1x6px',
+    privacyPolicyUrl: '/terms-and-conditions-lbxuxsj774zpe3xh/terms-and-conditions-lbxv0dakpn1x6px',
     metaInfo: {
       "title": "Annu Business",
       "description": "Annu Business serves you with business consultation, how to start a business, how to run a business, what business you can start.",
