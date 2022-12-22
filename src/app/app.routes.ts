@@ -3,8 +3,6 @@ import {
   ArticleViewsHomeComponent,
   ContactUsComponent,
   LoginComponent,
-  TncComponent,
-  PrivacyPolicyComponent,
   DashboardComponent,
   MyCategoriesComponent,
   MyArticlesComponent,

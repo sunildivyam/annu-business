@@ -26,7 +26,7 @@
 </div>
 
 <div *ngIf="route.firstChild" class="flex-container spacing secondary-normal-bg">
-    <h2>Read more about- <a [routerLink]="['../', category?.id]">{{category?.metaInfo?.title}}</a></h2>
+    <h2 *ngIf="category?.id">Read more about- <a [routerLink]="['../', category?.id]">{{category?.metaInfo?.title}}</a></h2>
 </div>
 
 <div class="flex-container spacing spacing-around">
