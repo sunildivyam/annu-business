@@ -7,7 +7,7 @@ const routes: Routes = allRoutes;
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { initialNavigation: 'enabledBlocking' }),
+    RouterModule.forRoot(routes, { initialNavigation: 'enabledBlocking', scrollPositionRestoration: 'enabled' }),
     RouteGuardsModule,
   ],
   exports: [RouterModule],
