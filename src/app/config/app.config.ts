@@ -3,7 +3,7 @@ import { AppConfig } from "@annu/ng-lib";
 export const appConfig: AppConfig = {
     name: 'annuBusiness',
     copyrightText: 'copyright©annu-business',
-    themeName: 'armyGreen',
+    themeName: 'skyBlue',
     loginUrl: '/login',
     logoutUrl: '/login',
     profileUrl: '/dashboard',
