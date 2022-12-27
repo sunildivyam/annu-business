@@ -16,6 +16,9 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
 
   // Additional Articles and categroies
   allCategoriesGroups: Array<CategoryGroup> = [];
+  // This will have orderBy(updated) field value of last article record from the list.
+  startPage: string = '';
+  endPage: string = '';
 
   error: any;
   errorAllCategories: any;
@@ -26,7 +29,7 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
     private metaService: MetaService,
     private router: Router) {
     this.routeEndEvent = this.router.events.pipe(filter(ev => ev instanceof NavigationEnd)).subscribe(() => {
-      const categoryViewData = { ...this.route.snapshot.data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.CATEGORY_VIEW] } as CategoryViewRouteData || {};
+      const categoryViewData: CategoryViewRouteData = { ...this.route.snapshot.data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.CATEGORY_VIEW] } as CategoryViewRouteData || {};
 
       this.category = { ...categoryViewData?.categoryGroup?.category as Category ?? null };
 
@@ -41,7 +44,8 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
       }
 
       this.categoryArticles = [...categoryViewData?.categoryGroup?.articles ?? [] as Array<Article>];
-
+      this.startPage = categoryViewData.startPage || '';
+      this.endPage = categoryViewData.endPage || '';
       this.allCategoriesGroups = [...categoryViewData?.allCategoriesGroups ?? [] as Array<CategoryGroup>];
       this.error = categoryViewData?.errorCategoryGroup;
       this.errorAllCategories = categoryViewData?.errorAllCategoriesGroups;
@@ -57,4 +61,5 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.routeEndEvent.unsubscribe();
   }
+
 }

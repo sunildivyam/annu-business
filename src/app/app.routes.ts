@@ -1,4 +1,4 @@
-import { Routes } from "@angular/router";
+import { Route, Routes } from "@angular/router";
 import {
   ArticleViewsHomeComponent,
   ContactUsComponent,
@@ -74,14 +74,16 @@ export const articlesPublicRoutes = [
     path: ':categoryId', component: CategoryViewComponent,
     data: { title: 'Category view', pageSize: DEFAULT_PAGE_SIZE },
     resolve: { [ARTICLES_ROUTE_RESOLVER_DATA_KEYS.CATEGORY_VIEW]: CategoryViewRouteResolver },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
     children: [
       {
         path: ':articleId', component: ArticleViewComponent,
         data: { title: 'Article view' },
         resolve: { [ARTICLES_ROUTE_RESOLVER_DATA_KEYS.ARTICLE_VIEW]: ArticleViewRouteResolver },
-      },
+        runGuardsAndResolvers: 'paramsOrQueryParamsChange',
+      } as Route,
     ]
-  }
+  } as Route
 ]
 
 
