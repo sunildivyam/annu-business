@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Article, Category, MetaService, CategoryViewRouteData, ARTICLES_ROUTE_RESOLVER_DATA_KEYS, CategoryGroup, MetaInfo } from '@annu/ng-lib';
+import { Article, Category, MetaService, CategoryViewRouteData, ARTICLES_ROUTE_RESOLVER_DATA_KEYS, CategoryGroup, MetaInfo, UtilsService } from '@annu/ng-lib';
 import { filter, Subscription } from 'rxjs';
 import { appConfig } from '../../../config';
 
@@ -27,7 +27,8 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
   constructor(
     public route: ActivatedRoute,
     private metaService: MetaService,
-    private router: Router) {
+    private router: Router,
+    private utilsSvc: UtilsService) {
     this.routeEndEvent = this.router.events.pipe(filter(ev => ev instanceof NavigationEnd)).subscribe(() => {
       const categoryViewData: CategoryViewRouteData = { ...this.route.snapshot.data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.CATEGORY_VIEW] } as CategoryViewRouteData || {};
 
@@ -44,8 +45,8 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
       }
 
       this.categoryArticles = [...categoryViewData?.categoryGroup?.articles ?? [] as Array<Article>];
-      this.startPage = categoryViewData.startPage || '';
-      this.endPage = categoryViewData.endPage || '';
+      this.startPage = this.utilsSvc.dateStringToTotalTimeString(categoryViewData.startPage || '');
+      this.endPage = this.utilsSvc.dateStringToTotalTimeString(categoryViewData.endPage || '');
       this.allCategoriesGroups = [...categoryViewData?.allCategoriesGroups ?? [] as Array<CategoryGroup>];
       this.error = categoryViewData?.errorCategoryGroup;
       this.errorAllCategories = categoryViewData?.errorAllCategoriesGroups;
@@ -61,5 +62,4 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.routeEndEvent.unsubscribe();
   }
-
 }

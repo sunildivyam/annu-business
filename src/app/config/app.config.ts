@@ -32,20 +32,20 @@ export const appConfig: AppConfig = {
     },
     mainMenuItems: [
       {
-        title: 'Business Ideas',
-        href: ['./best-business-ideas'],
+        title: 'Sample Category 1',
+        href: ['./sample-category-1'],
       },
       {
-        title: 'Start MSME',
-        href: ['./start-msme-business'],
+        title: 'Sample Category 2',
+        href: ['./sample-category-2'],
       },
       {
-        title: 'Buying Guide',
-        href: ['./buying-guide'],
+        title: 'Sample Category 3',
+        href: ['./sample-category-3'],
       },
       {
-        title: 'Manufacturing Business',
-        href: ['./start-manufacturing-business'],
+        title: 'Sample Category 4',
+        href: ['./sample-category-4'],
       }
     ]
   };
