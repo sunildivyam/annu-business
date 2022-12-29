@@ -3,12 +3,12 @@ import { AppConfig } from "@annu/ng-lib";
 export const appConfig: AppConfig = {
     name: 'annuBusiness',
     copyrightText: 'copyright©annu-business',
-    themeName: 'armyGreen',
+    themeName: 'skyBlue',
     loginUrl: '/login',
     logoutUrl: '/login',
     profileUrl: '/dashboard',
-    tNcUrl: '/tnc',
-    privacyPolicyUrl: '/privacy-policy',
+    tNcUrl: '/terms-and-conditions-lbxuxsj774zpe3xh/terms-and-conditions-lbxv0dakpn1x6px',
+    privacyPolicyUrl: '/terms-and-conditions-lbxuxsj774zpe3xh/terms-and-conditions-lbxv0dakpn1x6px',
     metaInfo: {
       "title": "Annu Business",
       "description": "Annu Business serves you with business consultation, how to start a business, how to run a business, what business you can start.",
@@ -32,20 +32,20 @@ export const appConfig: AppConfig = {
     },
     mainMenuItems: [
       {
-        title: 'Business Ideas',
-        href: ['./best-business-ideas'],
+        title: 'Sample Category 1',
+        href: ['./sample-category-1'],
       },
       {
-        title: 'Start MSME',
-        href: ['./start-msme-business'],
+        title: 'Sample Category 2',
+        href: ['./sample-category-2'],
       },
       {
-        title: 'Buying Guide',
-        href: ['./buying-guide'],
+        title: 'Sample Category 3',
+        href: ['./sample-category-3'],
       },
       {
-        title: 'Manufacturing Business',
-        href: ['./start-manufacturing-business'],
+        title: 'Sample Category 4',
+        href: ['./sample-category-4'],
       }
     ]
   };

@@ -19,9 +19,14 @@
 
   <!-- App Footer -->
   <div class="flex-container primary-lightest-bg center">
-    <footer class="container left spacing-vertical">
+    <footer class="container spacing-vertical">
       <anu-footer-nav class="primary-lightest-bg" [copyrightText]="appConfig.copyrightText" [items]="footerNavItems">
       </anu-footer-nav>
+      <!-- Terms and condition links -->
+      <small class="flex-container">
+        <a [routerLink]="tNcUrl">Terms and conditions</a>
+        <a [routerLink]="privacyPolicyUrl">Privacy policy</a>
+      </small>
     </footer>
   </div>
 </div>

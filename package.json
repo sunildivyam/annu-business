@@ -27,7 +27,7 @@
     "@annu/ng-lib": "file:../annu-ng-lib/dist/annu-ng-lib",
     "@nguniversal/express-engine": "^13.0.2",
     "express": "^4.15.2",
-    "firebase": "^9.4.0",
+    "firebase": "^9.15.0",
     "firebaseui": "^6.0.0",
     "prismjs": "^1.26.0",
     "rxjs": "~7.4.0",

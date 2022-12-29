@@ -13,6 +13,8 @@ export class AppComponent implements OnInit {
   mainMenuItems: Array<MenuItem> = [];
   footerNavItems: Array<MenuItem> = mainRoutes.map(r => ({ title: r.data.title, href: [r.path] }));
   isMainNavOpen: boolean = false;
+  tNcUrl: string = appConfig.tNcUrl;
+  privacyPolicyUrl: string = appConfig.privacyPolicyUrl;
 
   constructor(private themeService: ThemeService) {
     this.mainMenuItems = [...appConfig.mainMenuItems];

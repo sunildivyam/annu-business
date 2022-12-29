@@ -10,6 +10,15 @@
             <ng-container *ngIf="!route.firstChild">
                 <anu-article *ngFor="let article of categoryArticles" [titleHref]="[article?.id || '']"
                     [readMoreHref]="[article?.id || '']" [value]="article" [showMetaInfo]="false"></anu-article>
+
+                <div class="row stretch nowrap spacing spacing-around-vertical secondary-lightest-bg">
+                    <div>
+                        <a *ngIf="startPage" [routerLink]="['.']" [queryParams]="{page: startPage, pdir: 'b'}">≪ Previous</a>
+                    </div>
+                    <div>
+                        <a *ngIf="endPage" [routerLink]="['.']" [queryParams]="{page: endPage, pdir: 'f'}">Next ≫</a>
+                    </div>
+                </div>
             </ng-container>
             <!-- Article view child routes -->
             <router-outlet></router-outlet>
@@ -26,7 +35,7 @@
 </div>
 
 <div *ngIf="route.firstChild" class="flex-container spacing secondary-normal-bg">
-    <h2>Read more about- <a [routerLink]="['../', category?.id]">{{category?.metaInfo?.title}}</a></h2>
+    <h2 *ngIf="category?.id">Read more about- <a [routerLink]="['../', category?.id]">{{category?.metaInfo?.title}}</a></h2>
 </div>
 
 <div class="flex-container spacing spacing-around">

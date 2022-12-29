@@ -25,15 +25,11 @@ export class ArticleViewsHomeComponent implements OnInit, OnDestroy {
 
   constructor(public route: ActivatedRoute, private router: Router, private metaService: MetaService,) {
     this.routeEndEvent = this.router.events.pipe(filter(ev => ev instanceof NavigationEnd)).subscribe((vv) => {
-      console.log('HOME VIEW - NAVIGATION-END: FILLING DATA TO VIEW - STARTING')
       const homeViewData = { ...this.route.snapshot.data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.ARTICLES_HOME_VIEW] } as ArticlesHomeViewRouteData || {};
-      console.log('HOME VIEW - NAVIGATION-END: FILLING DATA TO VIEW - ENDED 1')
       this.allCategoriesGroups = [...homeViewData?.allCategoriesGroups as Array<CategoryGroup>] || [];
-      console.log('HOME VIEW - NAVIGATION-END: FILLING DATA TO VIEW - ENDED 2')
       this.error = homeViewData?.errorAllCategoriesGroups;
-      console.log('HOME VIEW - NAVIGATION-END: FILLING DATA TO VIEW - ENDED 3')
-      // Extracts 1st few categories as featured categories.
 
+      // Extracts featured categories.
       this.featuredCategories = this.allCategoriesGroups
         .filter((cg: CategoryGroup) => cg.category?.isFeatured === true)
         .map((cg: CategoryGroup) => ({ ...cg.category as Category })) || [];
@@ -42,11 +38,9 @@ export class ArticleViewsHomeComponent implements OnInit, OnDestroy {
         this.metaService.setPageMeta(appConfig.metaInfo);
       }
 
+      // Sets not found category and/or article ids, in case user is redirected here from respective pages.
       this.notFoundCategoryId = this.route.snapshot.queryParamMap.get('categoryId') || '';
       this.notFoundArticleId = this.route.snapshot.queryParamMap.get('articleId') || '';
-
-
-      console.log('HOME VIEW - NAVIGATION-END: FILLING DATA TO VIEW - ENDED')
     })
   }
 

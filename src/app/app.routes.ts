@@ -1,10 +1,8 @@
-import { Routes } from "@angular/router";
+import { Route, Routes } from "@angular/router";
 import {
   ArticleViewsHomeComponent,
   ContactUsComponent,
   LoginComponent,
-  TncComponent,
-  PrivacyPolicyComponent,
   DashboardComponent,
   MyCategoriesComponent,
   MyArticlesComponent,
@@ -35,12 +33,6 @@ export const mainRoutes = [
 // Auth Routes
 export const authRoutes = [
   { path: 'login', component: LoginComponent, data: { title: 'Sign In' } },
-]
-
-// tNc Routes
-export const tNcRoutes = [
-  { path: 'tnc', component: TncComponent, data: { title: 'Terms and Conditions' } },
-  { path: 'privacy-policy', component: PrivacyPolicyComponent, data: { title: 'Privacy Policy' } },
 ]
 
 // error Routes
@@ -82,14 +74,16 @@ export const articlesPublicRoutes = [
     path: ':categoryId', component: CategoryViewComponent,
     data: { title: 'Category view', pageSize: DEFAULT_PAGE_SIZE },
     resolve: { [ARTICLES_ROUTE_RESOLVER_DATA_KEYS.CATEGORY_VIEW]: CategoryViewRouteResolver },
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
     children: [
       {
         path: ':articleId', component: ArticleViewComponent,
         data: { title: 'Article view' },
         resolve: { [ARTICLES_ROUTE_RESOLVER_DATA_KEYS.ARTICLE_VIEW]: ArticleViewRouteResolver },
-      },
+        runGuardsAndResolvers: 'paramsOrQueryParamsChange',
+      } as Route,
     ]
-  }
+  } as Route
 ]
 
 
@@ -100,9 +94,6 @@ export const routes: Routes = [
 
   // Auth Routes
   ...authRoutes,
-
-  // tNc Routes
-  ...tNcRoutes,
 
   // Error Routes
   ...errorRoutes,

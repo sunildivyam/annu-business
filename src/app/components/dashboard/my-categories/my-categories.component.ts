@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { ArticlesFirebaseService, AuthFirebaseService, Category, QueryConfig } from '@annu/ng-lib';
+import { ArticlesFirebaseService, AuthFirebaseService, Category, QueryConfig, MetaService } from '@annu/ng-lib';
 import { filter, Subscription } from 'rxjs';
+import { appConfig, dashboardMyCategoriesMetaInfo } from '../../../config';
 
 @Component({
   selector: 'app-my-categories',
@@ -22,7 +23,8 @@ export class MyCategoriesComponent implements OnInit, OnDestroy {
     public route: ActivatedRoute,
     private router: Router,
     private articlesFireSvc: ArticlesFirebaseService,
-    private authFireSvc: AuthFirebaseService) {
+    private authFireSvc: AuthFirebaseService,
+    private metaService: MetaService) {
 
     this.routeStartEvent = this.router.events.pipe(filter(ev => ev instanceof NavigationStart)).subscribe(() => {
       this.loading = true;
@@ -39,6 +41,7 @@ export class MyCategoriesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.metaService.setPageMeta({ ...dashboardMyCategoriesMetaInfo, title: `${appConfig.metaInfo.title} - ${dashboardMyCategoriesMetaInfo.title}` });
   }
 
   ngOnDestroy(): void {

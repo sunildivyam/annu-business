@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { ArticlesFirebaseService, AuthFirebaseService, Article, QueryConfig, UtilsService } from '@annu/ng-lib';
+import { ArticlesFirebaseService, AuthFirebaseService, Article, QueryConfig, MetaService } from '@annu/ng-lib';
 import { filter, Subscription } from 'rxjs';
+import { appConfig, dashboardMyArticlesMetaInfo } from '../../../config';
 
 @Component({
   selector: 'app-my-articles',
@@ -22,7 +23,8 @@ export class MyArticlesComponent implements OnInit, OnDestroy {
     public route: ActivatedRoute,
     private router: Router,
     private articlesFireSvc: ArticlesFirebaseService,
-    private authFireSvc: AuthFirebaseService) {
+    private authFireSvc: AuthFirebaseService,
+    private metaService: MetaService) {
 
     this.routeStartEvent = this.router.events.pipe(filter(ev => ev instanceof NavigationStart)).subscribe(() => {
       this.loading = true;
@@ -39,6 +41,7 @@ export class MyArticlesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.metaService.setPageMeta({ ...dashboardMyArticlesMetaInfo, title: `${appConfig.metaInfo.title} - ${dashboardMyArticlesMetaInfo.title}` });
   }
 
   ngOnDestroy(): void {
