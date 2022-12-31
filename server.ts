@@ -46,18 +46,7 @@ export function app(): express.Express {
     res.render(indexHtml, {
       req,
       providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }]
-    },
-      (error, html) => {
-        if (error) {
-          res.status(500).send(error);
-          console.log('RENDERING INDEX.HTML - ERROR - ', indexHtml, ' *** REQ URL-', req.url, ' *** WITH HeaderSent - ', res.headersSent);
-        } else {
-          // console.log('HTML --- ', html);
-          res.status(200).send(html);
-          console.log('RENDERING INDEX.HTML - ENDED - ', indexHtml, ' *** REQ URL-', req.url, ' *** WITH HeaderSent - ', res.headersSent);
-        }
-
-      });
+    });
     console.log('SERVER ROUTE EXIT - *** REQ-', req.url)
   });
 
