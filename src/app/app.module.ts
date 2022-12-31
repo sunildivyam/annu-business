@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { AppConfigModule, FooterNavModule, LoginStatusModule, MenuModule } from '@annu/ng-lib';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,16 +10,12 @@ import { ArticleViewsModule } from './components/article-views/article-views.mod
 import { AppCoreModule } from './components/app-core/app-core.module';
 import { ErrorPagesModule } from './components/error-pages/error-pages.module';
 
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-
-
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
-    BrowserTransferStateModule,   // Needed to access transfered state on browser from SSR.
 
     // annu-ng-lib - components modules
     AppConfigModule.forRoot(environment.libConfig),
