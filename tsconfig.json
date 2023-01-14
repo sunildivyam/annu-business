@@ -3,14 +3,11 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "annu-ng-lib": [
-        "dist/annu-ng-lib"
-      ],
       "@annu/ng-lib": [
-        "projects/annu-ng-lib/src"
+        "node_modules/@annubiz/ng-lib"
       ],
       "@annu/ng-lib/*": [
-        "projects/annu-ng-lib/src/*"
+        "node_modules/@annubiz/ng-lib/*"
       ]
     },
     "baseUrl": "./",

@@ -1,16 +1,14 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes, Router } from '@angular/router';
 import { routes as allRoutes } from './app.routes';
-import { RouteGuardsModule } from '@annu/ng-lib';
 
 const routes: Routes = allRoutes;
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { initialNavigation: 'enabledBlocking', scrollPositionRestoration: 'enabled' }),
-    RouteGuardsModule,
+    RouterModule.forRoot(routes, { initialNavigation: 'enabledBlocking'}),
   ],
   exports: [RouterModule],
   providers: [],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

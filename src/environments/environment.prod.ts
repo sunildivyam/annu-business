@@ -4,9 +4,10 @@ import { firebaseAppConfig, firebaseui, firebaseStoreConfig } from "../app/confi
 export const environment = {
   production: true,
   libConfig: {
-    // docsJsonUrl: '/data/documentation.json',
+    apiBaseUrl: 'http://localhost:5000',  // This should be the hosted url
     firebaseui: { ...firebaseui },
     firebase: { ...firebaseAppConfig, apiKey: '' },
     firebaseStoreConfig,
+    firestoreBaseApiUrl: 'https://firestore.googleapis.com/v1/projects/annu-business/databases/(default)/documents',
   } as LibConfig
 };

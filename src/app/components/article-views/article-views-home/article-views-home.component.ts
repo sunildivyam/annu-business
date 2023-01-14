@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ARTICLES_ROUTE_RESOLVER_DATA_KEYS, Category, CategoryGroup,  ArticlesHomeViewRouteData, MetaService } from '@annu/ng-lib';
 import { filter, Subscription } from 'rxjs';
 import { appConfig } from '../../../config';
@@ -21,12 +21,19 @@ export class ArticleViewsHomeComponent implements OnInit, OnDestroy {
   notFoundCategoryId: string = '';
   notFoundArticleId: string = '';
 
-  routeEndEvent: Subscription;
-
   constructor(public route: ActivatedRoute, private router: Router, private metaService: MetaService,) {
-    this.routeEndEvent = this.router.events.pipe(filter(ev => ev instanceof NavigationEnd)).subscribe((vv) => {
-      const homeViewData = { ...this.route.snapshot.data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.ARTICLES_HOME_VIEW] } as ArticlesHomeViewRouteData || {};
-      this.allCategoriesGroups = [...homeViewData?.allCategoriesGroups as Array<CategoryGroup>] || [];
+    this.route.data.subscribe(data => this.initFromResolvedData(data));
+  }
+
+  ngOnInit(): void {
+    this.initFromResolvedData(this.route.snapshot.data);
+  }
+
+  ngOnDestroy(): void {}
+
+  private initFromResolvedData(data: any): void {
+      const homeViewData = { ...data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.ARTICLES_HOME_VIEW] ?? null } as ArticlesHomeViewRouteData;
+      this.allCategoriesGroups = [...homeViewData?.allCategoriesGroups as Array<CategoryGroup> ?? []];
       this.error = homeViewData?.errorAllCategoriesGroups;
 
       // Extracts featured categories.
@@ -41,12 +48,5 @@ export class ArticleViewsHomeComponent implements OnInit, OnDestroy {
       // Sets not found category and/or article ids, in case user is redirected here from respective pages.
       this.notFoundCategoryId = this.route.snapshot.queryParamMap.get('categoryId') || '';
       this.notFoundArticleId = this.route.snapshot.queryParamMap.get('articleId') || '';
-    })
-  }
-
-  ngOnInit(): void { }
-
-  ngOnDestroy(): void {
-    this.routeEndEvent.unsubscribe();
   }
 }
