@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AppConfig, MenuItem, ThemeService } from '@annu/ng-lib';
+import { AppConfig, MenuItem, ThemeService, SpinnerMode } from '@annu/ng-lib';
 import { appConfig } from './config';
+import { AppSpinnerService } from './services/app-core/app-spinner.service';
 
 @Component({
   selector: 'app-root',
@@ -14,8 +15,9 @@ export class AppComponent implements OnInit {
   isMainNavOpen: boolean = false;
   tNcUrl: string = appConfig.tNcUrl;
   privacyPolicyUrl: string = appConfig.privacyPolicyUrl;
+  SpinnerMode = SpinnerMode;
 
-  constructor(private themeService: ThemeService) {
+  constructor(private themeService: ThemeService, public appSpinner: AppSpinnerService) {
     this.mainMenuItems = [...appConfig.mainMenuItems];
     this.footerNavItems = [...appConfig.mainMenuItems];
   }

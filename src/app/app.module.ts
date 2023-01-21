@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppConfigModule, FooterNavModule, LoginStatusModule, MenuModule, RouteGuardsModule, FirestoreInterceptor } from '@annu/ng-lib';
+import { AppConfigModule, FooterNavModule, LoginStatusModule, MenuModule, RouteGuardsModule, FirestoreInterceptor, SpinnerModule } from '@annu/ng-lib';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -25,6 +25,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
     MenuModule,
     FooterNavModule,
     LoginStatusModule,
+    SpinnerModule,
 
     DashboardModule,
     ArticleViewsModule,
