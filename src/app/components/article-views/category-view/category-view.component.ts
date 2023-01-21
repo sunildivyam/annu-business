@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Article, Category, MetaService, CategoryViewRouteData, ARTICLES_ROUTE_RESOLVER_DATA_KEYS, CategoryGroup, MetaInfo, UtilsService } from '@annu/ng-lib';
+import { Article, Category, MetaService, CategoryViewRouteData, ARTICLES_ROUTE_RESOLVER_DATA_KEYS, PageCategoryGroup, MetaInfo, UtilsService } from '@annu/ng-lib';
 import { filter, Subscription } from 'rxjs';
 import { appConfig } from '../../../config';
 
@@ -15,9 +15,9 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
   categoryArticles: Array<Article> = [];
 
   // Additional Articles and categroies
-  allCategoriesGroups: Array<CategoryGroup> = [];
+  pageCategoryGroups: Array<PageCategoryGroup> = [];
   // This will have orderBy(updated) field value of last article record from the list.
-  startPage: string = '';
+  // startPage: string = '';
   endPage: string = '';
 
   error: any;
@@ -28,8 +28,8 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
     private metaService: MetaService,
     private router: Router,
     private utilsSvc: UtilsService) {
-      this.route.data.subscribe((data) => this.initFromResolvedData(data))
-    }
+    this.route.data.subscribe((data) => this.initFromResolvedData(data))
+  }
 
   ngOnInit(): void {
     this.initFromResolvedData(this.route.snapshot.data);
@@ -40,8 +40,8 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
 
   private initFromResolvedData(data: any): void {
     const categoryViewData: CategoryViewRouteData = { ...data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.CATEGORY_VIEW] ?? null } as CategoryViewRouteData;
-
-    this.category = { ...categoryViewData?.categoryGroup?.category as Category ?? null };
+    const pageCategoryGroup = { ...categoryViewData?.pageCategoryGroup ?? {} };
+    this.category = { ...pageCategoryGroup?.category as Category ?? null };
 
     /*
     * if category not found and if it has no child routes, then redirect to home page.
@@ -50,16 +50,14 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
     */
     if (!this.route.firstChild && (!this.category || !this.category.id)) {
       const paramCategoryId = this.route.snapshot.paramMap.get('categoryId');
-      this.router.navigateByUrl(`?categoryId=${paramCategoryId}`, { skipLocationChange: true });
+      this.router.navigateByUrl(`?categoryId=${paramCategoryId}`, { skipLocationChange: false });
       return;
     }
 
-    this.categoryArticles = [...categoryViewData?.categoryGroup?.articles ?? [] as Array<Article>];
-    this.startPage = this.utilsSvc.dateStringToTotalTimeString(categoryViewData.startPage || '');
-    this.endPage = this.utilsSvc.dateStringToTotalTimeString(categoryViewData.endPage || '');
-    this.allCategoriesGroups = [...categoryViewData?.allCategoriesGroups ?? [] as Array<CategoryGroup>];
-    this.error = categoryViewData?.errorCategoryGroup;
-    this.errorAllCategories = categoryViewData?.errorAllCategoriesGroups;
+    this.categoryArticles = [...pageCategoryGroup?.pageArticles?.articles ?? [] as Array<Article>];
+    // this.startPage = this.utilsSvc.dateStringToTotalTimeString(pageCategoryGroup?.pageArticles?.previousPage?.updated || '');
+    this.endPage = this.utilsSvc.dateStringToTotalTimeString(pageCategoryGroup?.pageArticles?.endPage || '');
+    this.pageCategoryGroups = [...categoryViewData?.pageCategoryGroups ?? [] as Array<PageCategoryGroup>];
 
     if (!this.route.firstChild) {
       this.metaService.setPageMeta({ ...this.category?.metaInfo as MetaInfo, title: `${appConfig.metaInfo.title} - ${this.category?.metaInfo?.title}` });

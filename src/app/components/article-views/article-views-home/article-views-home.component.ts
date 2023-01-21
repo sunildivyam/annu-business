@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ARTICLES_ROUTE_RESOLVER_DATA_KEYS, Category, CategoryGroup,  ArticlesHomeViewRouteData, MetaService } from '@annu/ng-lib';
+import { ARTICLES_ROUTE_RESOLVER_DATA_KEYS, Category, PageCategoryGroup,  ArticlesHomeViewRouteData, MetaService } from '@annu/ng-lib';
 import { filter, Subscription } from 'rxjs';
 import { appConfig } from '../../../config';
 
@@ -13,7 +13,7 @@ const DEFAULT_DESCRIPTION_CHAR_COUNT = 300;
 })
 export class ArticleViewsHomeComponent implements OnInit, OnDestroy {
   featuredCategories: Array<Category> = [];
-  allCategoriesGroups: Array<CategoryGroup> = [];
+  pageCategoryGroups: Array<PageCategoryGroup> = [];
   descriptionCharCount: number = DEFAULT_DESCRIPTION_CHAR_COUNT;
   error: any;
 
@@ -33,13 +33,12 @@ export class ArticleViewsHomeComponent implements OnInit, OnDestroy {
 
   private initFromResolvedData(data: any): void {
       const homeViewData = { ...data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.ARTICLES_HOME_VIEW] ?? null } as ArticlesHomeViewRouteData;
-      this.allCategoriesGroups = [...homeViewData?.allCategoriesGroups as Array<CategoryGroup> ?? []];
-      this.error = homeViewData?.errorAllCategoriesGroups;
+      this.pageCategoryGroups = [...homeViewData?.pageCategoryGroups ?? []];
 
       // Extracts featured categories.
-      this.featuredCategories = this.allCategoriesGroups
-        .filter((cg: CategoryGroup) => cg.category?.isFeatured === true)
-        .map((cg: CategoryGroup) => ({ ...cg.category as Category })) || [];
+      this.featuredCategories = this.pageCategoryGroups
+        .filter((cg: PageCategoryGroup) => cg.category?.isFeatured === true)
+        .map((cg: PageCategoryGroup) => ({ ...cg.category as Category })) || [];
 
       if (!this.route.firstChild) {
         this.metaService.setPageMeta(appConfig.metaInfo);

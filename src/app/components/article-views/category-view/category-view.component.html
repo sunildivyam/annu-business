@@ -1,7 +1,6 @@
 <div *ngIf="!route.firstChild" class="flex-container secondary-lighter-bg spacing spacing-around-vertical">
-    <anu-category *ngIf="!error && category" [value]="category" [showMetaInfo]="false">
+    <anu-category *ngIf="category" [value]="category" [showMetaInfo]="false">
     </anu-category>
-    <!-- <anu-error *ngIf="error" [code]="error.code" [message]="error.message"></anu-error> -->
 </div>
 
 <div class="flex-container">
@@ -13,10 +12,10 @@
 
                 <div class="row stretch nowrap spacing spacing-around-vertical secondary-lightest-bg">
                     <div>
-                        <a *ngIf="startPage" [routerLink]="['.']" [queryParams]="{page: startPage, pdir: 'b'}">≪ Previous</a>
+                        <!-- <a *ngIf="startPage" [routerLink]="['.']" [queryParams]="{page: startPage, pdir: 'b'}">≪ Previous</a> -->
                     </div>
                     <div>
-                        <a *ngIf="endPage" [routerLink]="['.']" [queryParams]="{page: endPage, pdir: 'f'}">Next ≫</a>
+                        <a *ngIf="categoryArticles?.length" [routerLink]="['.']" [queryParams]="{page: endPage, pdir: 'f'}">Next ≫</a>
                     </div>
                 </div>
             </ng-container>
@@ -24,9 +23,9 @@
             <router-outlet></router-outlet>
         </div>
         <div class="col-sm-12 col-md-4 col-lg-3">
-            <ng-container *ngFor="let catGroup of allCategoriesGroups">
-                <anu-category-articles-list href="../" class="spacing" [category]="catGroup?.category || null"
-                    [articles]="catGroup?.articles || []"
+            <ng-container *ngFor="let pageCatGroup of pageCategoryGroups">
+                <anu-category-articles-list href="../" class="spacing" [category]="pageCatGroup?.category || null"
+                    [articles]="pageCatGroup?.pageArticles?.articles || []"
                     [headerClassNames]="['shadow', 'primary-lighter-bg', 'spacing']"
                     [listClassNames]="[]"></anu-category-articles-list>
             </ng-container>

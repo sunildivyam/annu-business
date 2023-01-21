@@ -41,8 +41,6 @@ export class ArticleViewComponent implements OnInit {
       return;
     }
 
-    this.error = articleViewData?.errorArticle;
-
     if (!this.route.firstChild) {
       this.metaService.setPageMeta({ ...this.article?.metaInfo as MetaInfo, title: `${appConfig.metaInfo.title} - ${this.article?.metaInfo?.title}` });
     }
