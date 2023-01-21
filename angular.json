@@ -20,10 +20,13 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/annu-business/browser",
+            "allowedCommonJsDependencies": ["prismjs"],
+            "outputPath": "firebase-deploy-setup/functions/dist/annu-business/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "preserveSymlinks": true,
@@ -32,12 +35,12 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/@annu/ng-lib/src/lib/scss/annu-ng-lib-theme.scss",
+              "node_modules/@annubiz/ng-lib/src/lib/scss/annu-ng-lib-theme.scss",
               "src/styles.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "node_modules/@annu/ng-lib/src/lib/scss"
+                "node_modules/@annubiz/ng-lib/src/lib/scss"
               ]
             },
             "scripts": []
@@ -97,7 +100,10 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
@@ -120,7 +126,7 @@
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "outputPath": "dist/annu-business/server",
+            "outputPath": "firebase-deploy-setup/functions/dist/annu-business/server",
             "main": "server.ts",
             "tsConfig": "tsconfig.server.json",
             "inlineStyleLanguage": "scss",

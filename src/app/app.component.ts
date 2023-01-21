@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AppConfig, MenuItem, ThemeService } from '@annu/ng-lib';
-import { mainRoutes } from './app.routes';
 import { appConfig } from './config';
 
 @Component({
@@ -11,14 +10,14 @@ import { appConfig } from './config';
 export class AppComponent implements OnInit {
   appConfig: AppConfig = appConfig;
   mainMenuItems: Array<MenuItem> = [];
-  footerNavItems: Array<MenuItem> = mainRoutes.map(r => ({ title: r.data.title, href: [r.path] }));
+  footerNavItems: Array<MenuItem> = [];
   isMainNavOpen: boolean = false;
   tNcUrl: string = appConfig.tNcUrl;
   privacyPolicyUrl: string = appConfig.privacyPolicyUrl;
 
   constructor(private themeService: ThemeService) {
     this.mainMenuItems = [...appConfig.mainMenuItems];
-    this.footerNavItems = [ ...this.mainMenuItems, ...mainRoutes.map(r => ({ title: r.data.title, href: [r.path] }))];
+    this.footerNavItems = [...appConfig.mainMenuItems];
   }
 
   ngOnInit(): void {

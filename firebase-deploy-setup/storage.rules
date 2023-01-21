@@ -1,0 +1,20 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+  	match /annu-ng-lib/docs/{imageName=**} {
+      // Only allow uploads of any image file that's less than 1MB
+      allow write, create: if request.resource.size < 1 * 1024 * 1024
+                   && request.resource.contentType.matches('image/.*');
+      allow read
+      allow delete
+    }
+
+    match /annu-business/{imageId=**} {
+      // Only allow uploads of any image file that's less than 1MB
+      allow write, create: if request.resource.size < 1 * 1024 * 1024
+                   && request.resource.contentType.matches('image/.*');
+      allow read
+      allow delete
+    }
+  }
+}

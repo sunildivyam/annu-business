@@ -7,19 +7,15 @@ import { join } from 'path';
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
-
-// Server side polyfills
-(global as any).WebSocket = require('ws');
-(global as any).XMLHttpRequest = require('xhr2');
+import { environment } from 'src/environments/environment';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
-  const distFolder = join(process.cwd(), 'dist/annu-business/browser');
+  const website = environment.production ? 'dist/annu-business/browser' : 'firebase-deploy-setup/functions/dist/annu-business/browser';
+  const distFolder = join(process.cwd(), website);
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
-  console.log('STARTING SERVER APP')
-  console.log('INDEX FILENAME - ', indexHtml)
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
   server.engine('html', ngExpressEngine({
     bootstrap: AppServerModule,
@@ -42,12 +38,10 @@ export function app(): express.Express {
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
-    console.log('RENDERING INDEX.HTML - STARTING - ', indexHtml, ' *** REQ URL-', req.url)
     res.render(indexHtml, {
       req,
       providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }]
     });
-    console.log('SERVER ROUTE EXIT - *** REQ-', req.url)
   });
 
   return server;
