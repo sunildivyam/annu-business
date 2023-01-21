@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { ArticlesFirebaseService, AuthFirebaseService, Article, QueryConfig, MetaService } from '@annu/ng-lib';
+import { Article, MetaService, PageArticles, ARTICLES_ROUTE_RESOLVER_DATA_KEYS } from '@annu/ng-lib';
 import { filter, Subscription } from 'rxjs';
 import { appConfig, dashboardMyArticlesMetaInfo } from '../../../config';
 
@@ -22,21 +22,22 @@ export class MyArticlesComponent implements OnInit, OnDestroy {
   constructor(
     public route: ActivatedRoute,
     private router: Router,
-    private articlesFireSvc: ArticlesFirebaseService,
-    private authFireSvc: AuthFirebaseService,
     private metaService: MetaService) {
 
     this.routeStartEvent = this.router.events.pipe(filter(ev => ev instanceof NavigationStart)).subscribe(() => {
       this.loading = true;
       this.error = null;
-    })
+    });
 
     this.routeEndEvent = this.router.events.pipe(filter(ev => ev instanceof NavigationEnd)).subscribe(() => {
-      if (!this.route.firstChild) {
-        this.getArticles();
-      } else {
-        this.loading = false;
-      }
+      this.loading = false;
+    });
+
+    this.route.data.subscribe(data => {
+      const pageArticles: PageArticles = data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.MY_ARTICLES_VIEW];
+      this.articles = pageArticles?.articles || [];
+      this.filteredArticles = this.articles;
+      this.loading = false;
     })
   }
 
@@ -46,20 +47,6 @@ export class MyArticlesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routeEndEvent.unsubscribe();
-  }
-
-  public async getArticles() {
-    try {
-      const queryConfig: QueryConfig = {
-        userId: this.authFireSvc.getCurrentUserId()
-      };
-      this.articles = await this.articlesFireSvc.getArticles(queryConfig);
-      this.filteredArticles = this.articles;
-      this.loading = false;
-    } catch (error: any) {
-      this.loading = false;
-      this.error = error;
-    }
   }
 
   public onSearch(foundArticles: Array<Article>): void {

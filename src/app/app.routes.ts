@@ -22,6 +22,8 @@ import {
   CategoryViewRouteResolver,
   ArticleViewRouteResolver,
   ARTICLES_ROUTE_RESOLVER_DATA_KEYS,
+  MyCategoriesViewRouteResolver,
+  MyArticlesViewRouteResolver,
 } from '@annu/ng-lib';
 
 export const routes: Routes = [
@@ -56,6 +58,7 @@ export const routes: Routes = [
           title: 'My Categories',
           redirectUrl: '/unauthorized'
         },
+        resolve: {[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.MY_CATEGORIES_VIEW]: MyCategoriesViewRouteResolver},
         canActivate: [RoleAdminGuard],
         canActivateChild: [RoleAdminGuard],
         children: [
@@ -76,6 +79,7 @@ export const routes: Routes = [
           title: 'My Articles',
           redirectUrl: '/unauthorized'
         },
+        resolve: {[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.MY_ARTICLES_VIEW]: MyArticlesViewRouteResolver},
         canActivate: [RoleAuthorGuard],
         canActivateChild: [RoleAuthorGuard],
         children: [

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { ArticlesFirebaseService, AuthFirebaseService, Category, QueryConfig, MetaService } from '@annu/ng-lib';
+import { Category, MetaService, ARTICLES_ROUTE_RESOLVER_DATA_KEYS, PageCategories } from '@annu/ng-lib';
 import { filter, Subscription } from 'rxjs';
 import { appConfig, dashboardMyCategoriesMetaInfo } from '../../../config';
 
@@ -22,8 +22,6 @@ export class MyCategoriesComponent implements OnInit, OnDestroy {
   constructor(
     public route: ActivatedRoute,
     private router: Router,
-    private articlesFireSvc: ArticlesFirebaseService,
-    private authFireSvc: AuthFirebaseService,
     private metaService: MetaService) {
 
     this.routeStartEvent = this.router.events.pipe(filter(ev => ev instanceof NavigationStart)).subscribe(() => {
@@ -32,11 +30,14 @@ export class MyCategoriesComponent implements OnInit, OnDestroy {
     })
 
     this.routeEndEvent = this.router.events.pipe(filter(ev => ev instanceof NavigationEnd)).subscribe(() => {
-      if (!this.route.firstChild) {
-        this.getCategories();
-      } else {
-        this.loading = false;
-      }
+      this.loading = false;
+    })
+
+    this.route.data.subscribe(data => {
+      const pageCategories: PageCategories = data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.MY_CATEGORIES_VIEW];
+      this.categories = pageCategories?.categories || [];
+      this.filteredCategories = this.categories;
+      this.loading = false;
     })
   }
 
@@ -46,20 +47,6 @@ export class MyCategoriesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.routeEndEvent.unsubscribe();
-  }
-
-  public async getCategories() {
-    try {
-      const queryConfig: QueryConfig = {
-        userId: this.authFireSvc.getCurrentUserId()
-      };
-      this.categories = await this.articlesFireSvc.getCategories(queryConfig);
-      this.filteredCategories = this.categories;
-      this.loading = false;
-    } catch (error: any) {
-      this.loading = false;
-      this.error = error;
-    }
   }
 
   public onSearch(foundCategories: Array<Category>): void {
