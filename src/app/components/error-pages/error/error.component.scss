@@ -1,0 +1,9 @@
+:host {
+    width: 100%;
+
+    .flex-container {
+        > * {
+            width: 100%;
+        }
+    }
+}

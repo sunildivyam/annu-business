@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, OnDestroy } from '@angular/core';
 import { RouterModule, Routes, Router, ActivatedRoute, NavigationEnd, NavigationStart, NavigationError } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { routes as allRoutes } from './app.routes';
@@ -13,7 +13,7 @@ const routes: Routes = allRoutes;
   exports: [RouterModule],
   providers: [],
 })
-export class AppRoutingModule {
+export class AppRoutingModule implements OnDestroy {
   navStartSubscription: Subscription;
   navEndSubscription: Subscription;
   navErrorSubscription: Subscription;
@@ -26,14 +26,19 @@ export class AppRoutingModule {
 
 
     // Nav End
-    this.navStartSubscription = this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
+    this.navEndSubscription = this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
       this.appSpinner.stop();
     });
 
     // Nav Error
-    this.navStartSubscription = this.router.events.pipe(filter(event => event instanceof NavigationError)).subscribe(() => {
+    this.navErrorSubscription = this.router.events.pipe(filter(event => event instanceof NavigationError)).subscribe((navErrorEvent) => {
       this.appSpinner.stop();
-      // Also handle Route Navigation here, may be navigate to Error Page.
     });
+  }
+
+  ngOnDestroy(): void {
+    this.navEndSubscription && this.navEndSubscription.unsubscribe();
+    this.navErrorSubscription && this.navErrorSubscription.unsubscribe();
+    this.navStartSubscription && this.navStartSubscription.unsubscribe();
   }
 }

@@ -1,18 +1,28 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
-import { ErrorModule } from '@annu/ng-lib';
+import { CollapsibleModule, ErrorModule } from '@annu/ng-lib';
 import { RouterModule } from '@angular/router';
+import { ErrorComponent } from './error/error.component';
+import { ErrorsHandlerService } from './errors-handler.service';
 
 @NgModule({
   declarations: [
-    UnauthorizedComponent
+    UnauthorizedComponent,
+    ErrorComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     ErrorModule,
+    CollapsibleModule,
   ],
-  exports: [UnauthorizedComponent]
+  providers: [
+    {
+      provide: ErrorHandler,
+      useClass: ErrorsHandlerService
+    }
+  ],
+  exports: [UnauthorizedComponent, ErrorComponent]
 })
 export class ErrorPagesModule { }

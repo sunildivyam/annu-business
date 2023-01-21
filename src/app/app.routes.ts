@@ -12,6 +12,7 @@ import {
   ArticleViewComponent,
   CategoryViewComponent,
   UnauthorizedComponent,
+  ErrorComponent,
 } from "./components";
 import { appConfig, DEFAULT_PAGE_SIZE } from "./config";
 import {
@@ -41,6 +42,16 @@ export const routes: Routes = [
     path: 'unauthorized',
     component: UnauthorizedComponent,
     data: { title: 'Unauthorized' }
+  },
+  {
+    path: 'error',
+    component: ErrorComponent,
+    data: { title: 'Error' }
+  },
+  {
+    path: 'error/:errorid',
+    component: ErrorComponent,
+    data: { title: 'Error' }
   },
   {
     path: 'dashboard',
