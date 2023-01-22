@@ -16,18 +16,18 @@ export class ArticleViewComponent implements OnInit {
   constructor(
     private metaService: MetaService,
     private route: ActivatedRoute, private router: Router) {
-      this.route.data.subscribe(data => this.initFromResolvedData(data));
-    }
+    this.route.data.subscribe(data => this.initFromResolvedData(data));
+  }
 
   ngOnInit(): void {
     this.initFromResolvedData(this.route.snapshot.data);
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
 
   private initFromResolvedData(data: any): void {
-    const articleViewData: ArticleViewRouteData = { ...data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.ARTICLE_VIEW] ?? null};
-    this.article = { ...articleViewData?.article as Article ?? null};
+    const articleViewData: ArticleViewRouteData = { ...data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.ARTICLE_VIEW] ?? null };
+    this.article = { ...articleViewData?.article as Article ?? null };
 
     /*
     * if article not found and then redirect to home page.
@@ -37,11 +37,10 @@ export class ArticleViewComponent implements OnInit {
     if (!this.article || !this.article.id) {
       const paramCategoryId = this.route.parent?.snapshot.paramMap.get('categoryId');
       const paramArticleId = this.route.snapshot.paramMap.get('articleId');
-      this.router.navigateByUrl(`?categoryId=${paramCategoryId}&articleId=${paramArticleId}`, { skipLocationChange: true });
-      return;
+      setTimeout(() => this.router.navigate(['/'], { queryParams: { categoryId: paramCategoryId, articleId: paramArticleId }, skipLocationChange: false }));
     }
 
-    if (!this.route.firstChild) {
+    if (!this.route.firstChild && this.article && this.article.id) {
       this.metaService.setPageMeta({ ...this.article?.metaInfo as MetaInfo, title: `${appConfig.metaInfo.title} - ${this.article?.metaInfo?.title}` });
     }
   }

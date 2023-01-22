@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Article, Category, MetaService, CategoryViewRouteData, ARTICLES_ROUTE_RESOLVER_DATA_KEYS, PageCategoryGroup, MetaInfo, UtilsService } from '@annu/ng-lib';
 import { filter, Subscription } from 'rxjs';
@@ -27,7 +27,8 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
     public route: ActivatedRoute,
     private metaService: MetaService,
     private router: Router,
-    private utilsSvc: UtilsService) {
+    private utilsSvc: UtilsService,
+    private ngZone: NgZone) {
     this.route.data.subscribe((data) => this.initFromResolvedData(data))
   }
 
@@ -50,16 +51,15 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
     */
     if (!this.route.firstChild && (!this.category || !this.category.id)) {
       const paramCategoryId = this.route.snapshot.paramMap.get('categoryId');
-      this.router.navigateByUrl(`?categoryId=${paramCategoryId}`, { skipLocationChange: false });
-      return;
+      setTimeout(() => this.ngZone.run(()=> this.router.navigate(['/'], { queryParams: { categoryId: paramCategoryId }, skipLocationChange: false })));
+    } else {
+      this.categoryArticles = [...pageCategoryGroup?.pageArticles?.articles ?? [] as Array<Article>];
+      // this.startPage = this.utilsSvc.dateStringToTotalTimeString(pageCategoryGroup?.pageArticles?.previousPage?.updated || '');
+      this.endPage = this.utilsSvc.dateStringToTotalTimeString(pageCategoryGroup?.pageArticles?.endPage || '');
+      this.pageCategoryGroups = [...categoryViewData?.pageCategoryGroups ?? [] as Array<PageCategoryGroup>];
     }
 
-    this.categoryArticles = [...pageCategoryGroup?.pageArticles?.articles ?? [] as Array<Article>];
-    // this.startPage = this.utilsSvc.dateStringToTotalTimeString(pageCategoryGroup?.pageArticles?.previousPage?.updated || '');
-    this.endPage = this.utilsSvc.dateStringToTotalTimeString(pageCategoryGroup?.pageArticles?.endPage || '');
-    this.pageCategoryGroups = [...categoryViewData?.pageCategoryGroups ?? [] as Array<PageCategoryGroup>];
-
-    if (!this.route.firstChild) {
+    if (!this.route.firstChild && this.category && this.category.id) {
       this.metaService.setPageMeta({ ...this.category?.metaInfo as MetaInfo, title: `${appConfig.metaInfo.title} - ${this.category?.metaInfo?.title}` });
     }
   }

@@ -23,6 +23,11 @@ export class ArticleViewsHomeComponent implements OnInit, OnDestroy {
 
   constructor(public route: ActivatedRoute, private router: Router, private metaService: MetaService,) {
     this.route.data.subscribe(data => this.initFromResolvedData(data));
+    this.route.queryParams.subscribe(params => {
+      // Sets not found category and/or article ids, in case user is redirected here from respective pages.
+      this.notFoundCategoryId = params['categoryId'] || '';
+      this.notFoundArticleId = params['articleId'] || '';
+    })
   }
 
   ngOnInit(): void {
@@ -43,9 +48,5 @@ export class ArticleViewsHomeComponent implements OnInit, OnDestroy {
       if (!this.route.firstChild) {
         this.metaService.setPageMeta(appConfig.metaInfo);
       }
-
-      // Sets not found category and/or article ids, in case user is redirected here from respective pages.
-      this.notFoundCategoryId = this.route.snapshot.queryParamMap.get('categoryId') || '';
-      this.notFoundArticleId = this.route.snapshot.queryParamMap.get('articleId') || '';
   }
 }
