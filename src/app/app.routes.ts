@@ -61,6 +61,7 @@ export const routes: Routes = [
     },
     canActivate: [IsLoggedInGuard],
     canActivateChild: [IsLoggedInGuard],
+    runGuardsAndResolvers: 'always',
     children: [
       {
         path: 'my-categories',
@@ -69,7 +70,8 @@ export const routes: Routes = [
           title: 'My Categories',
           redirectUrl: '/unauthorized'
         },
-        resolve: {[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.MY_CATEGORIES_VIEW]: MyCategoriesViewRouteResolver},
+        resolve: { [ARTICLES_ROUTE_RESOLVER_DATA_KEYS.MY_CATEGORIES_VIEW]: MyCategoriesViewRouteResolver },
+        runGuardsAndResolvers: 'always',
         canActivate: [RoleAdminGuard],
         canActivateChild: [RoleAdminGuard],
         children: [
@@ -90,7 +92,8 @@ export const routes: Routes = [
           title: 'My Articles',
           redirectUrl: '/unauthorized'
         },
-        resolve: {[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.MY_ARTICLES_VIEW]: MyArticlesViewRouteResolver},
+        resolve: { [ARTICLES_ROUTE_RESOLVER_DATA_KEYS.MY_ARTICLES_VIEW]: MyArticlesViewRouteResolver },
+        runGuardsAndResolvers: 'always',
         canActivate: [RoleAuthorGuard],
         canActivateChild: [RoleAuthorGuard],
         children: [

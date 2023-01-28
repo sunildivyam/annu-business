@@ -3,32 +3,37 @@
         <div class="flex-container spacing-around-vertical">
             <div class="left col-12 relative">
                 <ng-container *ngIf="found">
-                    <anu-category-editor [value]="category" (saveClicked)="saveCategory($event)"></anu-category-editor>
+                    <anu-category-editor
+                    [value]="category"
+                    [enableDelete]="isAdmin && !isNewCategoryPage"
+                    [enablePublish]="isAdmin && !isNewCategoryPage"
+                    [enableUniqueId]="postfixUniqueId"
+                    [enableReadonlyIdToggle]="isAdmin"
+                    [readonlyId]="true"
+                    [readonlyTitle]="!isNewCategoryPage"
+                    (isLiveClicked)="isLiveClicked($event)"
+                    (inReviewClicked)="inReviewClicked($event)"
+                    (saveClicked)="saveClicked($event)"
+                    (deleteClicked)="deleteClicked($event)">
+                    </anu-category-editor>
                 </ng-container>
                 <div>
-                <anu-error *ngIf="error" [code]="error.code" [message]="error.message"></anu-error>
-                <anu-spinner [show]="loading"></anu-spinner>
-            </div>
+                    <anu-error *ngIf="error" [code]="error.code" [message]="error.message"></anu-error>
+                    <anu-spinner [show]="loading"></anu-spinner>
+                </div>
             </div>
         </div>
     </anu-card-body>
 </anu-card>
 
-<!-- Confirmation Modal - Duplicating Category -->
-<anu-modal class="" [opened]="showUpdateConfirmationModal">
-    <div class="col-12">
-        <h3 class="warning">Warning</h3>
-        <p>You are about to duplicate an existing Category</p>
-        <p><strong>Existing Category Id: </strong><span class="error">{{categoryId}}</span></p>
-        <p><strong>Replacing with Category Id: </strong><span class="success">{{category?.id}}</span></p>
-        <p>This action will not delete the existing Category with id - <span class="error">{{categoryId}}</span>, but
-            will create a new Category with
-            id -<span class="success">{{category?.id}}</span>.</p>
-
-        <h3 class="warning">Do you want to add a duplicate of Category - <span class="error">{{categoryId}}</span>?</h3>
-        <div class="row spacing center">
-            <a class="btn" href="#" (click)="onDuplicateCategoryAction($event, true)">Yes</a>
-            <a class="btn" href="#" (click)="onDuplicateCategoryAction($event, false)">No</a>
-        </div>
-    </div>
+<!-- Modal Confirmation box -->
+<anu-modal
+	[enableCancel]="true"
+	[enableClose]="true"
+	[enableOk]="true"
+	[opened]="showModal"
+	[title]="'Delete Confirmation'"
+    (cancelClick)="deleteCancelled()"
+    (okClick)="deleteConfirmed()">
+	<p>Category will be deleted permanently and you will not be able to recover. Are you sure to continue?</p>
 </anu-modal>

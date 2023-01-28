@@ -1,10 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ArticlesFirebaseService, AuthFirebaseService, Category, QueryConfig, MetaService } from '@annu/ng-lib';
+import { AuthFirebaseService, Category, MetaService, CategoriesFirebaseHttpService, FIREBASE_AUTH_ROLES } from '@annu/ng-lib';
 import { Subscription } from 'rxjs';
 import { appConfig, dashboardMyCategoryMetaInfo } from '../../../config';
-
-const ADD_CATEGORY = 'add';
 
 @Component({
   selector: 'app-my-category',
@@ -12,6 +10,7 @@ const ADD_CATEGORY = 'add';
   styleUrls: ['./my-category.component.scss']
 })
 export class MyCategoryComponent implements OnInit, OnDestroy {
+  readonly ADD_CATEGORY = 'add';
   category!: Category | null;
   categoryId: string = '';
 
@@ -19,18 +18,20 @@ export class MyCategoryComponent implements OnInit, OnDestroy {
   found: boolean = false;
   loading: boolean = true;
   paramsSubscription: Subscription;
-  showUpdateConfirmationModal: boolean = false;
+  userRoles: Array<string> = [];
+  isAdmin: boolean = false;
+  isAuthor: boolean = false;
+  postfixUniqueId: boolean = true;
+  showModal: boolean = false;
 
   constructor(
-    private articlesFireSvc: ArticlesFirebaseService,
+    private categoriesHttp: CategoriesFirebaseHttpService,
     private authFireSvc: AuthFirebaseService,
     private route: ActivatedRoute,
     private router: Router,
     private metaService: MetaService) {
 
     this.paramsSubscription = this.route.params.subscribe(params => {
-      this.error = null;
-      this.found = true;
       this.categoryId = params['id'];
       this.getCategory(this.categoryId);
     });
@@ -41,76 +42,135 @@ export class MyCategoryComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-      this.paramsSubscription.unsubscribe();
+    this.paramsSubscription.unsubscribe();
+  }
+
+  public get isNewCategoryPage(): boolean {
+    return this.categoryId === this.ADD_CATEGORY;
   }
 
   public async getCategory(id: string) {
     this.error = null;
     this.loading = true;
+    this.found = true;
+    this.category = null;
+    this.userRoles = await this.authFireSvc.getCurrentUserRoles();
+    this.isAdmin = this.userRoles.includes(FIREBASE_AUTH_ROLES.ADMIN);
+    this.isAuthor = this.userRoles.includes(FIREBASE_AUTH_ROLES.AUTHOR);
 
-    if (id && id !== ADD_CATEGORY) {
-      const queryConfig: QueryConfig = {
-        id,
-        userId: this.authFireSvc.getCurrentUserId()
-      }
+    if (id !== this.ADD_CATEGORY) {
+      const getCategoryPromise: Promise<Category> = this.isAdmin ?
+        this.categoriesHttp.getCategory(id) :
+        this.categoriesHttp.getUsersCategory(this.authFireSvc.getCurrentUserId(), id);
 
-      try {
-        const foundCategories = await this.articlesFireSvc.getCategories(queryConfig);
-        if (foundCategories.length) {
-          this.found = true;
-          this.category = foundCategories[0];
+      getCategoryPromise.then((cat: Category) => {
+        if (cat) {
+          this.category = { ...cat };
         } else {
           this.found = false;
-          this.error = { code: '404', message: `Category does not exist - ${id}` }
+          this.error = { code: '404', message: `Category does not exist - ${id}` };
         }
 
         this.loading = false;
-      } catch (error) {
-        this.found = false;
-        this.loading = false;
-        this.error = error;
-      }
+      })
+        .catch(error => {
+          this.error = error;
+          this.loading = false;
+          this.found = false;
+        });
     } else {
       this.found = true;
-      this.category = null;
       this.loading = false;
     }
   }
 
-  private async updateCategory() {
+  public saveClicked(category: Category): void {
+    this.category = { ...category };
     this.error = null;
     this.loading = true;
-
-    try {
-      const updatedCat = await this.articlesFireSvc.setCategory(this.category as Category);
-      this.category = updatedCat;
-      this.loading = false;
-
-      if (this.categoryId === ADD_CATEGORY || this.category.id !== this.categoryId) {
-        this.router.navigate([updatedCat.id], { relativeTo: this.route.parent });
-      }
-
-    } catch (error: any) {
-      this.error = error;
-      this.loading = false;
-    }
-  }
-
-  public saveCategory(category: Category) {
-    this.category = { ...category };
-    if (this.categoryId !== ADD_CATEGORY && this.category.id !== this.categoryId) {
-      // Title has been changed, hence id has been chaged, means you are going to add a new category, probably a duplicate with different title.
-      this.showUpdateConfirmationModal = true;
+    let savePromise;
+    if (this.isNewCategoryPage) {
+      savePromise = this.categoriesHttp.addCategory(this.category);
     } else {
-      this.updateCategory();
+      savePromise = this.categoriesHttp.updateCategory(this.category);
+    }
+
+    savePromise.then((cat: Category) => {
+      this.category = { ...cat };
+      this.loading = false;
+      if (this.isNewCategoryPage) {
+        this.router.navigate([this.category.id], { relativeTo: this.route.parent });
+      }
+    })
+      .catch(error => {
+        this.error = error;
+        this.loading = false;
+      });
+  }
+
+  public isLiveClicked(category: Category): void {
+    this.category = { ...category };
+    this.error = null;
+    this.loading = true;
+    if (!this.isNewCategoryPage) {
+      this.categoriesHttp.setCategoryLive(this.category)
+        .then((cat: Category) => {
+          this.category = { ...cat };
+          this.loading = false;
+        })
+        .catch(error => {
+          this.error = error;
+          this.loading = false;
+        });
+    } else {
+      this.loading = false;
     }
   }
 
-  public onDuplicateCategoryAction(event: any, isYes: boolean = false): void {
-    event.preventDefault();
-    this.showUpdateConfirmationModal = false;
-    if (isYes) {
-      this.updateCategory();
+  public inReviewClicked(category: Category): void {
+    this.category = { ...category };
+    this.error = null;
+    this.loading = true;
+    if (!this.isNewCategoryPage) {
+      this.categoriesHttp.setCategoryUpForReview(this.category)
+        .then((cat: Category) => {
+          this.category = { ...cat };
+          this.loading = false;
+        })
+        .catch(error => {
+          this.error = error;
+          this.loading = false;
+        });
+    } else {
+      this.loading = false;
     }
+  }
+
+  public deleteClicked(category: Category): void {
+    this.showModal = true;
+  }
+
+
+  public deleteCancelled(): void {
+    this.showModal = false;
+  }
+
+  public deleteConfirmed(): void {
+    this.showModal = false;
+    this.loading = true;
+    this.error = null;
+    this.categoriesHttp.deleteCategory(this.category)
+      .then(success => {
+        if (success === true) {
+          this.router.navigate(['.'], { relativeTo: this.route.parent });
+        } else {
+          throw new Error('Something went wrong, please try again later.');
+        }
+        this.loading = false;
+      })
+      .catch(error => {
+        this.error = error;
+        this.loading = false;
+      });
   }
 }

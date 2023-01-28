@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ArticlesFirebaseService, AuthFirebaseService, Article, QueryConfig, Category, MetaService } from '@annu/ng-lib';
+import { ArticlesFirebaseService, AuthFirebaseService, Article, QueryConfig, Category, MetaService, ArticlesFirebaseHttpService, FIREBASE_AUTH_ROLES, CategoriesFirebaseHttpService } from '@annu/ng-lib';
 import { Subscription } from 'rxjs';
 import { appConfig, dashboardMyArticleMetaInfo } from '../../../config';
 
-const ADD_ARTICLE = 'add';
 
 @Component({
   selector: 'app-my-article',
@@ -21,9 +20,16 @@ export class MyArticleComponent implements OnInit, OnDestroy {
   loading: boolean = true;
   paramsSubscription: Subscription;
   showUpdateConfirmationModal: boolean = false;
+  ADD_ARTICLE: string = 'add';
+  userRoles: Array<string> = [];
+  isAdmin: boolean = false;
+  isAuthor: boolean = false;
+  postfixUniqueId: boolean = true;
+  showModal: boolean = false;
 
   constructor(
-    private articlesFireSvc: ArticlesFirebaseService,
+    private articlesHttp: ArticlesFirebaseHttpService,
+    private categoriesHttp: CategoriesFirebaseHttpService,
     private authFireSvc: AuthFirebaseService,
     private route: ActivatedRoute,
     private router: Router,
@@ -34,8 +40,8 @@ export class MyArticleComponent implements OnInit, OnDestroy {
       this.found = true;
       this.articleId = params['id'];
 
-      this.getArticle(this.articleId);
       this.getCategories();
+      this.getArticle(this.articleId);
     });
   }
 
@@ -47,88 +53,137 @@ export class MyArticleComponent implements OnInit, OnDestroy {
     this.paramsSubscription.unsubscribe();
   }
 
+  public get isNewArticlePage(): boolean {
+    return this.articleId === this.ADD_ARTICLE;
+  }
+
   public async getArticle(id: string) {
     this.error = null;
     this.loading = true;
+    this.found = true;
+    this.article = null;
+    this.userRoles = await this.authFireSvc.getCurrentUserRoles();
+    this.isAdmin = this.userRoles.includes(FIREBASE_AUTH_ROLES.ADMIN);
+    this.isAuthor = this.userRoles.includes(FIREBASE_AUTH_ROLES.AUTHOR);
 
-    if (id && id !== ADD_ARTICLE) {
-      const queryConfig: QueryConfig = {
-        id,
-        userId: this.authFireSvc.getCurrentUserId()
-      }
+    if (id !== this.ADD_ARTICLE) {
+      const getArticlePromise: Promise<Article> = this.isAdmin ?
+        this.articlesHttp.getArticle(id) :
+        this.articlesHttp.getUsersArticle(this.authFireSvc.getCurrentUserId(), id);
 
-      try {
-        const foundArticles = await this.articlesFireSvc.getArticles(queryConfig);
-        if (foundArticles.length) {
-          this.found = true;
-          this.article = foundArticles[0];
+      getArticlePromise.then((art: Article) => {
+        if (art) {
+          this.article = { ...art };
         } else {
           this.found = false;
-          this.error = { code: '404', message: `Article does not exist - ${id}` }
+          this.error = { code: '404', message: `Article does not exist - ${id}` };
         }
 
         this.loading = false;
-      } catch (error) {
-        this.found = false;
-        this.loading = false;
-        this.error = error;
-      }
+      })
+        .catch(error => {
+          this.error = error;
+          this.loading = false;
+          this.found = false;
+        });
     } else {
       this.found = true;
-      this.article = null;
       this.loading = false;
     }
   }
 
   public async getCategories() {
-    try {
-      const queryConfig: QueryConfig = {
-        isLive: true
-      };
-
-      this.categories = await this.articlesFireSvc.getCategories(queryConfig);
-
-      this.loading = false;
-    } catch (error: any) {
-      this.loading = false;
-      this.error = error;
-    }
+    const pageCategories = await this.categoriesHttp.getAllUsersOnePageShallowCategories(true);
+    this.categories = pageCategories.categories || [];
   }
 
-  private async updateArticle() {
+  public saveClicked(article: Article): void {
+    this.article = { ...article };
     this.error = null;
     this.loading = true;
-
-    try {
-      const updatedArticle = await this.articlesFireSvc.setArticle(this.article as Article);
-      this.article = updatedArticle;
-      this.loading = false;
-
-      if (this.articleId === ADD_ARTICLE || this.article.id !== this.articleId) {
-        this.router.navigate([updatedArticle.id], { relativeTo: this.route.parent });
-      }
-
-    } catch (error: any) {
-      this.error = error;
-      this.loading = false;
-    }
-  }
-
-  public saveArticle(article: Article) {
-    this.article = { ...article };
-    if (this.articleId !== ADD_ARTICLE && this.article.id !== this.articleId) {
-      // Title has been changed, hence id has been chaged, means you are going to add a new article, probably a duplicate with different title.
-      this.showUpdateConfirmationModal = true;
+    let savePromise;
+    if (this.isNewArticlePage) {
+      savePromise = this.articlesHttp.addArticle(this.article);
     } else {
-      this.updateArticle();
+      savePromise = this.articlesHttp.updateArticle(this.article);
+    }
+
+    savePromise.then((art: Article) => {
+      this.article = { ...art };
+      this.loading = false;
+      if (this.isNewArticlePage) {
+        this.router.navigate([this.article.id], { relativeTo: this.route.parent });
+      }
+    })
+      .catch(error => {
+        this.error = error;
+        this.loading = false;
+      });
+  }
+
+
+  public isLiveClicked(article: Article): void {
+    this.article = { ...article };
+    this.error = null;
+    this.loading = true;
+    if (!this.isNewArticlePage) {
+      this.articlesHttp.setArticleLive(this.article)
+        .then((art: Article) => {
+          this.article = { ...art };
+          this.loading = false;
+        })
+        .catch(error => {
+          this.error = error;
+          this.loading = false;
+        });
+    } else {
+      this.loading = false;
     }
   }
 
-  public onDuplicateArticleAction(event: any, isYes: boolean = false): void {
-    event.preventDefault();
-    this.showUpdateConfirmationModal = false;
-    if (isYes) {
-      this.updateArticle();
+  public inReviewClicked(article: Article): void {
+    this.article = { ...article };
+    this.error = null;
+    this.loading = true;
+    if (!this.isNewArticlePage) {
+      this.articlesHttp.setArticleUpForReview(this.article)
+        .then((art: Article) => {
+          this.article = { ...art };
+          this.loading = false;
+        })
+        .catch(error => {
+          this.error = error;
+          this.loading = false;
+        });
+    } else {
+      this.loading = false;
     }
+  }
+
+  public deleteClicked(category: Category): void {
+    this.showModal = true;
+  }
+
+  public deleteCancelled(): void {
+    this.showModal = false;
+  }
+
+  public deleteConfirmed(): void {
+    this.showModal = false;
+    this.loading = true;
+    this.error = null;
+    this.articlesHttp.deleteArticle(this.article)
+      .then(success => {
+        if (success === true) {
+          this.router.navigate(['.'], { relativeTo: this.route.parent });
+        } else {
+          throw new Error('Something went wrong, please try again later.');
+        }
+        this.loading = false;
+      })
+      .catch(error => {
+        this.error = error;
+        this.loading = false;
+      });
   }
 }

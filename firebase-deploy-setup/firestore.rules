@@ -26,5 +26,31 @@ service cloud.firestore {
 
       allow read: if resource.data.isLive == true || resource.data.userId == request.auth.uid || request.auth.token.admin == true
     }
+    match /categories-bin/{document=**} {
+    	allow create: if
+      request.auth.token.admin == true
+
+      allow update: if
+      request.auth.token.admin == true
+
+      allow delete: if
+      request.auth.token.admin == true
+
+      allow read: if
+      request.auth.token.admin == true
+    }
+    match /articles-bin/{document=**} {
+    	allow create: if
+      request.auth.token.author == true
+
+      allow update: if
+      request.auth.token.admin == true
+
+      allow delete: if
+      request.auth.token.admin == true
+
+      allow read: if
+      request.auth.token.admin == true
+    }
   }
 }
