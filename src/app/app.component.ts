@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
   tNcUrl: string = appConfig.tNcUrl;
   privacyPolicyUrl: string = appConfig.privacyPolicyUrl;
   SpinnerMode = SpinnerMode;
-  livePrimaryNavCategories: Array<Category> = [];
+  liveNavCategories: Array<Category> = [];
   HOME_VIEW_ROUTE_KEY = makeStateKey<Array<Category>>('app-route-data');
 
   constructor(
@@ -29,20 +29,20 @@ export class AppComponent implements OnInit {
     @Inject(PLATFORM_ID) private platformId) {
 
     if (this.transferState.hasKey(this.HOME_VIEW_ROUTE_KEY)) {
-      this.livePrimaryNavCategories = this.transferState.get<Array<Category>>(this.HOME_VIEW_ROUTE_KEY, []);
+      this.liveNavCategories = this.transferState.get<Array<Category>>(this.HOME_VIEW_ROUTE_KEY, []);
       this.transferState.remove(this.HOME_VIEW_ROUTE_KEY);
     }
   }
 
   async ngOnInit(): Promise<void> {
     this.themeService.setTheme(this.appConfig.themeName, true);
-    if (!this.livePrimaryNavCategories.length) {
-      this.livePrimaryNavCategories = await this.getNavCategories([CategoryFeatures.primaryNavigation, CategoryFeatures.footerNavigation]);
-      this.setTransferState(this.HOME_VIEW_ROUTE_KEY, this.livePrimaryNavCategories || []);
+    if (!this.liveNavCategories.length) {
+      this.liveNavCategories = await this.getNavCategories([CategoryFeatures.primaryNavigation, CategoryFeatures.footerNavigation]);
+      this.setTransferState(this.HOME_VIEW_ROUTE_KEY, this.liveNavCategories || []);
     }
 
-    this.mainMenuItems = this.livePrimaryNavCategories?.length && this.getPrimaryNavItems(this.livePrimaryNavCategories) || [...appConfig.mainMenuItems];
-    this.footerNavItems = this.livePrimaryNavCategories?.length && this.getFooterNavItems(this.livePrimaryNavCategories) || [...appConfig.mainMenuItems];
+    this.mainMenuItems = this.liveNavCategories?.length && this.getPrimaryNavItems(this.liveNavCategories) || [...appConfig.mainMenuItems];
+    this.footerNavItems = this.liveNavCategories?.length && this.getFooterNavItems(this.liveNavCategories) || [...appConfig.mainMenuItems];
   }
 
   private async getNavCategories(features: Array<CategoryFeatures>): Promise<Array<Category>> {
