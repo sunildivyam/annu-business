@@ -7,6 +7,7 @@ export const appConfig: AppConfig = {
     loginUrl: '/login',
     logoutUrl: '/login',
     profileUrl: '/dashboard',
+    adminEmail: 'info@annubiztech.com',
     tNcUrl: '/terms-and-conditions-lbxuxsj774zpe3xh/terms-and-conditions-lbxv0dakpn1x6px',
     privacyPolicyUrl: '/terms-and-conditions-lbxuxsj774zpe3xh/terms-and-conditions-lbxv0dakpn1x6px',
     metaInfo: {

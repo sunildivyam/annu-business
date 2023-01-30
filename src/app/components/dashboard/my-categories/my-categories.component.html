@@ -31,17 +31,27 @@
     <div class="left col-12">
         <anu-search-box class="col-12" [items]="categories" [keys]="searchKeys" (changed)="onSearch($event)">
         </anu-search-box>
-        <label>Results: {{filteredCategories.length}}/{{categories.length}}</label>
-        <div class="row results">
-            <div *ngFor="let cat of filteredCategories" class="col-sm-12 col-md-6 col-lg-6">
-                <anu-category class="shadow spacing spacing-around-vertical" [updateHref]="[cat?.id || '']"
-                    [value]="cat">
-                </anu-category>
+
+        <!-- Filters Start-->
+        <anu-collapsible class="border spacing spacing-around-horizontal" [collapsed]="false" [isDropdownStyle]="true" [hamBurgerClassNames]="['size-sm']">
+            <anu-collapsible-header>FILTERS</anu-collapsible-header>
+            <anu-collapsible-content>
+                <anu-filters [filters]="categoriesFilters" (changed)="categoriesFiltersChanged($event)" class="categories-filters"></anu-filters>
+            </anu-collapsible-content>
+        </anu-collapsible>
+        <!-- Filters End -->
+
+            <label>Results: {{filteredCategories.length}}/{{categories.length}}</label>
+            <div class="row results">
+                <div *ngFor="let cat of filteredCategories" class="col-sm-12 col-md-6 col-lg-6">
+                    <anu-category class="shadow spacing spacing-around-vertical" [titleHref]="[cat?.id || '']"  [updateHref]="[cat?.id || '']"
+                        [value]="cat" [showDescription]="false">
+                    </anu-category>
+                </div>
+                <anu-error *ngIf="error" [code]="error?.code" [message]="error?.message"></anu-error>
+                <anu-spinner [show]="loading"></anu-spinner>
             </div>
-            <anu-error *ngIf="error" [code]="error?.code" [message]="error?.message"></anu-error>
-            <anu-spinner [show]="loading"></anu-spinner>
         </div>
     </div>
-</div>
 
-<router-outlet></router-outlet>
+    <router-outlet></router-outlet>

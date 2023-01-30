@@ -2,8 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { AuthFirebaseService, FIREBASE_AUTH_ROLES, MetaService } from '@annu/ng-lib';
 import { filter, Subscription } from 'rxjs';
-import { appConfig } from '../../config/app.config';
 import { dashboardMetaInfo } from '../../config/dashboard.config';
+import { environment } from '../../../environments/environment';
+
+const appConfig = environment.appConfig;
 
 @Component({
   selector: 'app-dashboard',

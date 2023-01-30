@@ -38,6 +38,26 @@
                 </div>
             </anu-card-footer>
         </anu-card>
+
+        <!--User with no roles-->
+        <anu-card *ngIf="!isAdmin && !isAuthor" class="col-12 shadow spacing" [routerLinkActive]="'active'">
+            <anu-card-title>
+                <h2>If you have flare towards writing and sharing your knowledge to the world, you have landed on the
+                    right platform.</h2>
+            </anu-card-title>
+            <anu-card-body>
+                You can write and publish your knowledge to the world, and also get an opportunity to earn for your
+                contribution.
+                To know more about how you can be a part of huge community of authors, please read, how to become an
+                author?
+            </anu-card-body>
+            <anu-card-footer>
+                <div class="container right">
+                    <a [routerLink]="['..', 'help-docs', 'how-to-become-an-author']">How to become an
+                        author?</a>
+                </div>
+            </anu-card-footer>
+        </anu-card>
     </div>
     <div class="row" *ngIf="route.firstChild">
         <a [routerLink]="['./']">{{'<< Back to dashboard'}}</a>

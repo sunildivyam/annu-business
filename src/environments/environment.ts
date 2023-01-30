@@ -4,9 +4,11 @@
 
 import { LibConfig } from "@annu/ng-lib";
 import { firebaseAppConfig, firebaseui, firebaseStoreConfig } from "../app/config/firebase.config";
+import { appConfig } from "src/app/config/app.config";
 
 export const environment = {
   production: false,
+  appConfig,
   libConfig: {
     apiBaseUrl: 'http://localhost:5000',
     // docsJsonUrl: '/data/documentation.json',
