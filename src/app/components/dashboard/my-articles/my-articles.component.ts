@@ -2,8 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Article, MetaService, PageArticles, ARTICLES_ROUTE_RESOLVER_DATA_KEYS, Filter, AuthFirebaseService, FilterTypes, FIREBASE_AUTH_ROLES } from '@annu/ng-lib';
 import { filter, Subscription } from 'rxjs';
-import { appConfig, dashboardMyArticlesMetaInfo } from '../../../config';
 import { MY_ARTICLES_FILTERS, MY_ARTICLES_FILTERS_FOR_ADMIN } from '../my-articles/my-articles.constants';
+
+import { environment } from '../../../../environments/environment';
+const { appConfig } = environment;
+const dashboardMyArticlesMetaInfo = environment.dashboardConfig.dashboardMyArticlesMetaInfo;
 
 @Component({
   selector: 'app-my-articles',

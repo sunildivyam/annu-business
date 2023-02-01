@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ARTICLES_ROUTE_RESOLVER_DATA_KEYS, Category, PageCategoryGroup,  ArticlesHomeViewRouteData, MetaService } from '@annu/ng-lib';
-import { filter, Subscription } from 'rxjs';
-import { appConfig } from '../../../config';
+
+import { environment } from '../../../../environments/environment';
+const { appConfig } = environment;
 
 const DEFAULT_DESCRIPTION_CHAR_COUNT = 300;
 

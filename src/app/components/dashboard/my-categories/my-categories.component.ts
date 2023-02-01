@@ -2,8 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Category, MetaService, ARTICLES_ROUTE_RESOLVER_DATA_KEYS, PageCategories, Filter, FilterTypes, AuthFirebaseService, FIREBASE_AUTH_ROLES } from '@annu/ng-lib';
 import { filter, Subscription } from 'rxjs';
-import { appConfig, dashboardMyCategoriesMetaInfo } from '../../../config';
 import { MY_CATEGORIES_FILTERS, MY_CATEGORIES_FILTERS_FOR_ADMIN } from '../my-categories/my-categories.constants';
+
+import { environment } from '../../../../environments/environment';
+const { appConfig } = environment;
+const dashboardMyCategoriesMetaInfo = environment.dashboardConfig.dashboardMyCategoriesMetaInfo;
 
 @Component({
   selector: 'app-my-categories',

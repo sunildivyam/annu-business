@@ -1,8 +1,9 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Article, Category, MetaService, CategoryViewRouteData, ARTICLES_ROUTE_RESOLVER_DATA_KEYS, PageCategoryGroup, MetaInfo, UtilsService } from '@annu/ng-lib';
-import { filter, Subscription } from 'rxjs';
-import { appConfig } from '../../../config';
+
+import { environment } from '../../../../environments/environment';
+const { appConfig } = environment;
 
 @Component({
   selector: 'app-category-view',

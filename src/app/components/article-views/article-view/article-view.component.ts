@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Article, MetaInfo, MetaService, ArticleViewRouteData, ARTICLES_ROUTE_RESOLVER_DATA_KEYS } from '@annu/ng-lib';
-import { filter, Subscription } from 'rxjs';
-import { appConfig } from '../../../config';
+
+import { environment } from '../../../../environments/environment';
+const { appConfig } = environment;
 
 @Component({
   selector: 'app-article-view',

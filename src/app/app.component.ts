@@ -2,8 +2,9 @@ import { isPlatformServer } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { makeStateKey, StateKey, TransferState } from '@angular/platform-browser';
 import { AppConfig, MenuItem, ThemeService, SpinnerMode, CategoriesFirebaseHttpService, Category, CategoryFeatures } from '@annu/ng-lib';
-import { appConfig } from './config';
 import { AppSpinnerService } from './services/app-core/app-spinner.service';
+import { environment } from '../environments/environment';
+const { appConfig } = environment;
 
 @Component({
   selector: 'app-root',
@@ -46,8 +47,8 @@ export class AppComponent implements OnInit {
   }
 
   private async getNavCategories(features: Array<CategoryFeatures>): Promise<Array<Category>> {
-     return this.categoriesHttp.getShallowLiveCategoriesByFeatures(features, true)
-        .catch(() => null);
+    return this.categoriesHttp.getShallowLiveCategoriesByFeatures(features, true)
+      .catch(() => null);
   }
 
   private setTransferState(key: StateKey<Array<Category>>, routeData: Array<Category>): void {

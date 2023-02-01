@@ -2,7 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthFirebaseService, Category, MetaService, CategoriesFirebaseHttpService, FIREBASE_AUTH_ROLES } from '@annu/ng-lib';
 import { Subscription } from 'rxjs';
-import { appConfig, dashboardMyCategoryMetaInfo } from '../../../config';
+
+import { environment } from '../../../../environments/environment';
+const { appConfig } = environment;
+const dashboardMyCategoryMetaInfo = environment.dashboardConfig.dashboardMyCategoryMetaInfo;
 
 @Component({
   selector: 'app-my-category',

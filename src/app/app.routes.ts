@@ -14,7 +14,7 @@ import {
   UnauthorizedComponent,
   ErrorComponent,
 } from "./components";
-import { appConfig, DEFAULT_PAGE_SIZE } from "./config";
+import { environment } from "../environments/environment";
 import {
   IsLoggedInGuard,
   RoleAuthorGuard,
@@ -26,6 +26,9 @@ import {
   MyCategoriesViewRouteResolver,
   MyArticlesViewRouteResolver,
 } from '@annu/ng-lib';
+
+const { appConfig } = environment;
+const DEFAULT_PAGE_SIZE = appConfig.defaultPageSize;
 
 export const routes: Routes = [
   {

@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ArticlesFirebaseService, AuthFirebaseService, Article, QueryConfig, Category, MetaService, ArticlesFirebaseHttpService, FIREBASE_AUTH_ROLES, CategoriesFirebaseHttpService } from '@annu/ng-lib';
+import { AuthFirebaseService, Article, Category, MetaService, ArticlesFirebaseHttpService, FIREBASE_AUTH_ROLES, CategoriesFirebaseHttpService } from '@annu/ng-lib';
 import { Subscription } from 'rxjs';
-import { appConfig, dashboardMyArticleMetaInfo } from '../../../config';
-
+import { environment } from '../../../../environments/environment';
+const { appConfig } = environment;
+const dashboardMyArticleMetaInfo = environment.dashboardConfig.dashboardMyArticleMetaInfo;
 
 @Component({
   selector: 'app-my-article',

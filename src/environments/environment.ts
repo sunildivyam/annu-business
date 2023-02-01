@@ -5,6 +5,7 @@
 import { LibConfig } from "@annu/ng-lib";
 import { firebaseAppConfig, firebaseui, firebaseStoreConfig } from "../app/config/firebase.config";
 import { appConfig } from "src/app/config/app.config";
+import { dashboardConfig } from "src/app/config/dashboard.config";
 
 export const environment = {
   production: false,
@@ -16,7 +17,8 @@ export const environment = {
     firebase: { ...firebaseAppConfig, apiKey: '' },
     firebaseStoreConfig,
     firestoreBaseApiUrl: 'https://firestore.googleapis.com/v1/projects/annu-business/databases/(default)/documents',
-  } as LibConfig
+  } as LibConfig,
+  dashboardConfig,
 };
 
 /*
