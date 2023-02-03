@@ -1,19 +1,8 @@
 import { Route, Routes } from "@angular/router";
-
-import {
-  ArticleViewsHomeComponent,
-  ContactUsComponent,
-  LoginComponent,
-  DashboardComponent,
-  MyCategoriesComponent,
-  MyArticlesComponent,
-  MyCategoryComponent,
-  MyArticleComponent,
-  ArticleViewComponent,
-  CategoryViewComponent,
-  UnauthorizedComponent,
-  ErrorComponent,
-} from "./components";
+import { LoginComponent, ContactUsComponent } from "./modules/app-core";
+import { DashboardComponent, MyCategoriesComponent, MyArticlesComponent, MyArticleComponent, MyCategoryComponent } from "./modules/dashboard";
+import { ArticleViewsHomeComponent, CategoryViewComponent, ArticleViewComponent } from "./modules/article-views";
+import { ErrorComponent, UnauthorizedComponent } from "./modules/error-pages";
 import { environment } from "../environments/environment";
 import {
   IsLoggedInGuard,

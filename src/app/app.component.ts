@@ -2,7 +2,7 @@ import { isPlatformServer } from '@angular/common';
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { makeStateKey, StateKey, TransferState } from '@angular/platform-browser';
 import { AppConfig, MenuItem, ThemeService, SpinnerMode, CategoriesFirebaseHttpService, Category, CategoryFeatures } from '@annu/ng-lib';
-import { AppSpinnerService } from './services/app-core/app-spinner.service';
+import { AppSpinnerService } from './modules/app-core/services/app-spinner.service';
 import { environment } from '../environments/environment';
 const { appConfig } = environment;
 

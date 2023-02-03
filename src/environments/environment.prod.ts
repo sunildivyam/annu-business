@@ -1,7 +1,7 @@
 import { LibConfig } from "@annu/ng-lib";
-import { firebaseAppConfig, firebaseui, firebaseStoreConfig } from "../app/config/firebase.config.prod";
-import { appConfig } from "src/app/config/app.config.prod";
-import { dashboardConfig } from "src/app/config/dashboard.config.prod";
+import { firebaseAppConfig, firebaseui, firebaseStoreConfig } from "../app/constants/firebase.config.prod";
+import { appConfig } from "../app/constants/app.config.prod";
+import { dashboardConfig } from "../app/constants/dashboard.config.prod";
 
 export const environment = {
   production: true,

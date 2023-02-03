@@ -5,10 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { environment } from '../environments/environment';
-import { DashboardModule } from './components/dashboard/dashboard.module';
-import { ArticleViewsModule } from './components/article-views/article-views.module';
-import { AppCoreModule } from './components/app-core/app-core.module';
-import { ErrorPagesModule } from './components/error-pages/error-pages.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { ArticleViewsModule } from './modules/article-views/article-views.module';
+import { AppCoreModule } from './modules/app-core/app-core.module';
+import { ErrorPagesModule } from './modules/error-pages/error-pages.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({

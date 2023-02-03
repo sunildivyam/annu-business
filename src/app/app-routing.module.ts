@@ -2,7 +2,7 @@ import { NgModule, OnDestroy } from '@angular/core';
 import { RouterModule, Routes, Router, ActivatedRoute, NavigationEnd, NavigationStart, NavigationError } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { routes as allRoutes } from './app.routes';
-import { AppSpinnerService } from './services/app-core/app-spinner.service';
+import { AppSpinnerService } from './modules/app-core/services/app-spinner.service';
 
 const routes: Routes = allRoutes;
 
