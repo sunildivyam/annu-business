@@ -13,4 +13,9 @@ export const tabs: Array<Tab> = [
         disabled: false ,
         active: false,
     },
-]
+];
+
+export const DASHBOARD_ROUTE_RESOLVER_DATA_KEYS = {
+    MY_CATEGORIES_VIEW: 'myCategoriesViewData',
+    MY_ARTICLES_VIEW: 'myArticlesViewData',
+};

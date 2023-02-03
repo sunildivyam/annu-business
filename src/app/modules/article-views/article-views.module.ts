@@ -3,8 +3,11 @@ import { CommonModule } from '@angular/common';
 import { CategoryViewComponent } from './components/category-view/category-view.component';
 import { ArticleViewComponent } from './components/article-view/article-view.component';
 import { RouterModule } from '@angular/router';
-import { ArticleModule, ArticlesRouteResolversModule, ArticleViewModule, CardModule, CategoryArticlesListModule, CategoryModule, ErrorModule, SpinnerModule } from '@annu/ng-lib';
+import { ArticleModule, ArticleViewModule, CardModule, CategoryArticlesListModule, CategoryModule, ErrorModule, SpinnerModule } from '@annu/ng-lib';
 import { ArticleViewsHomeComponent } from './components/article-views-home/article-views-home.component';
+import { ArticlesHomeViewRouteResolver } from './services/articles-home-view-route-resolver/articles-home-view-route.resolver';
+import { CategoryViewRouteResolver } from './services/category-view-route-resolver/category-view-route.resolver';
+import { ArticleViewRouteResolver } from './services/article-view-route-resolver/article-view-route.resolver';
 
 
 
@@ -24,12 +27,16 @@ import { ArticleViewsHomeComponent } from './components/article-views-home/artic
     SpinnerModule,
     ArticleViewModule,
     CategoryArticlesListModule,
-    ArticlesRouteResolversModule,
   ],
   exports: [
     ArticleViewsHomeComponent,
     CategoryViewComponent,
     ArticleViewComponent,
   ],
+  providers: [
+    ArticlesHomeViewRouteResolver,
+    CategoryViewRouteResolver,
+    ArticleViewRouteResolver,
+  ]
 })
 export class ArticleViewsModule { }

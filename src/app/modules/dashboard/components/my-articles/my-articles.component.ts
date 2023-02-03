@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { Article, MetaService, PageArticles, ARTICLES_ROUTE_RESOLVER_DATA_KEYS, Filter, AuthFirebaseService, FilterTypes, FIREBASE_AUTH_ROLES } from '@annu/ng-lib';
+import { Article, MetaService, PageArticles, Filter, AuthFirebaseService, FilterTypes, FIREBASE_AUTH_ROLES } from '@annu/ng-lib';
 import { filter, Subscription } from 'rxjs';
-import { MY_ARTICLES_FILTERS, MY_ARTICLES_FILTERS_FOR_ADMIN } from '../my-articles/my-articles.constants';
-
+import { MY_ARTICLES_FILTERS, MY_ARTICLES_FILTERS_FOR_ADMIN } from '../../constants/my-articles.constants';
 import { environment } from '../../../../../environments/environment';
+import { DASHBOARD_ROUTE_RESOLVER_DATA_KEYS } from '../../constants/dashboard.constants';
 const { appConfig } = environment;
 const dashboardMyArticlesMetaInfo = environment.dashboardConfig.dashboardMyArticlesMetaInfo;
 
@@ -45,7 +45,7 @@ export class MyArticlesComponent implements OnInit, OnDestroy {
       if (isAdmin) {
         this.articlesFilters = [...MY_ARTICLES_FILTERS_FOR_ADMIN, ...MY_ARTICLES_FILTERS];
       }
-      const pageArticles: PageArticles = data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.MY_ARTICLES_VIEW];
+      const pageArticles: PageArticles = data[DASHBOARD_ROUTE_RESOLVER_DATA_KEYS.MY_ARTICLES_VIEW];
       this.articles = pageArticles?.articles || [];
       this.foundArticles = this.articles;
       this.filterArticles(this.articlesFilters, this.foundArticles);

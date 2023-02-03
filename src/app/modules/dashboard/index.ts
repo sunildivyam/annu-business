@@ -5,3 +5,7 @@ export * from './components/my-categories';
 export * from './components/my-category';
 export * from './components/my-article';
 export * from './constants/dashboard.constants';
+export * from './constants/my-articles.constants';
+export * from './constants/my-categories.constants';
+export * from './services/my-articles-view-route-resolver/my-articles-view-route.resolver';
+export * from './services/my-categories-view-route-resolver/my-categories-view-route.resolver';

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Article, MetaInfo, MetaService, ArticleViewRouteData, ARTICLES_ROUTE_RESOLVER_DATA_KEYS } from '@annu/ng-lib';
+import { Article, MetaInfo, MetaService } from '@annu/ng-lib';
 
 import { environment } from '../../../../../environments/environment';
+import { ARTICLE_VIEWS_ROUTE_RESOLVER_DATA_KEYS } from '../../constants/article-views.constants';
+import { ArticleViewRouteData } from '../../interfaces/article-views.interface';
 const { appConfig } = environment;
 
 @Component({
@@ -27,7 +29,7 @@ export class ArticleViewComponent implements OnInit {
   ngOnDestroy(): void { }
 
   private initFromResolvedData(data: any): void {
-    const articleViewData: ArticleViewRouteData = { ...data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.ARTICLE_VIEW] ?? null };
+    const articleViewData: ArticleViewRouteData = { ...data[ARTICLE_VIEWS_ROUTE_RESOLVER_DATA_KEYS.ARTICLE_VIEW] ?? null };
     this.article = { ...articleViewData?.article as Article ?? null };
 
     /*

@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { Category, MetaService, ARTICLES_ROUTE_RESOLVER_DATA_KEYS, PageCategories, Filter, FilterTypes, AuthFirebaseService, FIREBASE_AUTH_ROLES } from '@annu/ng-lib';
+import { Category, MetaService, PageCategories, Filter, FilterTypes, AuthFirebaseService, FIREBASE_AUTH_ROLES } from '@annu/ng-lib';
 import { filter, Subscription } from 'rxjs';
-import { MY_CATEGORIES_FILTERS, MY_CATEGORIES_FILTERS_FOR_ADMIN } from '../my-categories/my-categories.constants';
-
+import { MY_CATEGORIES_FILTERS, MY_CATEGORIES_FILTERS_FOR_ADMIN } from '../../constants/my-categories.constants';
 import { environment } from '../../../../../environments/environment';
+import { DASHBOARD_ROUTE_RESOLVER_DATA_KEYS } from '../../constants/dashboard.constants';
 const { appConfig } = environment;
 const dashboardMyCategoriesMetaInfo = environment.dashboardConfig.dashboardMyCategoriesMetaInfo;
 
@@ -45,7 +45,7 @@ export class MyCategoriesComponent implements OnInit, OnDestroy {
       if (isAdmin) {
         this.categoriesFilters = [...MY_CATEGORIES_FILTERS_FOR_ADMIN, ...MY_CATEGORIES_FILTERS];
       }
-      const pageCategories: PageCategories = data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.MY_CATEGORIES_VIEW];
+      const pageCategories: PageCategories = data[DASHBOARD_ROUTE_RESOLVER_DATA_KEYS.MY_CATEGORIES_VIEW];
       this.categories = pageCategories?.categories || [];
       this.foundCategories = this.categories;
       this.filterCategories(this.categoriesFilters, this.foundCategories);

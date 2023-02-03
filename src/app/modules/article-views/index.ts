@@ -2,3 +2,8 @@ export * from './article-views.module';
 export * from './components/article-view';
 export * from './components/category-view';
 export * from './components/article-views-home';
+export * from './constants/article-views.constants';
+export * from './interfaces/article-views.interface';
+export * from './services/article-view-route-resolver/article-view-route.resolver';
+export * from './services/articles-home-view-route-resolver/articles-home-view-route.resolver';
+export * from './services/category-view-route-resolver/category-view-route.resolver';

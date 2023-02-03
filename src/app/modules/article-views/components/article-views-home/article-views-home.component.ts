@@ -1,8 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ARTICLES_ROUTE_RESOLVER_DATA_KEYS, Category, PageCategoryGroup,  ArticlesHomeViewRouteData, MetaService } from '@annu/ng-lib';
+import { Category, PageCategoryGroup, MetaService } from '@annu/ng-lib';
 
 import { environment } from '../../../../../environments/environment';
+import { ARTICLE_VIEWS_ROUTE_RESOLVER_DATA_KEYS } from '../../constants/article-views.constants';
+import { ArticlesHomeViewRouteData } from '../../interfaces/article-views.interface';
 const { appConfig } = environment;
 
 const DEFAULT_DESCRIPTION_CHAR_COUNT = 300;
@@ -38,7 +40,7 @@ export class ArticleViewsHomeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   private initFromResolvedData(data: any): void {
-      const homeViewData = { ...data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.ARTICLES_HOME_VIEW] ?? null } as ArticlesHomeViewRouteData;
+      const homeViewData = { ...data[ARTICLE_VIEWS_ROUTE_RESOLVER_DATA_KEYS.ARTICLES_HOME_VIEW] ?? null } as ArticlesHomeViewRouteData;
       this.pageCategoryGroups = [...homeViewData?.pageCategoryGroups ?? []];
 
       // Extracts featured categories.

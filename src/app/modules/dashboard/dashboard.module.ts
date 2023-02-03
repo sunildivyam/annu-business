@@ -8,6 +8,8 @@ import { CardModule, CategoryEditorModule, CategoryModule, ArticleModule, Articl
 import { MyCategoryComponent } from './components/my-category/my-category.component';
 import { MyArticleComponent } from './components/my-article/my-article.component';
 import { FormsModule } from '@angular/forms';
+import { MyArticlesViewRouteResolver } from './services/my-articles-view-route-resolver/my-articles-view-route.resolver';
+import { MyCategoriesViewRouteResolver } from './services/my-categories-view-route-resolver/my-categories-view-route.resolver';
 
 
 
@@ -46,5 +48,9 @@ import { FormsModule } from '@angular/forms';
     MyCategoryComponent,
     MyArticleComponent,
   ],
+  providers:[
+    MyArticlesViewRouteResolver,
+    MyCategoriesViewRouteResolver,
+  ]
 })
 export class DashboardModule { }

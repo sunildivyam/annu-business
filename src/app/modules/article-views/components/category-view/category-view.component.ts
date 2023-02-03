@@ -1,8 +1,10 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Article, Category, MetaService, CategoryViewRouteData, ARTICLES_ROUTE_RESOLVER_DATA_KEYS, PageCategoryGroup, MetaInfo, UtilsService } from '@annu/ng-lib';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Article, Category, MetaService, PageCategoryGroup, MetaInfo, UtilsService } from '@annu/ng-lib';
 
 import { environment } from '../../../../../environments/environment';
+import { ARTICLE_VIEWS_ROUTE_RESOLVER_DATA_KEYS } from '../../constants/article-views.constants';
+import { CategoryViewRouteData } from '../../interfaces/article-views.interface';
 const { appConfig } = environment;
 
 @Component({
@@ -41,7 +43,7 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
   }
 
   private initFromResolvedData(data: any): void {
-    const categoryViewData: CategoryViewRouteData = { ...data[ARTICLES_ROUTE_RESOLVER_DATA_KEYS.CATEGORY_VIEW] ?? null } as CategoryViewRouteData;
+    const categoryViewData: CategoryViewRouteData = { ...data[ARTICLE_VIEWS_ROUTE_RESOLVER_DATA_KEYS.CATEGORY_VIEW] ?? null } as CategoryViewRouteData;
     const pageCategoryGroup = { ...categoryViewData?.pageCategoryGroup ?? {} };
     this.category = { ...pageCategoryGroup?.category as Category ?? null };
 
