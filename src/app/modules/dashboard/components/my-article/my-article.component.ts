@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthFirebaseService, Article, Category, MetaService, ArticlesFirebaseHttpService, FIREBASE_AUTH_ROLES, CategoriesFirebaseHttpService } from '@annu/ng-lib';
+import { AuthFirebaseService, Article, Category, MetaService, ArticlesFirebaseHttpService, FIREBASE_AUTH_ROLES, CategoriesFirebaseHttpService, UtilsService } from '@annu/ng-lib';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 const { appConfig } = environment;
 const dashboardMyArticleMetaInfo = environment.dashboardConfig.dashboardMyArticleMetaInfo;
+const imageSpecs = environment.libConfig.firebaseStoreConfig;
 
 @Component({
   selector: 'app-my-article',
@@ -22,11 +23,11 @@ export class MyArticleComponent implements OnInit, OnDestroy {
   paramsSubscription: Subscription;
   showUpdateConfirmationModal: boolean = false;
   ADD_ARTICLE: string = 'add';
-  userRoles: Array<string> = [];
   isAdmin: boolean = false;
   isAuthor: boolean = false;
   postfixUniqueId: boolean = true;
   showModal: boolean = false;
+  imageHelpText: string = '';
 
   constructor(
     private articlesHttp: ArticlesFirebaseHttpService,
@@ -34,13 +35,15 @@ export class MyArticleComponent implements OnInit, OnDestroy {
     private authFireSvc: AuthFirebaseService,
     private route: ActivatedRoute,
     private router: Router,
+    private utilsSvc: UtilsService,
     private metaService: MetaService) {
-
+    this.imageHelpText = this.utilsSvc.getImageSpecsString(imageSpecs);
     this.paramsSubscription = this.route.params.subscribe(async (params) => {
       this.error = null;
       this.found = true;
       this.articleId = params['id'];
-
+      this.isAdmin = await this.authFireSvc.currentUserHasRole(FIREBASE_AUTH_ROLES.ADMIN);
+      this.isAuthor = await this.authFireSvc.currentUserHasRole(FIREBASE_AUTH_ROLES.AUTHOR);
       this.getCategories();
       this.getArticle(this.articleId);
     });
@@ -63,9 +66,6 @@ export class MyArticleComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.found = true;
     this.article = null;
-    this.userRoles = await this.authFireSvc.getCurrentUserRoles();
-    this.isAdmin = this.userRoles.includes(FIREBASE_AUTH_ROLES.ADMIN);
-    this.isAuthor = this.userRoles.includes(FIREBASE_AUTH_ROLES.AUTHOR);
 
     if (id !== this.ADD_ARTICLE) {
       const getArticlePromise: Promise<Article> = this.isAdmin ?
@@ -94,7 +94,7 @@ export class MyArticleComponent implements OnInit, OnDestroy {
   }
 
   public async getCategories() {
-    const pageCategories = await this.categoriesHttp.getAllUsersOnePageShallowCategories(true);
+    const pageCategories = await this.categoriesHttp.getAllUsersOnePageShallowCategories(this.isAdmin ? null : true);
     this.categories = pageCategories.categories || [];
   }
 

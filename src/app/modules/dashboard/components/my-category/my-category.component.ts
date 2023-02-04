@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthFirebaseService, Category, MetaService, CategoriesFirebaseHttpService, FIREBASE_AUTH_ROLES } from '@annu/ng-lib';
+import { AuthFirebaseService, Category, MetaService, CategoriesFirebaseHttpService, FIREBASE_AUTH_ROLES, UtilsService } from '@annu/ng-lib';
 import { Subscription } from 'rxjs';
 
 import { environment } from '../../../../../environments/environment';
 const { appConfig } = environment;
 const dashboardMyCategoryMetaInfo = environment.dashboardConfig.dashboardMyCategoryMetaInfo;
+const imageSpecs = environment.libConfig.firebaseStoreConfig;
 
 @Component({
   selector: 'app-my-category',
@@ -26,14 +27,16 @@ export class MyCategoryComponent implements OnInit, OnDestroy {
   isAuthor: boolean = false;
   postfixUniqueId: boolean = true;
   showModal: boolean = false;
+  imageHelpText: string = '';
 
   constructor(
     private categoriesHttp: CategoriesFirebaseHttpService,
     private authFireSvc: AuthFirebaseService,
+    private utilsSvc: UtilsService,
     private route: ActivatedRoute,
     private router: Router,
     private metaService: MetaService) {
-
+    this.imageHelpText = this.utilsSvc.getImageSpecsString(imageSpecs);
     this.paramsSubscription = this.route.params.subscribe(params => {
       this.categoryId = params['id'];
       this.getCategory(this.categoryId);

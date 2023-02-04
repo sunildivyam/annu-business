@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { AuthFirebaseService, FIREBASE_AUTH_ROLES, MetaService } from '@annu/ng-lib';
+import { Article, ArticlesFirebaseHttpService, AuthFirebaseService, CategoryFeatures, FIREBASE_AUTH_ROLES, MetaService, PageCategoryGroup } from '@annu/ng-lib';
 import { filter, Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 
@@ -16,8 +16,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
   isAuthor: boolean = false;
   isAdmin: boolean = false;
   routeEndEvent: Subscription;
+  helpArticles: Array<Article> = [];
 
-  constructor(public authFireSvc: AuthFirebaseService, private metaService: MetaService, public route: ActivatedRoute, private router: Router) {
+  constructor(
+    public authFireSvc: AuthFirebaseService,
+    private articlesHttp: ArticlesFirebaseHttpService,
+    private metaService: MetaService,
+    public route: ActivatedRoute,
+    private router: Router) {
     this.routeEndEvent = this.router.events.pipe(filter(ev => ev instanceof NavigationEnd)).subscribe(() => {
       if (!this.route.firstChild) {
         this.metaService.setPageMeta({ ...dashboardMetaInfo, title: `${appConfig.metaInfo.title} - ${dashboardMetaInfo.title}` });
@@ -28,6 +34,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isAuthorFn();
     this.isAdminFn();
+    this.getHelpDocs();
     this.metaService.setPageMeta({ ...dashboardMetaInfo, title: `${appConfig.metaInfo.title} - ${dashboardMetaInfo.title}` });
   }
 
@@ -48,5 +55,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   public onOutletActivated(): void {
+  }
+
+  public async getHelpDocs() {
+    const pageCategoryGroups: Array<PageCategoryGroup> = await this.articlesHttp.getLiveShallowArticlesOfCategories([CategoryFeatures.helpDocs])
+    const pageCategoryGroup: PageCategoryGroup = pageCategoryGroups && pageCategoryGroups[0] || null;
+    this.helpArticles = pageCategoryGroup?.pageArticles?.articles || [];
   }
 }

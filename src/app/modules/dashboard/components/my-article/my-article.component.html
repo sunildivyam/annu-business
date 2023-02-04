@@ -10,6 +10,8 @@
                     [enablePublish]="isAdmin && !isNewArticlePage"
                     [enableUniqueId]="postfixUniqueId"
                     [enableReadonlyIdToggle]="isAdmin"
+                    [enableFeatures]="isAdmin"
+                    [imageHelpText]="imageHelpText"
                     [readonlyId]="true"
                     [readonlyTitle]="!isNewArticlePage"
                     (isLiveClicked)="isLiveClicked($event)"

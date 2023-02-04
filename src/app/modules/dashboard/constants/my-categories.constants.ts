@@ -33,18 +33,6 @@ export const MY_CATEGORIES_FILTERS: Array<Filter> = [
       noLabel: 'offline',
       value: true
     }
-  },
-  {
-    id: 'features',
-    title: 'Choose Features',
-    enabled: true,
-    type: FilterTypes.MultiSelect,
-    filter: {
-      selectedValues: [],
-      values: Object.keys(CategoryFeatures).map(key => ({ id: key, title: key })),
-      keyName: 'id',
-      valueName: 'title',
-    }
   }
 ];
 
@@ -58,6 +46,18 @@ export const MY_CATEGORIES_FILTERS_FOR_ADMIN: Array<Filter> = [
       yesLabel: 'Mine',
       noLabel: 'Others',
       value: true
+    }
+  },
+  {
+    id: 'features',
+    title: 'Choose Features',
+    enabled: true,
+    type: FilterTypes.MultiSelect,
+    filter: {
+      selectedValues: [],
+      values: Object.keys(CategoryFeatures).map(key => ({ id: CategoryFeatures[key], title: CategoryFeatures[key] })),
+      keyName: 'id',
+      valueName: 'title',
     }
   }
 ];

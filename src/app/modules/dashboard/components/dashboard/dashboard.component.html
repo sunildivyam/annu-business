@@ -58,6 +58,33 @@
                 </div>
             </anu-card-footer>
         </anu-card>
+
+        <!--User Help docs -->
+        <anu-card class="col-12 shadow spacing" [routerLinkActive]="'active'">
+            <anu-card-title>
+                <h2>Need Help? Below are the steps to get started.</h2>
+            </anu-card-title>
+            <anu-card-body>
+                <div class="flex-container spacing-around-vertical">
+                    <div class="col-12">
+                        <div *ngFor="let art of helpArticles" class="category-articles">
+                            <anu-article [value]="art"
+                            [showMetaInfo]="false"
+                            [showDescription]="true"
+                            [descriptionCharCount]="300"
+                            [titleHref]="['./', 'help-docs', art.id || '']"
+                            [readMoreHref]="['./', 'help-docs', art.id || '']"></anu-article>
+                        </div>
+                    </div>
+                </div>
+            </anu-card-body>
+            <anu-card-footer>
+                <div class="container right">
+                    <a [routerLink]="['..', 'help-docs', 'how-to-become-an-author']">How to become an
+                        author?</a>
+                </div>
+            </anu-card-footer>
+        </anu-card>
     </div>
     <div class="row" *ngIf="route.firstChild">
         <a [routerLink]="['./']">{{'<< Back to dashboard'}}</a>

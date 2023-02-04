@@ -6,7 +6,7 @@ import {
 } from '@angular/router';
 import { CategoryViewRouteData, ArticlesHomeViewRouteData, PageDirection } from '../../interfaces/article-views.interface';
 
-import { CategoriesFirebaseHttpService, UtilsService } from '@annubiz/ng-lib';
+import { CategoriesFirebaseHttpService, CategoryFeatures, UtilsService } from '@annubiz/ng-lib';
 import { makeStateKey, TransferState } from '@angular/platform-browser';
 import { isPlatformServer } from '@angular/common';
 
@@ -58,16 +58,25 @@ export class CategoryViewRouteResolver implements Resolve<CategoryViewRouteData>
         routeData.pageCategoryGroups = parentRouteData?.pageCategoryGroups || null;
       } else {
         routeData.pageCategoryGroups = await this.categoriesFireHttp.getAllLiveCategoriesWithOnePageShallowArticles()
-        .catch(()=> null);
+          .catch(() => null);
       }
 
-      routeData.pageCategoryGroup = await this.categoriesFireHttp.getLiveCategoryWithOnePageShallowArticles(
-        categoryId,
-        pageSize,
-        this.utilsSvc.totalTimeStringToUTCdateString(currentStartPage),
-        pageDir === PageDirection.BACKWARD ? false : true)
-        .catch(()=> null);
-
+      /*
+      * if category belongs to systemonly (meaning always offline, but their articles are live, e.g. helpdocs etc.)
+      * Then there is no need to make a call to fetch it.
+      */
+      if ([CategoryFeatures.helpDocs,
+      CategoryFeatures.privacy,
+      CategoryFeatures.tnc].includes(categoryId)) {
+        routeData.pageCategoryGroup = null;
+      } else {
+        routeData.pageCategoryGroup = await this.categoriesFireHttp.getLiveCategoryWithOnePageShallowArticles(
+          categoryId,
+          pageSize,
+          this.utilsSvc.totalTimeStringToUTCdateString(currentStartPage),
+          pageDir === PageDirection.BACKWARD ? false : true)
+          .catch(() => null);
+      }
 
       if (isPlatformServer(this.platformId)) {
         this.transferState.set(CATEGORY_VIEW_ROUTE_KEY, routeData);

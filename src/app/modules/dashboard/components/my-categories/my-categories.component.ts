@@ -43,7 +43,7 @@ export class MyCategoriesComponent implements OnInit, OnDestroy {
     this.route.data.subscribe(async data => {
       const isAdmin = await this.authService.currentUserHasRole(FIREBASE_AUTH_ROLES.ADMIN);
       if (isAdmin) {
-        this.categoriesFilters = [...MY_CATEGORIES_FILTERS_FOR_ADMIN, ...MY_CATEGORIES_FILTERS];
+        this.categoriesFilters = [...MY_CATEGORIES_FILTERS, ...MY_CATEGORIES_FILTERS_FOR_ADMIN];
       }
       const pageCategories: PageCategories = data[DASHBOARD_ROUTE_RESOLVER_DATA_KEYS.MY_CATEGORIES_VIEW];
       this.categories = pageCategories?.categories || [];

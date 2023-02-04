@@ -43,7 +43,7 @@ export class MyArticlesComponent implements OnInit, OnDestroy {
     this.route.data.subscribe(async data => {
       const isAdmin = await this.authService.currentUserHasRole(FIREBASE_AUTH_ROLES.ADMIN);
       if (isAdmin) {
-        this.articlesFilters = [...MY_ARTICLES_FILTERS_FOR_ADMIN, ...MY_ARTICLES_FILTERS];
+        this.articlesFilters = [...MY_ARTICLES_FILTERS, ...MY_ARTICLES_FILTERS_FOR_ADMIN];
       }
       const pageArticles: PageArticles = data[DASHBOARD_ROUTE_RESOLVER_DATA_KEYS.MY_ARTICLES_VIEW];
       this.articles = pageArticles?.articles || [];
