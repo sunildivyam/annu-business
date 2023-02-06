@@ -1,53 +1,49 @@
 import { AppConfig } from "@annu/ng-lib";
 
 export const appConfig: AppConfig = {
-    name: 'annuBusiness',
-    copyrightText: 'copyright©annu-business',
+    name: 'annuadvent',
+    copyrightText: 'copyright©annuadvent',
     themeName: 'skyBlue',
     loginUrl: '/login',
     logoutUrl: '/login',
     profileUrl: '/dashboard',
-    adminEmail: 'info@annubiztech.com',
+    adminEmail: 'sunil.divyam@gmail.com',
     defaultPageSize: 5,
-    tNcUrl: '/terms-and-conditions-lbxuxsj774zpe3xh/terms-and-conditions-lbxv0dakpn1x6px',
-    privacyPolicyUrl: '/terms-and-conditions-lbxuxsj774zpe3xh/terms-and-conditions-lbxv0dakpn1x6px',
+    tNcUrl: '/tnc/terms-and-conditions',
+    privacyPolicyUrl: '/privacy/privacy-policiy',
     metaInfo: {
-      "title": "Annu Business",
-      "description": "Annu Business serves you with business consultation, how to start a business, how to run a business, what business you can start.",
-      "keywords": "Annu Business, Business ideas, Start Business, New Business, Business Plan",
+      "title": "Annu Advent",
+      "description": "Annu Advent serves you with business consultation, how to start a business, how to run a business, what business you can start.",
+      "keywords": "Annu Advent, Business ideas, Start Business, New Business, Business Plan",
       "robots": "index, follow",
       "Content-Type": "text/html; charset=utf-8",
       "language": "english",
       "revisit-after": "7 days",
-      "author": "Sunil Kumar",
+      "author": "Annu Advent",
       "type": "article",
-      "article:published_time": "2022-01-03T17:53:35.868Z",
-      "article:author": "Annu Business",
+      "article:published_time": "2022-02-06T17:53:35.868Z",
+      "article:author": "Annu Advent",
       "article:section": "business",
-      "article:tag": "Annu Business, Business ideas, Start Business, New Business, Business Plan",
+      "article:tag": "Annu Advent, Business ideas, Start Business, New Business, Business Plan",
       "image": "image/url",
-      "url": "https://github.com/sunildivyam/annu-ng-lib",
+      "url": "https://www.annuadvent.com",
       "card": "summary_large_image",
-      "site_name": "Annu Business",
+      "site_name": "Annu Advent",
       "audio": "",
       "video": ""
     },
     mainMenuItems: [
       {
-        title: 'Sample Category 1',
-        href: ['./sample-category-1'],
+        title: 'Technology as business',
+        href: ['./technology'],
       },
       {
-        title: 'Sample Category 2',
-        href: ['./sample-category-2'],
+        title: 'Business Techniques',
+        href: ['./business-techniques'],
       },
       {
-        title: 'Sample Category 3',
-        href: ['./sample-category-3'],
-      },
-      {
-        title: 'Sample Category 4',
-        href: ['./sample-category-4'],
+        title: 'Research',
+        href: ['./research'],
       }
     ]
   };
