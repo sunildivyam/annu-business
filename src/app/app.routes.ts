@@ -1,28 +1,27 @@
 import { Route, Routes } from "@angular/router";
-
-import {
-  ArticleViewsHomeComponent,
-  ContactUsComponent,
-  LoginComponent,
-  DashboardComponent,
-  MyCategoriesComponent,
-  MyArticlesComponent,
-  MyCategoryComponent,
-  MyArticleComponent,
-  ArticleViewComponent,
-  CategoryViewComponent,
-  UnauthorizedComponent,
-} from "./components";
-import { appConfig, DEFAULT_PAGE_SIZE } from "./config";
+import { LoginComponent, ContactUsComponent } from "./modules/app-core";
+import { DashboardComponent, MyCategoriesComponent, MyArticlesComponent, MyArticleComponent, MyCategoryComponent } from "./modules/dashboard";
+import { ArticleViewsHomeComponent, CategoryViewComponent, ArticleViewComponent } from "./modules/article-views";
+import { ErrorComponent, UnauthorizedComponent } from "./modules/error-pages";
+import { environment } from "../environments/environment";
 import {
   IsLoggedInGuard,
   RoleAuthorGuard,
   RoleAdminGuard,
+} from '@annu/ng-lib';
+import {
   ArticlesHomeViewRouteResolver,
   CategoryViewRouteResolver,
   ArticleViewRouteResolver,
-  ARTICLES_ROUTE_RESOLVER_DATA_KEYS,
-} from '@annu/ng-lib';
+  ARTICLE_VIEWS_ROUTE_RESOLVER_DATA_KEYS,
+} from './modules/article-views';
+import {
+  DASHBOARD_ROUTE_RESOLVER_DATA_KEYS,
+  MyCategoriesViewRouteResolver,
+  MyArticlesViewRouteResolver,
+} from './modules/dashboard';
+const { appConfig } = environment;
+const DEFAULT_PAGE_SIZE = appConfig.defaultPageSize;
 
 export const routes: Routes = [
   {
@@ -41,6 +40,16 @@ export const routes: Routes = [
     data: { title: 'Unauthorized' }
   },
   {
+    path: 'error',
+    component: ErrorComponent,
+    data: { title: 'Error' }
+  },
+  {
+    path: 'error/:errorid',
+    component: ErrorComponent,
+    data: { title: 'Error' }
+  },
+  {
     path: 'dashboard',
     component: DashboardComponent,
     data: {
@@ -48,6 +57,7 @@ export const routes: Routes = [
     },
     canActivate: [IsLoggedInGuard],
     canActivateChild: [IsLoggedInGuard],
+    runGuardsAndResolvers: 'always',
     children: [
       {
         path: 'my-categories',
@@ -56,6 +66,8 @@ export const routes: Routes = [
           title: 'My Categories',
           redirectUrl: '/unauthorized'
         },
+        resolve: { [DASHBOARD_ROUTE_RESOLVER_DATA_KEYS.MY_CATEGORIES_VIEW]: MyCategoriesViewRouteResolver },
+        runGuardsAndResolvers: 'always',
         canActivate: [RoleAdminGuard],
         canActivateChild: [RoleAdminGuard],
         children: [
@@ -76,6 +88,8 @@ export const routes: Routes = [
           title: 'My Articles',
           redirectUrl: '/unauthorized'
         },
+        resolve: { [DASHBOARD_ROUTE_RESOLVER_DATA_KEYS.MY_ARTICLES_VIEW]: MyArticlesViewRouteResolver },
+        runGuardsAndResolvers: 'always',
         canActivate: [RoleAuthorGuard],
         canActivateChild: [RoleAuthorGuard],
         children: [
@@ -96,8 +110,7 @@ export const routes: Routes = [
     component: ArticleViewsHomeComponent,
     data: { title: appConfig.metaInfo.title, pageSize: DEFAULT_PAGE_SIZE },
     // resolve: { resolvedData: TempResolver },
-    resolve: { [ARTICLES_ROUTE_RESOLVER_DATA_KEYS.ARTICLES_HOME_VIEW]: ArticlesHomeViewRouteResolver },
-    // resolve: { [ARTICLES_ROUTE_RESOLVER_DATA_KEYS.ARTICLES_HOME_VIEW]: ArticleViewsHomeResolver },
+    resolve: { [ARTICLE_VIEWS_ROUTE_RESOLVER_DATA_KEYS.ARTICLES_HOME_VIEW]: ArticlesHomeViewRouteResolver },
     // Article Public Routes
     children: [
       {
@@ -105,14 +118,14 @@ export const routes: Routes = [
         component: CategoryViewComponent,
         data: { title: 'Category view', pageSize: DEFAULT_PAGE_SIZE },
         // resolve: { resolvedCatData: TempResolver },
-        resolve: { [ARTICLES_ROUTE_RESOLVER_DATA_KEYS.CATEGORY_VIEW]: CategoryViewRouteResolver },
+        resolve: { [ARTICLE_VIEWS_ROUTE_RESOLVER_DATA_KEYS.CATEGORY_VIEW]: CategoryViewRouteResolver },
         runGuardsAndResolvers: 'paramsOrQueryParamsChange',
         children: [
           {
             path: ':articleId',
             component: ArticleViewComponent,
             data: { title: 'Article view' },
-            resolve: { [ARTICLES_ROUTE_RESOLVER_DATA_KEYS.ARTICLE_VIEW]: ArticleViewRouteResolver },
+            resolve: { [ARTICLE_VIEWS_ROUTE_RESOLVER_DATA_KEYS.ARTICLE_VIEW]: ArticleViewRouteResolver },
             runGuardsAndResolvers: 'paramsOrQueryParamsChange',
           },
         ]

@@ -1,7 +1,0 @@
-export * from './dashboard.module'
-export * from './dashboard.component'
-export * from './my-articles'
-export * from './my-categories'
-export * from './my-category'
-export * from './my-article'
-export * from './dashboard.config'

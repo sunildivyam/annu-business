@@ -1,0 +1,40 @@
+<div class="flex-container spacing-around-vertical">
+    <div class="left col-12">
+        <anu-card class="form-body col-12 spacing-lg relative">
+            <anu-card-body>
+                <ng-container *ngIf="found">
+                    <anu-article-editor
+                    [categories]="categories"
+                    [value]="article"
+                    [enableDelete]="isAdmin && !isNewArticlePage"
+                    [enablePublish]="isAdmin && !isNewArticlePage"
+                    [enableUniqueId]="postfixUniqueId"
+                    [enableReadonlyIdToggle]="isAdmin"
+                    [enableFeatures]="isAdmin"
+                    [imageHelpText]="imageHelpText"
+                    [readonlyId]="true"
+                    [readonlyTitle]="!isNewArticlePage"
+                    (isLiveClicked)="isLiveClicked($event)"
+                    (inReviewClicked)="inReviewClicked($event)"
+                    (saveClicked)="saveClicked($event)"
+                    (deleteClicked)="deleteClicked($event)">
+                    </anu-article-editor>
+                </ng-container>
+                <anu-error *ngIf="error" [code]="error.code" [message]="error.message"></anu-error>
+                <anu-spinner [show]="loading"></anu-spinner>
+            </anu-card-body>
+        </anu-card>
+    </div>
+</div>
+
+<!-- Modal Confirmation box -->
+<anu-modal
+	[enableCancel]="true"
+	[enableClose]="true"
+	[enableOk]="true"
+	[opened]="showModal"
+	[title]="'Delete Confirmation'"
+    (cancelClick)="deleteCancelled()"
+    (okClick)="deleteConfirmed()">
+	<p>Article will be deleted permanently and you will not be able to recover. Are you sure to continue?</p>
+</anu-modal>
