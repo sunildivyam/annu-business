@@ -33,6 +33,7 @@ Run `firebase use --add`
 This allows you to choose another firebase project and a alias to it, that could be prod/staging/dev etc., in our case choose `annadvent-prod` as both the project and alias name.
 
 7) Deploy the build to firebase. From the project root, Run `npm run firebase:deploy`. This would deploy all storage, store, indexes, storage rules, store rules, functions etc. to firebase, if you do not get any error.
+Iff you get an error that Firebase api is not enabled, you can visit the link given in the error message and enable it, following the instructions onthe page.
 
 ## Setting up firebase project for PROD:
 
