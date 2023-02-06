@@ -1,20 +1,20 @@
-# Production App Infoemation
+# App Information - Production Environment.
 
-App Name: annuadvent
+**App Name:** annuadvent
 
-Web Url: www.annuadvent.com
+**Web Url:** www.annuadvent.com
 
-firebase app name: annuadvent-prod
+**Firebase app name:** annuadvent-prod
 
-gmail: annuadvent@gmail.com
+**gmail**: annuadvent@gmail.com
 
-youtube channel: @annuadvent
+**youtube channel:** @annuadvent
 
-facebook: https://www.facebook.com/profile.php?id=100090363930535
+**facebook:** https://www.facebook.com/profile.php?id=100090363930535
 
-twitter handle: @annuadvent
+**twitter handle:** @annuadvent
 
-instangram: https://www.instagram.com/annuadvent/
+**instangram:** https://www.instagram.com/annuadvent/
 
 ## Deploy to PROD, firebase project:
 1) Publish latest version of `@annubiz/ng-lib` angular library to `npm`, if not already published.
@@ -42,7 +42,7 @@ This allows you to choose another firebase project and a alias to it, that could
 
 3) Upgrade your firebase project plan to `Pay as you Go` plan.
 
-Note: Angular SSR needs to be deployed to a firebase function and firebase functions feature is available only in `Pay as you Go` plan, and not in Free `Blaze` plan.
+**Note:** Angular SSR needs to be deployed to a firebase function and firebase functions feature is available only in `Pay as you Go` plan, and not in Free `Blaze` plan.
 
 4) Go to `Firebase Console`, and create following empty collection with one dummy document each:
     * categories
