@@ -17,7 +17,7 @@ service firebase.storage {
       allow delete
     }
 
-    match /annuadvent/{imageId=**} {
+    match /annuadvent-prod/{imageId=**} {
       // PROD: Only allow uploads of any image file that's less than 1MB
       allow write, create: if request.resource.size < 1 * 1024 * 1024
                    && request.resource.contentType.matches('image/.*');
