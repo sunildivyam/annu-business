@@ -20,7 +20,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": ["prismjs"],
+            "allowedCommonJsDependencies": [
+              "prismjs"
+            ],
             "outputPath": "firebase-deploy-setup/functions/dist/annu-business/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -47,6 +49,10 @@
           },
           "configurations": {
             "production": {
+              "index": {
+                "input": "src/index.prod.html",
+                "output": "index.html"
+              },
               "budgets": [
                 {
                   "type": "initial",

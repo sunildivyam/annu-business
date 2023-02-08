@@ -90,6 +90,7 @@ export class MyArticleComponent implements OnInit, OnDestroy {
     } else {
       this.found = true;
       this.loading = false;
+      this.article = null;
     }
   }
 

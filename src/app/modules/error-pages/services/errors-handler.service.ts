@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler, Injectable } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-
+import { environment } from 'src/environments/environment';
 @Injectable()
 export class ErrorsHandlerService extends ErrorHandler {
 
@@ -22,14 +22,14 @@ export class ErrorsHandlerService extends ErrorHandler {
         message = 'No Internet Connection';
       } else {
         // Handle Http Error (error.status === 403, 404...)
-        code = error.status.toString();
+        code = error.status.toString() || error.statusText || 'HTTP_UNKNOWN';
         message = error.message || error.statusText;
       }
     } else {
       // Handle Client Error (Angular Error, ReferenceError...)
-      code = 'JS_ERROR';
+      code = 'UNKNOWN';
       message = error.rejection?.message || error.message || error.toString();
-      stack = error.rejection?.stack || error.stack || '';
+      stack = environment.production ? '' : error.rejection?.stack || error.stack || '';
     }
 
     const newError = error?.rejection ? error.rejection : error
@@ -39,5 +39,6 @@ export class ErrorsHandlerService extends ErrorHandler {
       state: { error: { code, message, stack, targetUrl: error?.target?.url || this.router.url } }  // passing error page the error details.
     }
     this.router.navigate(['error', `${(new Date()).getTime()}`], navExtras);
+
   }
 }

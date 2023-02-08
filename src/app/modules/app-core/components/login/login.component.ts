@@ -26,6 +26,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.authStateSubscription = this.authFireSvc.authStateChanged().subscribe(user => {
       this.isLoggedIn = !!user;
+      if(this.isLoggedIn) {
+        this.router.navigate([this.returnUrl || '/']);
+      }
     });
   }
 
@@ -39,11 +42,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public onSuccess(loginInfo: any): void {
-    if (loginInfo?.user && loginInfo?.returnUrl) {
-      this.router.navigate([loginInfo?.returnUrl])
-    } else {
-      this.router.navigate([this.returnUrl || '/']);
-    }
+    // This has been handled in AuthStateChange
+    // if (loginInfo?.user && loginInfo?.returnUrl) {
+    //   this.router.navigate([loginInfo?.returnUrl])
+    // } else {
+    //   this.router.navigate([this.returnUrl || '/']);
+    // }
   }
 
   public onError(error: any): void {

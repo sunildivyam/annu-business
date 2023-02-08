@@ -3,12 +3,15 @@
     <anu-collapsible *ngIf="stack || returnUrl" [collapsed]="false" [hamBurgerClassNames]="['size-sm']">
         <anu-collapsible-header>More details...</anu-collapsible-header>
         <anu-collapsible-content>
-            <strong>NOTE:</strong> <i>These error stack will not be available on production.</i>
             <p *ngIf="returnUrl">You have been redirected to this page from <br>
                 <strong>{{returnUrl}}</strong>
             </p>
-            <h3>Stack</h3>
-            <p>{{stack}}</p>
+            <div *ngIf="stack" class="col-12">
+                <strong>NOTE:</strong> <i>Error stack will not be available on production.</i>
+
+                <h3>Stack</h3>
+                <p>{{stack}}</p>
+            </div>
         </anu-collapsible-content>
     </anu-collapsible>
 </div>
