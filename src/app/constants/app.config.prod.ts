@@ -10,7 +10,7 @@ export const appConfig: AppConfig = {
     adminEmail: 'sunil.divyam@gmail.com',
     defaultPageSize: 5,
     tNcUrl: '/tnc/terms-and-conditions',
-    privacyPolicyUrl: '/privacy/privacy-policiy',
+    privacyPolicyUrl: '/privacy/privacy-policy',
     metaInfo: {
       "title": "Annu Advent",
       "description": "Annu Advent serves you with business consultation, how to start a business, how to run a business, what business you can start.",
