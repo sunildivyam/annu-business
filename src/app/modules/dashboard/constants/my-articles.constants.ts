@@ -33,17 +33,6 @@ export const MY_ARTICLES_FILTERS: Array<Filter> = [
       noLabel: 'offline',
       value: true
     }
-  },
-  {
-    id: 'userId',
-    title: 'Author',
-    enabled: false,
-    type: FilterTypes.SingleSelect,
-    filter: {
-      yesLabel: 'Mine',
-      noLabel: 'Others',
-      value: true
-    }
   }
 ];
 

@@ -1,18 +1,19 @@
 <div class="app-container container">
-  <anu-spinner id="app-spinner" [fullscreen]="true" [show]="appSpinner.isLoading" [mode]="SpinnerMode.Progress" size="md"></anu-spinner>
+  <anu-spinner id="app-spinner" [fullscreen]="true" [show]="appSpinner.isLoading" [mode]="SpinnerMode.Progress"
+    size="md"></anu-spinner>
   <!-- App Header -->
-  <div class="flex-container primary-normal-bg center">
-    <header class="container left">
-      <anu-menu [items]="mainMenuItems" [heading]="appConfig.metaInfo.title || ''" (openStatusChanged)="mainMenuOpenStatusChanged($event)"
-        [opened]="isMainNavOpen" [headingHref]="['./']">
-        <anu-login-status (profileClicked)="loginStatusClicked()" (signOutClicked)="loginStatusClicked()"
-          (signInClicked)="loginStatusClicked()" [loginPageUrl]="appConfig.loginUrl || ''"
-          [profilePageUrl]="appConfig.profileUrl || ''" [loggedOutPageUrl]="appConfig.logoutUrl || ''">
-        </anu-login-status>
-      </anu-menu>
-    </header>
+  <anu-menu class="flex-container primary-normal-bg center" [items]="mainMenuItems"
+    [logoUrl]="'/assets/annu-advent-logo.png'"
+    [heading]="appConfig.metaInfo.title || ''" (openStatusChanged)="mainMenuOpenStatusChanged($event)"
+    [opened]="isMainNavOpen" [headingHref]="['./']">
+    <anu-login-status (profileClicked)="loginStatusClicked()" (signOutClicked)="loginStatusClicked()"
+      (signInClicked)="loginStatusClicked()" [loginPageUrl]="appConfig.loginUrl || ''"
+      [profilePageUrl]="appConfig.profileUrl || ''" [loggedOutPageUrl]="appConfig.logoutUrl || ''">
+    </anu-login-status>
+  </anu-menu>
+  <div class="flex-container center">
+    <anu-theme-font-resizer class="row right" [fontSizes]="themeFontSizes"></anu-theme-font-resizer>
   </div>
-
   <!-- App Content -->
   <div class="container center left" role="main">
     <router-outlet></router-outlet>

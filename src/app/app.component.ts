@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
   SpinnerMode = SpinnerMode;
   liveNavCategories: Array<Category> = [];
   HOME_VIEW_ROUTE_KEY = makeStateKey<Array<Category>>('app-route-data');
+  themeFontSizes: Array<string> = ['16px', '18px', '20px'];
 
   constructor(
     private themeService: ThemeService,
