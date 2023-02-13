@@ -25,11 +25,6 @@ const DEFAULT_PAGE_SIZE = appConfig.defaultPageSize;
 
 export const routes: Routes = [
   {
-    path: 'contact-us',
-    component: ContactUsComponent,
-    data: { title: 'Contact Us' }
-  },
-  {
     path: 'login',
     component: LoginComponent,
     data: { title: 'Sign In' }
