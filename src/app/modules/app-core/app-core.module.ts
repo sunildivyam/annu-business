@@ -2,12 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './components/login';
 import { ContactUsComponent } from './components/contact-us';
-import { CardModule, ErrorModule, LoginModule, LoginStatusModule, SpinnerModule } from '@annu/ng-lib';
+import { CardModule, ErrorModule, LoginModule, LoginStatusModule, SitemapModule, SpinnerModule } from '@annu/ng-lib';
+import { SitemapComponent } from './components/sitemap/sitemap.component';
 
 
 
 @NgModule({
-  declarations: [LoginComponent, ContactUsComponent],
+  declarations: [LoginComponent, ContactUsComponent, SitemapComponent],
   imports: [
     CommonModule,
     CardModule,
@@ -15,7 +16,8 @@ import { CardModule, ErrorModule, LoginModule, LoginStatusModule, SpinnerModule 
     LoginModule,
     LoginStatusModule,
     SpinnerModule,
+    SitemapModule,
   ],
-  exports: [LoginComponent, ContactUsComponent],
+  exports: [LoginComponent, ContactUsComponent, SitemapComponent],
 })
 export class AppCoreModule { }

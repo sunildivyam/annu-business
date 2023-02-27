@@ -1,4 +1,7 @@
 /* To learn more about this file see: https://angular.io/config/tsconfig. */
+/*
+  "stream" path is added to support "xml-js" library.
+*/
 {
   "compileOnSave": false,
   "compilerOptions": {
@@ -8,7 +11,10 @@
       ],
       "@annu/ng-lib/*": [
         "node_modules/@annubiz/ng-lib/*"
-      ]
+      ],
+      "stream": [
+        "node_modules/stream-browserify"
+      ],
     },
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",

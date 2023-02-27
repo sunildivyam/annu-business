@@ -39,6 +39,21 @@
             </anu-card-footer>
         </anu-card>
 
+        <!--Manage sitemap-->
+        <anu-card *ngIf="isAdmin" class="col-sm-12 col-md-6 col-lg-4 shadow spacing" [routerLinkActive]="'active'">
+            <anu-card-title>
+                <h2>Manage sitemap</h2>
+            </anu-card-title>
+            <anu-card-body>
+                Update sitemap with the current site urls.
+            </anu-card-body>
+            <anu-card-footer>
+                <div class="container right">
+                    <a [routerLink]="['manage-sitemap']">Manage sitemap</a>
+                </div>
+            </anu-card-footer>
+        </anu-card>
+
         <!--User with no roles-->
         <anu-card *ngIf="!isAdmin && !isAuthor" class="col-12 shadow spacing" [routerLinkActive]="'active'">
             <anu-card-title>

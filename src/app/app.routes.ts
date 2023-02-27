@@ -1,5 +1,5 @@
 import { Route, Routes } from "@angular/router";
-import { LoginComponent, ContactUsComponent } from "./modules/app-core";
+import { LoginComponent } from "./modules/app-core";
 import { DashboardComponent, MyCategoriesComponent, MyArticlesComponent, MyArticleComponent, MyCategoryComponent } from "./modules/dashboard";
 import { ArticleViewsHomeComponent, CategoryViewComponent, ArticleViewComponent } from "./modules/article-views";
 import { ErrorComponent, UnauthorizedComponent } from "./modules/error-pages";
@@ -20,6 +20,8 @@ import {
   MyCategoriesViewRouteResolver,
   MyArticlesViewRouteResolver,
 } from './modules/dashboard';
+import { SitemapComponent } from "./modules/app-core/components/sitemap/sitemap.component";
+
 const { appConfig } = environment;
 const DEFAULT_PAGE_SIZE = appConfig.defaultPageSize;
 
@@ -97,6 +99,17 @@ export const routes: Routes = [
             }
           },
         ]
+      },
+      {
+        path: 'manage-sitemap',
+        component: SitemapComponent,
+        data: {
+          title: 'Manage Sitemap',
+          redirectUrl: '/unauthorized'
+        },
+        runGuardsAndResolvers: 'always',
+        canActivate: [RoleAdminGuard],
+        canActivateChild: [RoleAdminGuard],
       },
     ]
   },
