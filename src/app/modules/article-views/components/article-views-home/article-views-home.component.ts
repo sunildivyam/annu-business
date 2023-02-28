@@ -20,6 +20,8 @@ export class ArticleViewsHomeComponent implements OnInit, OnDestroy {
   descriptionCharCount: number = DEFAULT_DESCRIPTION_CHAR_COUNT;
   error: any;
 
+  appConfig = { ...appConfig };
+
   // if a category or article does not exist, then these variables will hold the ids of the same and will get thme from queryparams.
   notFoundCategoryId: string = '';
   notFoundArticleId: string = '';
@@ -37,19 +39,19 @@ export class ArticleViewsHomeComponent implements OnInit, OnDestroy {
     this.initFromResolvedData(this.route.snapshot.data);
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
 
   private initFromResolvedData(data: any): void {
-      const homeViewData = { ...data[ARTICLE_VIEWS_ROUTE_RESOLVER_DATA_KEYS.ARTICLES_HOME_VIEW] ?? null } as ArticlesHomeViewRouteData;
-      this.pageCategoryGroups = [...homeViewData?.pageCategoryGroups ?? []];
+    const homeViewData = { ...data[ARTICLE_VIEWS_ROUTE_RESOLVER_DATA_KEYS.ARTICLES_HOME_VIEW] ?? null } as ArticlesHomeViewRouteData;
+    this.pageCategoryGroups = [...homeViewData?.pageCategoryGroups ?? []];
 
-      // Extracts featured categories.
-      this.featuredCategories = this.pageCategoryGroups
-        .filter((cg: PageCategoryGroup) => cg.category?.isFeatured === true)
-        .map((cg: PageCategoryGroup) => ({ ...cg.category as Category })) || [];
+    // Extracts featured categories.
+    this.featuredCategories = this.pageCategoryGroups
+      .filter((cg: PageCategoryGroup) => cg.category?.isFeatured === true)
+      .map((cg: PageCategoryGroup) => ({ ...cg.category as Category })) || [];
 
-      if (!this.route.firstChild) {
-        this.metaService.setPageMeta(appConfig.metaInfo);
-      }
+    if (!this.route.firstChild) {
+      this.metaService.setPageMeta(appConfig.metaInfo);
+    }
   }
 }

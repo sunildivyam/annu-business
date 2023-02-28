@@ -13,7 +13,7 @@
     <div class="flex-container primary-darkest-bg spacing-around-vertical">
         <div class="row">
             <anu-card *ngFor="let cat of featuredCategories"
-                class="stretch shadow border-round spacing spacing-around-vertical primary-deep-dark-bg col-lg-3 col-md-6 col-sm-12">
+                class="stretch shadow border-round spacing spacing-around-vertical primary-deep-dark-bg col-lg-3 col-md-6 col-sm-6">
                 <anu-card-image class="center">
                     <div class="primary-normal-bg shadow">
                         <a [routerLink]="['./', cat?.id]">
@@ -33,10 +33,7 @@
 
     <div class="flex-container spacing-around-vertical">
         <div class="row spacing">
-            We are one of the world's best business consultants and we are bound to provide several benefits to you and
-            your organization. We as Business consultants bring a wealth of knowledge and experience to the table. We
-            provide valuable insights and recommendations to help your company improve its operations and reach its
-            goals.
+            {{appConfig.metaInfo.description}}
         </div>
     </div>
 
