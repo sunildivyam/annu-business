@@ -3,10 +3,11 @@ import 'zone.js/dist/zone-node';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
 import { join } from 'path';
+import * as bodyparser from 'body-parser';
 
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
-import { existsSync } from 'fs';
+import { existsSync, writeFile } from 'fs';
 import { environment } from 'src/environments/environment';
 
 // The Express app is exported so that it can be used by serverless Functions.
@@ -26,13 +27,32 @@ export function app(): express.Express {
 
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
+  server.use(bodyparser.json());
+
+  server.post('/api/sitemap', (req, res) => {
+    const key = req.query['key'];
+    if (key !== environment.libConfig.firebase.apiKey) {
+      res.status(401).send({ code: '401', message: 'Unauthorized - You are not authorized' });
+    } else {
+      const sitemapFileUrl = join(distFolder, 'sitemap.xml');
+      const sitemapInfoFileUrl = join(distFolder, 'assets/sitemap-info.json');
+      const xmlStr = req.body.xmlStr;
+      const jsonStr = req.body.jsonStr
+      writeFile(sitemapFileUrl, xmlStr, () => {
+        writeFile(sitemapInfoFileUrl, jsonStr, () => {
+          res.send({ status: 200, message: 'Successfull' });
+        });
+      })
+    }
+  });
+
   // Serve static files from /browser
   server.get('*.*', express.static(distFolder, {
     maxAge: '1y'
   }));
 
   // Routes that skips server side rendering
-  server.get(['/dashboard', '/dashboard/**'], (req, res)=> {
+  server.get(['/dashboard', '/dashboard/**'], (req, res) => {
     res.sendFile(join(distFolder, `${indexHtml}.html`));
   });
 

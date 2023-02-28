@@ -16,10 +16,7 @@ initializeApp();
 // On sign up.
 exports.processSignUp = functions.auth.user().onCreate(async (user) => {
     // Check if user meets role criteria.
-    if (
-        user.email &&
-        user.emailVerified
-    ) {
+    if ((user.email && user.emailVerified) || user.phoneNumber) {
         const customClaims = {
             admin: user.email === 'sunil.divyam@gmail.com' ? true : false,
             author: true

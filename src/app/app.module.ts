@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppConfigModule, FooterNavModule, LoginStatusModule, MenuModule, RouteGuardsModule, FirestoreInterceptor, SpinnerModule, ThemeFontResizerModule } from '@annu/ng-lib';
+import { AppConfigModule, FooterNavModule, LoginStatusModule, MenuModule, RouteGuardsModule, FirestoreInterceptor, ApiInterceptor, SpinnerModule, ThemeFontResizerModule } from '@annu/ng-lib';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
@@ -37,6 +37,11 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: FirestoreInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiInterceptor,
       multi: true,
     }
   ],

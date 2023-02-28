@@ -27,14 +27,17 @@
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
-              "zone.js"
+              "zone.js",
+              "xml-js"
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "preserveSymlinks": true,
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/sitemap.xml",
+              "src/robots.txt"
             ],
             "styles": [
               "node_modules/@annubiz/ng-lib/src/lib/scss/annu-ng-lib-theme.scss",
@@ -108,6 +111,7 @@
             "main": "src/test.ts",
             "polyfills": [
               "zone.js",
+              "xml-js",
               "zone.js/testing"
             ],
             "tsConfig": "tsconfig.spec.json",
@@ -115,7 +119,9 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/sitemap.xml",
+              "src/robots.txt"
             ],
             "styles": [
               "node_modules/@annu/ng-lib/src/lib/scss/annu-ng-lib-theme.scss",
