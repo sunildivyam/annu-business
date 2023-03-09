@@ -11,6 +11,8 @@ export const appConfig: AppConfig = {
     defaultPageSize: 5,
     tNcUrl: '/terms-and-conditions-lbxuxsj774zpe3xh/terms-and-conditions-lbxv0dakpn1x6px',
     privacyPolicyUrl: '/terms-and-conditions-lbxuxsj774zpe3xh/terms-and-conditions-lbxv0dakpn1x6px',
+    contactUsUrl: '/contact-us/contact-us-for-sales-enquiry-technology-consulting-business-consulting-research-consulting-or-a-general-enquiry',
+    aboutUsUrl: '/about-us/about-annu-advent',
     metaInfo: {
       "title": "Annu Business",
       "description": "Annu Business serves you with business consultation, how to start a business, how to run a business, what business you can start.",

@@ -16,8 +16,6 @@ export class AppComponent implements OnInit {
   mainMenuItems: Array<MenuItem> = [];
   footerNavItems: Array<MenuItem> = [];
   isMainNavOpen: boolean = false;
-  tNcUrl: string = appConfig.tNcUrl;
-  privacyPolicyUrl: string = appConfig.privacyPolicyUrl;
   SpinnerMode = SpinnerMode;
   liveNavCategories: Array<Category> = [];
   HOME_VIEW_ROUTE_KEY = makeStateKey<Array<Category>>('app-route-data');

@@ -11,6 +11,8 @@ export const appConfig: AppConfig = {
     defaultPageSize: 5,
     tNcUrl: '/tnc/terms-and-conditions',
     privacyPolicyUrl: '/privacy/privacy-policy',
+    contactUsUrl: '/contact-us/contact-us-for-sales-enquiry-technology-consulting-business-consulting-research-consulting-or-a-general-enquiry',
+    aboutUsUrl: '/about-us/about-annu-advent',
     metaInfo: {
       "title": "Annu Advent",
       "description": "We, Annu Advent are one of the world's best business and technology consultants and we are bound to provide several benefits to you and your organization. We as Business and technology consultants bring a wealth of knowledge and experience to the table. We provide valuable insights and recommendations to help your company improve its operations and reach it's goals.",
