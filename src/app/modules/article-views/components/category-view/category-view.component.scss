@@ -4,4 +4,13 @@
     position: relative;
     min-height: 5rem;
     width: 100%;
+
+    .category-container {
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+    }
+
+    .category-card {
+        opacity: 0.95;
+    }
 }
