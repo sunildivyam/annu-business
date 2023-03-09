@@ -11,7 +11,7 @@ export const environment = {
   production: false,
   appConfig,
   libConfig: {
-    apiBaseUrl: 'http://localhost:5000',
+    apiBaseUrl: 'http://localhost:4200',
     // docsJsonUrl: '/data/documentation.json',
     firebaseui: { ...firebaseui },
     firebase: { ...firebaseAppConfig, apiKey: '' },

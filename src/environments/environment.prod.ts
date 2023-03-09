@@ -7,7 +7,8 @@ export const environment = {
   production: true,
   appConfig,
   libConfig: {
-    apiBaseUrl: 'http://localhost:5000',  // This should be the hosted url
+    // apiBaseUrl: 'http://localhost:5000',  // When running prod on local firebase
+    apiBaseUrl: 'https://www.annuadvent.com',  // When running prod on hosting server
     firebaseui: { ...firebaseui },
     firebase: { ...firebaseAppConfig, apiKey: '' },
     firebaseStoreConfig,
