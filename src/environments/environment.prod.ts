@@ -5,10 +5,12 @@ import { dashboardConfig } from "../app/constants/dashboard.config.prod";
 
 export const environment = {
   production: true,
+  staging: false,
+  development: false,
   appConfig,
   libConfig: {
-    // apiBaseUrl: 'http://localhost:5000',  // When running prod on local firebase
     apiBaseUrl: 'https://www.annuadvent.com',  // When running prod on hosting server
+    // apiBaseUrl: 'http://localhost:5000',
     firebaseui: { ...firebaseui },
     firebase: { ...firebaseAppConfig, apiKey: '' },
     firebaseStoreConfig,

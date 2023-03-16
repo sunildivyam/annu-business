@@ -1,8 +1,19 @@
 {
   "projects": {
-    "default": "annu-business",
-    "annuadvent-prod": "annuadvent-prod"
+    "staging": "annu-business",
+    "production": "annuadvent-prod"
   },
-  "targets": {},
+  "targets": {
+    "annu-business": {
+      "hosting": {
+        "staging": [
+          "annu-business"
+        ],
+        "production": [
+          "annuadvent-prod"
+        ]
+      }
+    }
+  },
   "etags": {}
 }

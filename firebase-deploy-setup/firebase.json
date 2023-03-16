@@ -16,20 +16,46 @@
       ]
     }
   ],
-  "hosting": {
-    "public": "functions/dist/annu-business",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "function": "ssrAppFn"
-      }
-    ]
-  },
+  "hosting": [
+    {
+      "target": "staging",
+      "public": "functions/dist/annu-business",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "sitemap.xml",
+          "function": "getSitemapXmlDownloadUrlFn"
+        },
+        {
+          "source": "**",
+          "function": "ssrAppFn"
+        }
+      ]
+    },
+    {
+      "target": "production",
+      "public": "functions/dist/annu-business",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "sitemap.xml",
+          "destination": "https://firebasestorage.googleapis.com/v0/b/annu-advent-prod.appspot.com/o/annu-business/sitemap/sitemap.xml?alt=media&token=bfa65180-2571-48df-8291-e5b39dc4e1b9"
+        },
+        {
+          "source": "**",
+          "function": "ssrAppFn"
+        }
+      ]
+    }
+  ],
   "storage": {
     "rules": "storage.rules"
   },

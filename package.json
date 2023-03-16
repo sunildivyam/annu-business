@@ -1,20 +1,28 @@
 {
   "name": "annu-business",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+
+    "staging:serve:ssr": "cd firebase-deploy-setup/functions && node dist/annu-business/server/main.js",
+    "staging:build:ssr": "ng build --configuration staging && ng run annu-business:server:staging",
+
     "dev:ssr": "ng run annu-business:serve-ssr",
     "serve:ssr": "node firebase-deploy-setup/functions/dist/annu-business/server/main.js",
-    "firebase:ssr": "cd firebase-deploy-setup && firebase serve",
     "build:ssr": "ng build && ng run annu-business:server",
+
     "prerender": "ng run annu-business:prerender",
     "build:cordova": "ng build --base-href . --output-path=./cordova/www/",
-    "firebase:deploy:prod": "cd firebase-deploy-setup && firebase deploy -P annuadvent-prod",
-    "firebase:deploy:dev": "cd firebase-deploy-setup && firebase deploy -P default"
+
+    "firebase:ssr:staging": "cd firebase-deploy-setup && firebase use staging && firebase serve",
+    "firebase:ssr:prod": "cd firebase-deploy-setup  && firebase use production && firebase serve",
+
+    "firebase:deploy:prod": "npm run build:ssr && cd firebase-deploy-setup && firebase deploy -P production",
+    "firebase:deploy:staging": "npm run staging:build:ssr && cd firebase-deploy-setup && firebase deploy -P staging"
   },
   "private": true,
   "dependencies": {

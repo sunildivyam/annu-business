@@ -3,17 +3,18 @@
 // The list of file replacements can be found in `angular.json`.
 
 import { LibConfig } from '@annu/ng-lib';
-import { firebaseAppConfig, firebaseui, firebaseStoreConfig } from '../app/constants/firebase.config';
-import { appConfig } from '../app/constants/app.config';
-import { dashboardConfig } from '../app/constants/dashboard.config';
+import { firebaseAppConfig, firebaseui, firebaseStoreConfig } from '../app/constants/firebase.config.staging';
+import { appConfig } from '../app/constants/app.config.staging';
+import { dashboardConfig } from '../app/constants/dashboard.config.staging';
 
 export const environment = {
   production: false,
-  staging: false,
-  development: true,
+  staging: true,
+  development: false,
   appConfig,
   libConfig: {
-    apiBaseUrl: 'http://localhost:4200',
+    apiBaseUrl: 'https://annu-business.web.app',
+    // apiBaseUrl: 'http://localhost:5000',
     firebaseui: { ...firebaseui },
     firebase: { ...firebaseAppConfig, apiKey: '' },
     firebaseStoreConfig,
