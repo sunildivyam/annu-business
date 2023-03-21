@@ -36,8 +36,29 @@ exports.getSitemapXmlDownloadUrlFn = functions.https.onRequest(async (req, res) 
     const storage = Storage.getStorage();
     const bucket = storage.bucket();
     const file = bucket.file('sitemap.xml');
+    const fileExists = await file.exists();
 
-    const downloadUrl = await file.getSignedUrl({ action: 'read', expires: '2024-12-12' });
+    if (fileExists && fileExists.length && fileExists[0] === true) {
+        const [metadata] = await file.getMetadata();
 
-    res.status(200).send({ url: downloadUrl });
+        if (metadata && metadata.metadata && metadata.metadata.firebaseStorageDownloadTokens) {
+            const fileStream = file.createReadStream();
+            let xmlData = '';
+            fileStream.on('data', (chunk) => {
+                xmlData += chunk.toString();
+            });
+            fileStream.on('end', () => {
+                res.set('Content-Type', 'text/xml');
+                res.send(xmlData);
+            });
+
+            fileStream.on('error', () => {
+                res.status(500).send('Error Reading sitemap.xml file');
+            });
+        } else {
+            res.status(404).send('File not found');
+        }
+    } else {
+        res.status(404).send('File not found');
+    }
 });

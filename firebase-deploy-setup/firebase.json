@@ -19,7 +19,7 @@
   "hosting": [
     {
       "target": "staging",
-      "public": "functions/dist/annu-business",
+      "public": "functions/dist/annu-business/browser",
       "ignore": [
         "firebase.json",
         "**/.*",
@@ -38,7 +38,7 @@
     },
     {
       "target": "production",
-      "public": "functions/dist/annu-business",
+      "public": "functions/dist/annu-business/browser",
       "ignore": [
         "firebase.json",
         "**/.*",
@@ -47,7 +47,7 @@
       "rewrites": [
         {
           "source": "sitemap.xml",
-          "destination": "https://firebasestorage.googleapis.com/v0/b/annu-advent-prod.appspot.com/o/annu-business/sitemap/sitemap.xml?alt=media&token=bfa65180-2571-48df-8291-e5b39dc4e1b9"
+          "function": "getSitemapXmlDownloadUrlFn"
         },
         {
           "source": "**",
