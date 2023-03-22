@@ -56,6 +56,7 @@ JSON Contract:
 
 
 ## Allow CORS for storage bucket
+
 ### Step 1:
 Open Google Cloud Shell `https://console.cloud.google.com/welcome?project=annu-business&cloudshell=true`
 ### Step 2:
@@ -66,3 +67,35 @@ Run the following command in the Shell terminal
 ex.
 bucket name = annu-business.appspot.com (staging)
 bucket name = annuadvent-prod.appspot.com (production)
+
+### cors-prod.json
+[
+    {
+        "origin": [
+            "https://annuadvent-prod.web.app/",
+            "https://annuadvent-prod.firebaseapp.com/",
+            "https://annuadvent.com",
+            "https://www.annuadvent.com"
+        ],
+        "method": [
+            "GET"
+        ],
+        "maxAgeSeconds": 3600
+    }
+]
+
+
+### cors.json
+[
+    {
+        "origin": [
+            "http://localhost:*",
+            "https://annu-business.web.app/",
+            "https://annu-business.firebaseapp.com/"
+        ],
+        "method": [
+            "GET"
+        ],
+        "maxAgeSeconds": 3600
+    }
+]
