@@ -17,9 +17,9 @@ service firebase.storage {
       allow delete
     }
 
-  	match /annu-business/sitemap/sitemap.xml {
+  	match /sitemap.xml {
       // DEV: Only allow uploads of sitemap.xml
-      allow write, create, delete: if request.auth.admin == true;
+      allow write, create, delete: if request.auth.token.admin == true;
       allow read
     }
 

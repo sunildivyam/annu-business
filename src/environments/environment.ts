@@ -18,6 +18,7 @@ export const environment = {
     firebase: { ...firebaseAppConfig, apiKey: '' },
     firebaseStoreConfig,
     firestoreBaseApiUrl: 'https://firestore.googleapis.com/v1/projects/annu-business/databases/(default)/documents',
+    fireStorageBaseApiUrl: 'https://firebasestorage.googleapis.com/v0/b/annu-business.appspot.com/o',
   } as LibConfig,
   dashboardConfig,
 };

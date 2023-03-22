@@ -53,3 +53,16 @@ JSON Contract:
 **sitemapXmlComponent**
 
 * Provide an UI to trigger `sitemap.xml` generation. This should be visible to `Admin` role only.
+
+
+## Allow CORS for storage bucket
+### Step 1:
+Open Google Cloud Shell `https://console.cloud.google.com/welcome?project=annu-business&cloudshell=true`
+### Step 2:
+Create a file `cors.json` in the shell editor.
+### Step 3:
+Run the following command in the Shell terminal
+`gsutil cors set cors.json gs://[bucket name]`
+ex.
+bucket name = annu-business.appspot.com (staging)
+bucket name = annuadvent-prod.appspot.com (production)
