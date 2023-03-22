@@ -17,6 +17,12 @@ service firebase.storage {
       allow delete
     }
 
+  	match /sitemap.xml {
+      // DEV: Only allow uploads of sitemap.xml
+      allow write, create, delete: if request.auth.token.admin == true;
+      allow read
+    }
+
     match /annuadvent-prod/{imageId=**} {
       // PROD: Only allow uploads of any image file that's less than 1MB
       allow write, create: if request.resource.size < 1 * 1024 * 1024

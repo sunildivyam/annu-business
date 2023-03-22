@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
-  const website = environment.production ? 'dist/annu-business/browser' : 'firebase-deploy-setup/functions/dist/annu-business/browser';
+  const website = environment.development ? 'firebase-deploy-setup/functions/dist/annu-business/browser' : 'dist/annu-business/browser';
   const distFolder = join(process.cwd(), website);
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
@@ -38,10 +38,20 @@ export function app(): express.Express {
       const sitemapInfoFileUrl = join(distFolder, 'assets/sitemap-info.json');
       const xmlStr = req.body.xmlStr;
       const jsonStr = req.body.jsonStr
-      writeFile(sitemapFileUrl, xmlStr, () => {
-        writeFile(sitemapInfoFileUrl, jsonStr, () => {
-          res.send({ status: 200, message: 'Successfull' });
-        });
+      writeFile(sitemapFileUrl, xmlStr, (error) => {
+        if (error) {
+          console.log('ERROR WRITING sitemap.xml | ', error);
+          res.send({ status: 500, message: 'Failed: Something went wrong while writing sitemap xml' });
+        } else {
+          writeFile(sitemapInfoFileUrl, jsonStr, (error) => {
+            if (error) {
+              console.log('ERROR WRITING sitemap-info.json | ', error);
+              res.send({ status: 500, message: 'Failed: Something went wrong while writing sitemap json' });
+            } else {
+              res.send({ status: 200, message: 'Successfull' });
+            }
+          });
+        }
       })
     }
   });
