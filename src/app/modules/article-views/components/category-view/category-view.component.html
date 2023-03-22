@@ -1,5 +1,5 @@
-<div *ngIf="!route.firstChild" class="flex-container secondary-lighter-bg spacing spacing-around-vertical">
-    <anu-category *ngIf="category" [value]="category" [showMetaInfo]="false" [showShortTitle]="false">
+<div *ngIf="!route.firstChild" [style.background-image]="'url(' + category?.image?.src + ')'" class="category-container flex-container secondary-lighter-bg spacing spacing-around-vertical">
+    <anu-category class="category-card shadow primary-deep-light-bg" *ngIf="category" [value]="category" [showMetaInfo]="false" [showShortTitle]="false">
     </anu-category>
 </div>
 

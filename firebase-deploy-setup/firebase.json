@@ -16,20 +16,46 @@
       ]
     }
   ],
-  "hosting": {
-    "public": "functions/dist/annu-business",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "function": "ssrAppFn"
-      }
-    ]
-  },
+  "hosting": [
+    {
+      "target": "staging",
+      "public": "functions/dist/annu-business/browser",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "sitemap.xml",
+          "function": "getSitemapXmlDownloadUrlFn"
+        },
+        {
+          "source": "**",
+          "function": "ssrAppFn"
+        }
+      ]
+    },
+    {
+      "target": "production",
+      "public": "functions/dist/annu-business/browser",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "sitemap.xml",
+          "function": "getSitemapXmlDownloadUrlFn"
+        },
+        {
+          "source": "**",
+          "function": "ssrAppFn"
+        }
+      ]
+    }
+  ],
   "storage": {
     "rules": "storage.rules"
   },

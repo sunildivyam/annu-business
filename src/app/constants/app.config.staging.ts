@@ -28,7 +28,7 @@ export const appConfig: AppConfig = {
       "article:section": "business",
       "article:tag": "Annu Business, Business ideas, Start Business, New Business, Business Plan",
       "image": "image/url",
-      "url": "https://github.com/sunildivyam/annu-ng-lib",
+      "url": "https://annu-business.web.app",
       "card": "summary_large_image",
       "site_name": "Annu Business",
       "audio": "",

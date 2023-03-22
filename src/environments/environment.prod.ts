@@ -5,13 +5,17 @@ import { dashboardConfig } from "../app/constants/dashboard.config.prod";
 
 export const environment = {
   production: true,
+  staging: false,
+  development: false,
   appConfig,
   libConfig: {
-    apiBaseUrl: 'http://localhost:5000',  // This should be the hosted url
+    apiBaseUrl: 'https://www.annuadvent.com',  // When running prod on hosting server
+    // apiBaseUrl: 'http://localhost:5000',
     firebaseui: { ...firebaseui },
     firebase: { ...firebaseAppConfig, apiKey: '' },
     firebaseStoreConfig,
     firestoreBaseApiUrl: 'https://firestore.googleapis.com/v1/projects/annuadvent-prod/databases/(default)/documents',
+    fireStorageBaseApiUrl: 'https://firebasestorage.googleapis.com/v0/b/annuadvent-prod.appspot.com/o',
   } as LibConfig,
   dashboardConfig,
 };

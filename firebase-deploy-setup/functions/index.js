@@ -1,15 +1,14 @@
 const functions = require("firebase-functions");
 const universal = require('./dist/annu-business/server/main');
+const { initializeApp } = require('firebase-admin/app');
+const { getAuth } = require('firebase-admin/auth');
+const Storage = require('firebase-admin/storage');
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
 
 exports.ssrAppFn = functions.https.onRequest(universal.app());
-
-
-const { initializeApp } = require('firebase-admin/app');
-const { getAuth } = require('firebase-admin/auth');
 
 initializeApp();
 
@@ -28,5 +27,38 @@ exports.processSignUp = functions.auth.user().onCreate(async (user) => {
         } catch (error) {
             console.log(error);
         }
+    }
+});
+
+
+// Function to get rewrite url of sitemap.xml from store.
+exports.getSitemapXmlDownloadUrlFn = functions.https.onRequest(async (req, res) => {
+    const storage = Storage.getStorage();
+    const bucket = storage.bucket();
+    const file = bucket.file('sitemap.xml');
+    const fileExists = await file.exists();
+
+    if (fileExists && fileExists.length && fileExists[0] === true) {
+        const [metadata] = await file.getMetadata();
+
+        if (metadata && metadata.metadata && metadata.metadata.firebaseStorageDownloadTokens) {
+            const fileStream = file.createReadStream();
+            let xmlData = '';
+            fileStream.on('data', (chunk) => {
+                xmlData += chunk.toString();
+            });
+            fileStream.on('end', () => {
+                res.set('Content-Type', 'text/xml');
+                res.send(xmlData);
+            });
+
+            fileStream.on('error', () => {
+                res.status(500).send('Error Reading sitemap.xml file');
+            });
+        } else {
+            res.status(404).send('File not found');
+        }
+    } else {
+        res.status(404).send('File not found');
     }
 });
