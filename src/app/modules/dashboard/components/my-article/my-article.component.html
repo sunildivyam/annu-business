@@ -17,7 +17,8 @@
                     (isLiveClicked)="isLiveClicked($event)"
                     (inReviewClicked)="inReviewClicked($event)"
                     (saveClicked)="saveClicked($event)"
-                    (deleteClicked)="deleteClicked($event)">
+                    (deleteClicked)="deleteClicked($event)"
+                    (changed)="articleChanged($event)">
                     </anu-article-editor>
                 </ng-container>
                 <anu-error *ngIf="error" [code]="error.code" [message]="error.message"></anu-error>
