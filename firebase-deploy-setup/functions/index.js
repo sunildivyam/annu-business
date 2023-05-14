@@ -62,3 +62,30 @@ exports.getSitemapXmlDownloadUrlFn = functions.https.onRequest(async (req, res) 
         res.status(404).send('File not found');
     }
 });
+
+
+exports.getImageFn = functions.https.onRequest(async (request, response) => {
+  try {
+    const imageId = request.query.imageId; // Assuming the image ID is passed as a query parameter
+    const storage = Storage.getStorage();
+    const bucket = storage.bucket(); // Get the default Firebase Storage bucket
+
+    const file = bucket.file(imageId);
+    const fileExists = await file.exists();
+
+    if (!fileExists[0]) {
+      response.status(404).send('Image not found');
+      return;
+    }
+
+    // Set appropriate headers for the image response
+    response.set('Cache-Control', 'public, max-age=3600');
+    response.set('Content-Type', 'image/jpeg');
+
+    // Create a readable stream from the file and pipe it to the response
+    file.createReadStream().pipe(response);
+  } catch (error) {
+    console.error('Error retrieving image:', error);
+    response.status(500).send('An error occurred');
+  }
+});
