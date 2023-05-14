@@ -1,10 +1,11 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Article, Category, MetaService, PageCategoryGroup, MetaInfo, UtilsService } from '@annu/ng-lib';
 
 import { environment } from '../../../../../environments/environment';
 import { ARTICLE_VIEWS_ROUTE_RESOLVER_DATA_KEYS } from '../../constants/article-views.constants';
 import { CategoryViewRouteData } from '../../interfaces/article-views.interface';
+import { Subscription, filter } from 'rxjs';
 const { appConfig } = environment;
 
 @Component({
@@ -12,7 +13,7 @@ const { appConfig } = environment;
   templateUrl: './category-view.component.html',
   styleUrls: ['./category-view.component.scss']
 })
-export class CategoryViewComponent implements OnInit, OnDestroy {
+export class CategoryViewComponent implements OnInit,  OnDestroy {
   categoryId: string = '';
   category: Category | null | undefined = null;
   categoryArticles: Array<Article> = [];
@@ -25,6 +26,7 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
 
   error: any;
   errorAllCategories: any;
+  navigationEndSubscription: Subscription;
 
   constructor(
     public route: ActivatedRoute,
@@ -32,7 +34,8 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
     private router: Router,
     private utilsSvc: UtilsService,
     private ngZone: NgZone) {
-    this.route.data.subscribe((data) => this.initFromResolvedData(data))
+    this.route.data.subscribe((data) => this.initFromResolvedData(data));
+    this.navigationEndSubscription = this.router.events.pipe(filter(ev => ev instanceof NavigationEnd)).subscribe(() => this.setPageMeta());
   }
 
   ngOnInit(): void {
@@ -40,6 +43,7 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.navigationEndSubscription.unsubscribe();
   }
 
   private initFromResolvedData(data: any): void {
@@ -62,6 +66,10 @@ export class CategoryViewComponent implements OnInit, OnDestroy {
       this.pageCategoryGroups = [...categoryViewData?.pageCategoryGroups ?? [] as Array<PageCategoryGroup>];
     }
 
+    this.setPageMeta();
+  }
+
+  public setPageMeta(): void {
     if (!this.route.firstChild && this.category && this.category.id) {
       this.metaService.setPageMeta({ ...this.category?.metaInfo as MetaInfo, title: `${appConfig.metaInfo.title} - ${this.category?.metaInfo?.title}` });
     }

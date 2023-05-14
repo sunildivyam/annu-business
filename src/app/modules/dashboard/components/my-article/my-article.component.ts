@@ -188,4 +188,12 @@ export class MyArticleComponent implements OnInit, OnDestroy {
         this.loading = false;
       });
   }
+
+
+  public articleChanged(article: Article): void {
+    article.metaInfo.site_name = appConfig.metaInfo.title;
+    article.categories = article.categories || [];
+    const canonicalCategoryId = article.categories.length ? article.categories[0] : '';
+    article.metaInfo.url = `${environment.libConfig.apiBaseUrl}/${canonicalCategoryId}/${article.id}`;
+  }
 }
