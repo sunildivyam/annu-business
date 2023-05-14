@@ -54,6 +54,10 @@
           "function": "getSitemapXmlDownloadUrlFn"
         },
         {
+          "source": "getImage",
+          "function": "getImageFn"
+        },
+        {
           "source": "**",
           "function": "ssrAppFn"
         }
