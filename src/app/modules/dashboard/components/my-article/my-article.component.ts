@@ -195,6 +195,5 @@ export class MyArticleComponent implements OnInit, OnDestroy {
     article.categories = article.categories || [];
     const canonicalCategoryId = article.categories.length ? article.categories[0] : '';
     article.metaInfo.url = `${environment.libConfig.apiBaseUrl}/${canonicalCategoryId}/${article.id}`;
-    this.article = { ...article };
   }
 }
