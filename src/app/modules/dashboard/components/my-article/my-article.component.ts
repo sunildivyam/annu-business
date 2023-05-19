@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthFirebaseService, Article, Category, MetaService, ArticlesFirebaseHttpService, FIREBASE_AUTH_ROLES, CategoriesFirebaseHttpService, UtilsService } from '@annu/ng-lib';
+import { EditorElementData, EditorElement, OpenaiService, Html2JsonService, AuthFirebaseService, Article, Category, MetaService, ArticlesFirebaseHttpService, FIREBASE_AUTH_ROLES, CategoriesFirebaseHttpService, UtilsService, OpenaiPrompt } from '@annu/ng-lib';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 const { appConfig } = environment;
@@ -29,6 +29,10 @@ export class MyArticleComponent implements OnInit, OnDestroy {
   showModal: boolean = false;
   imageHelpText: string = '';
 
+  //Open Ai
+  openaiPrompts: Array<OpenaiPrompt> = [];
+  showOpenAi: boolean = false;
+
   constructor(
     private articlesHttp: ArticlesFirebaseHttpService,
     private categoriesHttp: CategoriesFirebaseHttpService,
@@ -36,7 +40,9 @@ export class MyArticleComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private utilsSvc: UtilsService,
-    private metaService: MetaService) {
+    private metaService: MetaService,
+    private openaiService: OpenaiService,
+    private html2jsonService: Html2JsonService) {
     this.imageHelpText = this.utilsSvc.getImageSpecsString(imageSpecs);
     this.paramsSubscription = this.route.params.subscribe(async (params) => {
       this.error = null;
@@ -195,5 +201,39 @@ export class MyArticleComponent implements OnInit, OnDestroy {
     article.categories = article.categories || [];
     const canonicalCategoryId = article.categories.length ? article.categories[0] : '';
     article.metaInfo.url = `${environment.libConfig.apiBaseUrl}/${canonicalCategoryId}/${article.id}`;
+  }
+
+  public openAiClick(prompts: Array<OpenaiPrompt>): void {
+    this.openaiPrompts = this.utilsSvc.deepCopy(prompts);
+    this.getOpenaiPromptResults();
+  }
+
+  public async getOpenaiPromptResults(): Promise<void> {
+    this.loading = true;
+    let currentPrompt = this.openaiPrompts[this.openaiPrompts.length - 1];
+    const mdStr = await this.openaiService.getChatResponse(this.openaiPrompts.map(p => p.prompt));
+    this.loading = false;
+    const htmlStr = this.html2jsonService.md2html(mdStr);
+    const jsonEl: EditorElement = this.html2jsonService.html2json(htmlStr);
+
+    this.article.body.children = [].concat(this.article.body.children, [this.createHeadingFromPrompt(currentPrompt.prompt)], jsonEl.children);
+    this.article = {...this.article};
+
+    currentPrompt = {...currentPrompt, message: {mdText: mdStr, htmlText: htmlStr, jsonText: JSON.stringify(jsonEl, null, '\t')}};
+    this.openaiPrompts[this.openaiPrompts.length - 1] = currentPrompt;
+    this.openaiPrompts = [...this.openaiPrompts];
+    return;
+  }
+
+  private createHeadingFromPrompt(promptText: string): EditorElement {
+    const editorEl: EditorElement = {
+      name: `h2-${Date.now()}`,
+      tagName: 'h2',
+      isContainer: false,
+      focused: false,
+      data: { text: promptText} as EditorElementData
+    }
+
+    return editorEl;
   }
 }

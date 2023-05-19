@@ -4,7 +4,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { MyCategoriesComponent } from './components/my-categories/my-categories.component';
 import { MyArticlesComponent } from './components/my-articles/my-articles.component';
 import { RouterModule } from '@angular/router';
-import { CardModule, CategoryEditorModule, CategoryModule, ArticleModule, ArticleEditorModule, ArticleListModule, ErrorModule, SearchBoxModule, SpinnerModule, TabsModule, ModalModule, ToggleModule, MultiSelectBoxModule, CollapsibleModule, FiltersModule } from '@annu/ng-lib';
+import { CardModule, CategoryEditorModule, CategoryModule, ArticleModule, ArticleEditorModule, ArticleListModule, ErrorModule, SearchBoxModule, SpinnerModule, TabsModule, ModalModule, ToggleModule, MultiSelectBoxModule, CollapsibleModule, FiltersModule, OpenaiFormModule } from '@annu/ng-lib';
 import { MyCategoryComponent } from './components/my-category/my-category.component';
 import { MyArticleComponent } from './components/my-article/my-article.component';
 import { FormsModule } from '@angular/forms';
@@ -40,6 +40,7 @@ import { MyCategoriesViewRouteResolver } from './services/my-categories-view-rou
     MultiSelectBoxModule,
     CollapsibleModule,
     FiltersModule,
+    OpenaiFormModule,
   ],
   exports: [
     DashboardComponent,

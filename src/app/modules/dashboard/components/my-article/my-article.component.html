@@ -1,4 +1,12 @@
 <div class="flex-container spacing-around-vertical">
+    <div class="row right" *ngIf="!isNewArticlePage">
+        <a href="javascript:void(0)" (click)="showOpenAi = !showOpenAi">Open AI</a>
+    </div>
+    <div class="row" *ngIf="showOpenAi && !isNewArticlePage">
+        <div class="left col-12">
+            <anu-openai-form [showHistory]="isAdmin" class="col-12" [prompts]="openaiPrompts" (goClicked)="openAiClick($event)"></anu-openai-form>
+        </div>
+    </div>
     <div class="left col-12">
         <anu-card class="form-body col-12 spacing-lg relative">
             <anu-card-body>
