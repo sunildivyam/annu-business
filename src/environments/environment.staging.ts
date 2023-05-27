@@ -6,6 +6,7 @@ import { LibConfig } from '@annu/ng-lib';
 import { firebaseAppConfig, firebaseui, firebaseStoreConfig } from '../app/constants/firebase.config.staging';
 import { appConfig } from '../app/constants/app.config.staging';
 import { dashboardConfig } from '../app/constants/dashboard.config.staging';
+import { openaiConfig } from '../app/constants/openai.config.staging';
 
 export const environment = {
   production: false,
@@ -20,6 +21,7 @@ export const environment = {
     firebaseStoreConfig,
     firestoreBaseApiUrl: 'https://firestore.googleapis.com/v1/projects/annu-business/databases/(default)/documents',
     fireStorageBaseApiUrl: 'https://firebasestorage.googleapis.com/v0/b/annu-business.appspot.com/o',
+    openaiConfig: { ...openaiConfig, apiKey: '' },
   } as LibConfig,
   dashboardConfig,
 };

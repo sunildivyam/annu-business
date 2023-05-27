@@ -1,6 +1,6 @@
 {
   "name": "annu-business",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -32,7 +32,7 @@
     "@angular/platform-browser-dynamic": "^15.0.0",
     "@angular/platform-server": "^15.0.0",
     "@angular/router": "^15.0.0",
-    "@annubiz/ng-lib": "file:../annu-ng-lib/dist/annu-ng-lib",
+    "@annubiz/ng-lib": "^1.0.8",
     "@nguniversal/express-engine": "^15.0.0",
     "body-parser": "^1.20.2",
     "express": "^4.15.2",
