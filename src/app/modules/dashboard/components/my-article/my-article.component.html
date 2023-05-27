@@ -1,28 +1,32 @@
 <div class="flex-container spacing-around-vertical">
-    <div class="row right">
-        <div class="col-sm-12 col-6 left" *ngIf="isNewArticlePage">
-            <a href="javascript:void(0)" (click)="showOpenAiAutogenerate = !showOpenAiAutogenerate">Auto generate Article</a>
-        </div>
-        <div class="col-sm-12 col-6 right">
-            <a href="javascript:void(0)" (click)="showOpenAi = !showOpenAi">Open AI</a>
-        </div>
-    </div>
-    <div class="row" *ngIf="showOpenAiAutogenerate">
-        <div class="left col-12">
-            <div *ngIf="autoGenerateLoading" class="col-12">
-                <label>{{autoGenerateTimeEllapsed}} s / {{autoGenerateExpectedTimeToFinish}} s</label>
-                <label>Generating article...</label>
+    <ng-container *ngIf="isAdmin">
+        <div class="row right">
+            <div class="col-sm-12 col-6 left" *ngIf="isNewArticlePage">
+                <a href="javascript:void(0)" (click)="showOpenAiAutogenerate = !showOpenAiAutogenerate">Auto generate
+                    Article</a>
             </div>
-            <anu-openai-form *ngIf="!autoGenerateLoading" [showHistory]="false" class="col-12" [prompts]="openaiPromptsToAutogenerate"
-                (goClicked)="openAiAutogenerateClick($event)"></anu-openai-form>
+            <div class="col-sm-12 col-6 right">
+                <a href="javascript:void(0)" (click)="showOpenAi = !showOpenAi">Open AI</a>
+            </div>
         </div>
-    </div>
-    <div class="row" *ngIf="showOpenAi">
-        <div class="left col-12">
-            <anu-openai-form [showHistory]="isAdmin" class="col-12" [prompts]="openaiPrompts"
-                (goClicked)="openAiClick($event)"></anu-openai-form>
+        <div class="row" *ngIf="showOpenAiAutogenerate">
+            <div class="left col-12">
+                <div *ngIf="autoGenerateLoading" class="col-12">
+                    <label>{{autoGenerateTimeEllapsed}} s / {{autoGenerateExpectedTimeToFinish}} s</label>
+                    <label>Generating article...</label>
+                </div>
+                <anu-openai-form *ngIf="!autoGenerateLoading" [showHistory]="false" class="col-12"
+                    [prompts]="openaiPromptsToAutogenerate"
+                    (goClicked)="openAiAutogenerateClick($event)"></anu-openai-form>
+            </div>
         </div>
-    </div>
+        <div class="row" *ngIf="showOpenAi">
+            <div class="left col-12">
+                <anu-openai-form [showHistory]="isAdmin" class="col-12" [prompts]="openaiPrompts"
+                    (goClicked)="openAiClick($event)"></anu-openai-form>
+            </div>
+        </div>
+    </ng-container>
     <div class="left col-12">
         <anu-card class="form-body col-12 spacing-lg relative">
             <anu-card-body>
