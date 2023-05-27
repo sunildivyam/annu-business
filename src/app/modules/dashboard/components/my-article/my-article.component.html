@@ -1,24 +1,39 @@
 <div class="flex-container spacing-around-vertical">
+    <div class="row right">
+        <div class="col-sm-12 col-6 left" *ngIf="isNewArticlePage">
+            <a href="javascript:void(0)" (click)="showOpenAiAutogenerate = !showOpenAiAutogenerate">Auto generate Article</a>
+        </div>
+        <div class="col-sm-12 col-6 right">
+            <a href="javascript:void(0)" (click)="showOpenAi = !showOpenAi">Open AI</a>
+        </div>
+    </div>
+    <div class="row" *ngIf="showOpenAiAutogenerate">
+        <div class="left col-12">
+            <div *ngIf="autoGenerateLoading" class="col-12">
+                <label>{{autoGenerateTimeEllapsed}} s / {{autoGenerateExpectedTimeToFinish}} s</label>
+                <label>Generating article...</label>
+            </div>
+            <anu-openai-form *ngIf="!autoGenerateLoading" [showHistory]="false" class="col-12" [prompts]="openaiPromptsToAutogenerate"
+                (goClicked)="openAiAutogenerateClick($event)"></anu-openai-form>
+        </div>
+    </div>
+    <div class="row" *ngIf="showOpenAi">
+        <div class="left col-12">
+            <anu-openai-form [showHistory]="isAdmin" class="col-12" [prompts]="openaiPrompts"
+                (goClicked)="openAiClick($event)"></anu-openai-form>
+        </div>
+    </div>
     <div class="left col-12">
         <anu-card class="form-body col-12 spacing-lg relative">
             <anu-card-body>
                 <ng-container *ngIf="found">
-                    <anu-article-editor
-                    [categories]="categories"
-                    [value]="article"
-                    [enableDelete]="isAdmin && !isNewArticlePage"
-                    [enablePublish]="isAdmin && !isNewArticlePage"
-                    [enableUniqueId]="postfixUniqueId"
-                    [enableReadonlyIdToggle]="isAdmin"
-                    [enableFeatures]="isAdmin"
-                    [imageHelpText]="imageHelpText"
-                    [readonlyId]="true"
-                    [readonlyTitle]="!isNewArticlePage"
-                    (isLiveClicked)="isLiveClicked($event)"
-                    (inReviewClicked)="inReviewClicked($event)"
-                    (saveClicked)="saveClicked($event)"
-                    (deleteClicked)="deleteClicked($event)"
-                    (changed)="articleChanged($event)">
+                    <anu-article-editor [categories]="categories" [value]="article"
+                        [enableDelete]="isAdmin && !isNewArticlePage" [enablePublish]="isAdmin && !isNewArticlePage"
+                        [enableUniqueId]="postfixUniqueId" [enableReadonlyIdToggle]="isAdmin" [enableFeatures]="isAdmin"
+                        [imageHelpText]="imageHelpText" [readonlyId]="true" [readonlyTitle]="!isNewArticlePage"
+                        (isLiveClicked)="isLiveClicked($event)" (inReviewClicked)="inReviewClicked($event)"
+                        (saveClicked)="saveClicked($event)" (deleteClicked)="deleteClicked($event)"
+                        (changed)="articleChanged($event)">
                     </anu-article-editor>
                 </ng-container>
                 <anu-error *ngIf="error" [code]="error.code" [message]="error.message"></anu-error>
@@ -29,13 +44,7 @@
 </div>
 
 <!-- Modal Confirmation box -->
-<anu-modal
-	[enableCancel]="true"
-	[enableClose]="true"
-	[enableOk]="true"
-	[opened]="showModal"
-	[title]="'Delete Confirmation'"
-    (cancelClick)="deleteCancelled()"
-    (okClick)="deleteConfirmed()">
-	<p>Article will be deleted permanently and you will not be able to recover. Are you sure to continue?</p>
+<anu-modal [enableCancel]="true" [enableClose]="true" [enableOk]="true" [opened]="showModal"
+    [title]="'Delete Confirmation'" (cancelClick)="deleteCancelled()" (okClick)="deleteConfirmed()">
+    <p>Article will be deleted permanently and you will not be able to recover. Are you sure to continue?</p>
 </anu-modal>

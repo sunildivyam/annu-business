@@ -182,6 +182,9 @@ export class MyCategoryComponent implements OnInit, OnDestroy {
 
   public categoryChanged(category: Category): void {
     category.metaInfo.site_name = appConfig.metaInfo.title;
+    category.metaInfo['article:author'] = category.metaInfo['article:author'] || appConfig.metaInfo['article:author'];
+    category.metaInfo.author = category.metaInfo.author || appConfig.metaInfo.author;
+    category.metaInfo.image = category.image?.src || '';
     category.metaInfo.url = `${environment.libConfig.apiBaseUrl}/${category.id}`;
   }
 }

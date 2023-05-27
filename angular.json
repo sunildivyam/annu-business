@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": ["prismjs","buffer", "stream", "xml-js"],
+            "allowedCommonJsDependencies": ["prismjs","buffer", "stream", "xml-js", "showdown", "openai"],
             "outputPath": "firebase-deploy-setup/functions/dist/annu-business/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
