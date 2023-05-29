@@ -10,7 +10,8 @@ import { MyArticleComponent } from './components/my-article/my-article.component
 import { FormsModule } from '@angular/forms';
 import { MyArticlesViewRouteResolver } from './services/my-articles-view-route-resolver/my-articles-view-route.resolver';
 import { MyCategoriesViewRouteResolver } from './services/my-categories-view-route-resolver/my-categories-view-route.resolver';
-
+import { OpenaiArticlesComponent } from './components/openai-articles/openai-articles.component';
+import { OpenaiAutoArticlesModule } from '@annu/ng-lib';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { MyCategoriesViewRouteResolver } from './services/my-categories-view-rou
     MyArticlesComponent,
     MyCategoryComponent,
     MyArticleComponent,
+    OpenaiArticlesComponent,
   ],
   imports: [
     CommonModule,
@@ -41,6 +43,7 @@ import { MyCategoriesViewRouteResolver } from './services/my-categories-view-rou
     CollapsibleModule,
     FiltersModule,
     OpenaiFormModule,
+    OpenaiAutoArticlesModule,
   ],
   exports: [
     DashboardComponent,
@@ -48,6 +51,7 @@ import { MyCategoriesViewRouteResolver } from './services/my-categories-view-rou
     MyArticlesComponent,
     MyCategoryComponent,
     MyArticleComponent,
+    OpenaiArticlesComponent,
   ],
   providers:[
     MyArticlesViewRouteResolver,

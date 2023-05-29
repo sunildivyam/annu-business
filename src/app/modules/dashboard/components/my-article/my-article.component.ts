@@ -276,7 +276,7 @@ export class MyArticleComponent implements OnInit, OnDestroy {
       } else {
         const currentPrompt = this.openaiPrompts[this.openaiPrompts.length - 1];
         if (
-          [OpenaiPromptType.Keywords, OpenaiPromptType.description].includes(
+          [OpenaiPromptType.keywords, OpenaiPromptType.description].includes(
             currentPrompt.promptType
           )
         ) {
@@ -287,7 +287,7 @@ export class MyArticleComponent implements OnInit, OnDestroy {
     } else {
       const currentPrompt = this.openaiPrompts[this.openaiPrompts.length - 1];
       if (
-        [OpenaiPromptType.Keywords, OpenaiPromptType.description].includes(
+        [OpenaiPromptType.keywords, OpenaiPromptType.description].includes(
           currentPrompt.promptType
         )
       ) {
@@ -324,7 +324,7 @@ export class MyArticleComponent implements OnInit, OnDestroy {
           this.article.metaInfo.description = el.data?.text;
         }
       });
-    } else if (currentPrompt.promptType === OpenaiPromptType.Keywords) {
+    } else if (currentPrompt.promptType === OpenaiPromptType.keywords) {
       // For keywrds type, fill only article keywords.
       const keyWords: Array<string> = [];
       jsonEl.children.forEach((el) => {

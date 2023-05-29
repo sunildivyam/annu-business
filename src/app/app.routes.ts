@@ -21,6 +21,7 @@ import {
   MyArticlesViewRouteResolver,
 } from './modules/dashboard';
 import { SitemapComponent } from "./modules/app-core/components/sitemap/sitemap.component";
+import { OpenaiArticlesComponent } from "./modules/dashboard/components/openai-articles/openai-articles.component";
 
 const { appConfig } = environment;
 const DEFAULT_PAGE_SIZE = appConfig.defaultPageSize;
@@ -105,6 +106,17 @@ export const routes: Routes = [
         component: SitemapComponent,
         data: {
           title: 'Manage Sitemap',
+          redirectUrl: '/unauthorized'
+        },
+        runGuardsAndResolvers: 'always',
+        canActivate: [RoleAdminGuard],
+        canActivateChild: [RoleAdminGuard],
+      },
+      {
+        path: 'openai-articles',
+        component: OpenaiArticlesComponent,
+        data: {
+          title: 'Create Articles',
           redirectUrl: '/unauthorized'
         },
         runGuardsAndResolvers: 'always',

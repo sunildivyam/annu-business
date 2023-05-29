@@ -48,4 +48,14 @@ export const dashboardMyCategoryMetaInfo = {
 	"title": "Manage category",
 };
 
-export const dashboardConfig: DashboardConfig = { dashboardMetaInfo, dashboardMyArticleMetaInfo, dashboardMyArticlesMetaInfo, dashboardMyCategoriesMetaInfo, dashboardMyCategoryMetaInfo };
+
+export const openaiArticlesMetaInfo = {
+	...dashboardMetaInfo,
+	"title": "Openai Articles",
+	"description": "Autogenerates Articles",
+	"keywords": "my dashboard, add article, new article, write article, Auto article",
+	"article:tag": "my dashboard, add article, new article, write article",
+};
+
+
+export const dashboardConfig: DashboardConfig = { dashboardMetaInfo, dashboardMyArticleMetaInfo, dashboardMyArticlesMetaInfo, dashboardMyCategoriesMetaInfo, dashboardMyCategoryMetaInfo, openaiArticlesMetaInfo };

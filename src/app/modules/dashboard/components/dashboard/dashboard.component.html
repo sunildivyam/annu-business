@@ -54,6 +54,21 @@
             </anu-card-footer>
         </anu-card>
 
+        <!--Manage Open ai articles-->
+        <anu-card *ngIf="isAdmin" class="col-sm-12 col-md-6 col-lg-4 shadow spacing" [routerLinkActive]="'active'">
+            <anu-card-title>
+                <h2>Autogenerate Articles</h2>
+            </anu-card-title>
+            <anu-card-body>
+                Auto generate articles using Openai
+            </anu-card-body>
+            <anu-card-footer>
+                <div class="container right">
+                    <a [routerLink]="['openai-articles']">Openai Articles</a>
+                </div>
+            </anu-card-footer>
+        </anu-card>
+
         <!--User with no roles-->
         <anu-card *ngIf="!isAdmin && !isAuthor" class="col-12 shadow spacing" [routerLinkActive]="'active'">
             <anu-card-title>

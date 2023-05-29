@@ -6,4 +6,5 @@ export interface DashboardConfig {
     dashboardMyCategoriesMetaInfo?: MetaInfo;
     dashboardMyArticleMetaInfo?: MetaInfo;
     dashboardMyCategoryMetaInfo?: MetaInfo;
+    openaiArticlesMetaInfo?: MetaInfo;
 };
