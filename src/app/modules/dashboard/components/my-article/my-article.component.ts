@@ -16,6 +16,7 @@ import {
   OpenaiPrompt,
   OpenaiPromptType,
   ArticleEditorService,
+  LibConfig,
 } from '@annu/ng-lib';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
@@ -70,7 +71,8 @@ export class MyArticleComponent implements OnInit, OnDestroy {
     private metaService: MetaService,
     private openaiService: OpenaiService,
     private html2jsonService: Html2JsonService,
-    private articleEditorService: ArticleEditorService
+    private articleEditorService: ArticleEditorService,
+    private libConfig: LibConfig,
   ) {
     this.imageHelpText = this.utilsSvc.getImageSpecsString(imageSpecs);
     this.paramsSubscription = this.route.params.subscribe(async (params) => {
@@ -258,7 +260,7 @@ export class MyArticleComponent implements OnInit, OnDestroy {
     const canonicalCategoryId = article.categories.length
       ? article.categories[0]
       : '';
-    article.metaInfo.url = `${environment.libConfig.apiBaseUrl}/${canonicalCategoryId}/${article.id}`;
+    article.metaInfo.url = this.utilsSvc.getCanonicalUrl(this.libConfig,canonicalCategoryId,article.id);
   }
 
   public openAiClick(prompts: Array<OpenaiPrompt>): void {

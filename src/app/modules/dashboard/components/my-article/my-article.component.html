@@ -31,7 +31,7 @@
         <anu-card class="form-body col-12 spacing-lg relative">
             <anu-card-body>
                 <ng-container *ngIf="found">
-                    <anu-article-editor [categories]="categories" [value]="article"
+                    <anu-article-editor [categories]="categories" [value]="article" [enableOpenai]="isAdmin"
                         [enableDelete]="isAdmin && !isNewArticlePage" [enablePublish]="isAdmin && !isNewArticlePage"
                         [enableUniqueId]="postfixUniqueId" [enableReadonlyIdToggle]="isAdmin" [enableFeatures]="isAdmin"
                         [imageHelpText]="imageHelpText" [readonlyId]="true" [readonlyTitle]="!isNewArticlePage"
