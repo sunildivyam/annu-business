@@ -12,6 +12,7 @@ export const environment = {
   libConfig: {
     apiBaseUrl: 'https://www.annuadvent.com',  // When running prod on hosting server
     // apiBaseUrl: 'http://localhost:5000',
+    imagesSourceUrl: '/getImage?imageId=',
     firebaseui: { ...firebaseui },
     firebase: { ...firebaseAppConfig, apiKey: '' },
     firebaseStoreConfig,

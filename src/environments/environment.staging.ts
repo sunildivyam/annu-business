@@ -16,6 +16,7 @@ export const environment = {
   libConfig: {
     apiBaseUrl: 'https://annu-business.web.app',
     // apiBaseUrl: 'http://localhost:5000',
+    imagesSourceUrl: '/getImage?imageId=',
     firebaseui: { ...firebaseui },
     firebase: { ...firebaseAppConfig, apiKey: '' },
     firebaseStoreConfig,

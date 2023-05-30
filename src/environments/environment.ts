@@ -15,6 +15,7 @@ export const environment = {
   appConfig,
   libConfig: {
     apiBaseUrl: 'http://localhost:4200',
+    imagesSourceUrl: '/getImage?imageId=',
     firebaseui: { ...firebaseui },
     firebase: { ...firebaseAppConfig, apiKey: '' },
     firebaseStoreConfig,
