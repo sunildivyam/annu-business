@@ -1,9 +1,5 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import {
-  Resolve,
-  RouterStateSnapshot,
-  ActivatedRouteSnapshot
-} from '@angular/router';
+import { RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { ArticlesHomeViewRouteData } from '../../interfaces/article-views.interface';
 
 import { CategoriesFirebaseHttpService } from '@annubiz/ng-lib';
@@ -24,7 +20,7 @@ const DEFAULT_PAGE_SIZE = 5;
  * @implements {Resolve<ArticlesHomeViewRouteData>}
  */
 @Injectable()
-export class ArticlesHomeViewRouteResolver implements Resolve<ArticlesHomeViewRouteData> {
+export class ArticlesHomeViewRouteResolver  {
   pageSize: number = DEFAULT_PAGE_SIZE;
 
   constructor(

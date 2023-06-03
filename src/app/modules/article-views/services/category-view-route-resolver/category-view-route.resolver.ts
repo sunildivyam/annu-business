@@ -1,9 +1,5 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import {
-  Resolve,
-  RouterStateSnapshot,
-  ActivatedRouteSnapshot
-} from '@angular/router';
+import { RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { CategoryViewRouteData, ArticlesHomeViewRouteData, PageDirection } from '../../interfaces/article-views.interface';
 
 import { CategoriesFirebaseHttpService, CategoryFeatures, UtilsService } from '@annubiz/ng-lib';
@@ -27,7 +23,7 @@ const DEFAULT_PAGE_SIZE = 5;
  * @implements {Resolve<CategoryViewRouteData>}
  */
 @Injectable()
-export class CategoryViewRouteResolver implements Resolve<CategoryViewRouteData> {
+export class CategoryViewRouteResolver  {
 
   constructor(
     private categoriesFireHttp: CategoriesFirebaseHttpService,
