@@ -13,7 +13,7 @@
     <div class="flex-container primary-darkest-bg spacing-around-vertical">
         <div class="row">
             <anu-card *ngFor="let cat of featuredCategories"
-                class="stretch shadow border-round spacing spacing-around-vertical primary-deep-dark-bg col-lg-3 col-md-6 col-sm-6">
+                class="stretch shadow border-round spacing-around-vertical primary-deep-dark-bg col-lg-3 col-md-6 col-sm-6">
                 <anu-card-image class="center">
                     <div class="primary-normal-bg shadow">
                         <a [routerLink]="['./', cat?.id]">
@@ -21,7 +21,7 @@
                         </a>
                     </div>
                 </anu-card-image>
-                <anu-card-title class="spacing-around-vertical">
+                <anu-card-title class="">
 
                 </anu-card-title>
                 <anu-card-body class="center text-center featured-card-body">
@@ -53,9 +53,10 @@
                     <div class="flex-container spacing-around-vertical">
                         <div class="col-12">
                             <div *ngFor="let art of pageCatGroup?.pageArticles?.articles" class="category-articles">
-                                <anu-article [value]="art" [showMetaInfo]="false"
+                                <anu-article [value]="art" [showMetaInfo]="false" [isRowLayout]="false"
                                     [descriptionCharCount]="descriptionCharCount"
                                     [readMoreHref]="['./', pageCatGroup?.category?.id || '', art.id || '']"
+                                    [readMoreLabel]="'Click to read full article- ' + art.metaInfo?.title"
                                     [titleHref]="['./', pageCatGroup?.category?.id || '', art.id || '']"></anu-article>
                             </div>
                         </div>
@@ -64,8 +65,8 @@
                 <anu-card-footer>
                     <div class="flex-container">
                         <div class="col-12 center">
-                            <h4>Read more on - <a
-                                    [routerLink]="['./', pageCatGroup?.category?.id]">{{pageCatGroup?.category?.metaInfo?.title}}</a>
+                            <h4><a [routerLink]="['./', pageCatGroup?.category?.id]">Click to read more related articles
+                                    on <strong>{{pageCatGroup?.category?.metaInfo?.title}}</strong></a>
                             </h4>
                         </div>
                     </div>

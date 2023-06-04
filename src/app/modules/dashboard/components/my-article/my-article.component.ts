@@ -17,6 +17,7 @@ import {
   OpenaiPromptType,
   ArticleEditorService,
   LibConfig,
+  OPENAI_ID_PHRASES,
 } from '@annu/ng-lib';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
@@ -72,7 +73,7 @@ export class MyArticleComponent implements OnInit, OnDestroy {
     private openaiService: OpenaiService,
     private html2jsonService: Html2JsonService,
     private articleEditorService: ArticleEditorService,
-    private libConfig: LibConfig,
+    private libConfig: LibConfig
   ) {
     this.imageHelpText = this.utilsSvc.getImageSpecsString(imageSpecs);
     this.paramsSubscription = this.route.params.subscribe(async (params) => {
@@ -255,12 +256,6 @@ export class MyArticleComponent implements OnInit, OnDestroy {
       appConfig.metaInfo['article:author'];
     article.metaInfo.author =
       article.metaInfo.author || appConfig.metaInfo.author;
-
-    article.categories = article.categories || [];
-    const canonicalCategoryId = article.categories.length
-      ? article.categories[0]
-      : '';
-    article.metaInfo.url = this.utilsSvc.getCanonicalUrl(this.libConfig,canonicalCategoryId,article.id);
   }
 
   public openAiClick(prompts: Array<OpenaiPrompt>): void {
@@ -447,5 +442,12 @@ export class MyArticleComponent implements OnInit, OnDestroy {
       this.autoGenerateTimeEllapsed =
         (Date.now() - this.autoGenerateStartTime) / 1000;
     }, 1000);
+  }
+
+  public cleanAndFormatBody(): void {
+    this.article.body = this.articleEditorService.cleanEditorEl(
+      this.article.body,
+      OPENAI_ID_PHRASES
+    );
   }
 }

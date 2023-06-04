@@ -16,7 +16,6 @@ export class MyArticlesViewRouteResolver  {
       } else {
         return await this.articlessFireHttp.getUsersOnePageShallowArticles(this.authFireService.getCurrentUserId(), null);
       }
-
     }
 
     return null;

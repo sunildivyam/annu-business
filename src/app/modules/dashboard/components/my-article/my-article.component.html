@@ -1,12 +1,16 @@
 <div class="flex-container spacing-around-vertical">
     <ng-container *ngIf="isAdmin">
         <div class="row right">
-            <div class="col-sm-12 col-6 left" *ngIf="isNewArticlePage">
+            <div class="col-sm-12 col-4 left" *ngIf="isNewArticlePage">
                 <a href="javascript:void(0)" (click)="showOpenAiAutogenerate = !showOpenAiAutogenerate">Auto generate
                     Article</a>
             </div>
-            <div class="col-sm-12 col-6 right">
+            <div class="col-sm-12 col-4 center">
                 <a href="javascript:void(0)" (click)="showOpenAi = !showOpenAi">Open AI</a>
+            </div>
+            <div class="col-sm-12 col-4 right">
+                <a href="javascript:void(0)" (click)="showOpenAi = !showOpenAi">Open AI</a>
+                <a href="javascript:void(0)" (click)="cleanAndFormatBody()">Open AI Clean article</a>
             </div>
         </div>
         <div class="row" *ngIf="showOpenAiAutogenerate">

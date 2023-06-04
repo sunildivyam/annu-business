@@ -1,13 +1,13 @@
-<div class="flex-container spacing-around-vertical">
+<div class="flex-container">
     <h1 class="col-12 left">My Dashboard</h1>
 </div>
 
-<div *ngIf="!route.firstChild" class="flex-container secondary-lighter-bg spacing-around-vertical">
+<div *ngIf="!route.firstChild" class="flex-container secondary-lighter-bg">
     <div class="left col-12">
         <p>Manage your profile and authored articles.</p>
     </div>
 </div>
-<div class="flex-container spacing-around-vertical">
+<div class="flex-container">
     <div class="row" *ngIf="!route.firstChild">
         <!--My Articles-->
         <anu-card *ngIf="isAuthor" class="col-sm-12 col-md-6 col-lg-4 shadow spacing" [routerLinkActive]="'active'">
@@ -98,12 +98,9 @@
                 <div class="flex-container spacing-around-vertical">
                     <div class="col-12">
                         <div *ngFor="let art of helpArticles" class="category-articles">
-                            <anu-article [value]="art"
-                            [showMetaInfo]="false"
-                            [showDescription]="true"
-                            [descriptionCharCount]="300"
-                            [titleHref]="['../', 'help-docs', art.id || '']"
-                            [readMoreHref]="['../', 'help-docs', art.id || '']"></anu-article>
+                            <anu-article [value]="art" [showMetaInfo]="false" [showDescription]="true"
+                                [descriptionCharCount]="300" [titleHref]="['../', 'help-docs', art.id || '']"
+                                [readMoreHref]="['../', 'help-docs', art.id || '']"></anu-article>
                         </div>
                     </div>
                 </div>
