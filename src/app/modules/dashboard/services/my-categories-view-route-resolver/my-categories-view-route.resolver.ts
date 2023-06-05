@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
-import {
-  Resolve,
-  RouterStateSnapshot,
-  ActivatedRouteSnapshot
-} from '@angular/router';
+import { RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { CategoriesFirebaseHttpService, PageCategories, AuthFirebaseService, FIREBASE_AUTH_ROLES } from '@annubiz/ng-lib';
 
 
 
 @Injectable()
-export class MyCategoriesViewRouteResolver implements Resolve<PageCategories> {
+export class MyCategoriesViewRouteResolver  {
   constructor(private categoriesFireHttp: CategoriesFirebaseHttpService, private authFireService: AuthFirebaseService) { }
 
   async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<PageCategories> {

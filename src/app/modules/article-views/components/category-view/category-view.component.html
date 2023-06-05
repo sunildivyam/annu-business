@@ -1,5 +1,7 @@
-<div *ngIf="!route.firstChild" [style.background-image]="'url(' + category?.image?.src + ')'" class="category-container flex-container secondary-lighter-bg spacing spacing-around-vertical">
-    <anu-category class="category-card shadow primary-deep-light-bg" *ngIf="category" [value]="category" [showMetaInfo]="false" [showShortTitle]="false">
+<div *ngIf="!route.firstChild" [style.background-image]="'url(' + category?.image?.src + ')'"
+    class="category-container flex-container secondary-lighter-bg spacing spacing-around-vertical">
+    <anu-category class="category-card shadow primary-deep-light-bg" *ngIf="category" [value]="category"
+        [showMetaInfo]="false" [showShortTitle]="false">
     </anu-category>
 </div>
 
@@ -7,15 +9,19 @@
     <div class="row">
         <div class="col-sm-12 col-md-8 col-lg-9">
             <ng-container *ngIf="!route.firstChild">
-                <anu-article *ngFor="let article of categoryArticles" [titleHref]="[article?.id || '']"
-                    [readMoreHref]="[article?.id || '']" [value]="article" [showMetaInfo]="false"></anu-article>
+                <anu-article class="shadow spacing-around-vertical" *ngFor="let article of categoryArticles"
+                    [titleHref]="[article?.id || '']" [readMoreHref]="[article?.id || '']" [value]="article"
+                    [descriptionCharCount]="300" [showMetaInfo]="false" [isRowLayout]="false"
+                    [readMoreLabel]="'Click to read full article- ' + article.metaInfo?.title"></anu-article>
 
                 <div class="row stretch nowrap spacing spacing-around-vertical secondary-lightest-bg">
                     <div>
                         <!-- <a *ngIf="startPage" [routerLink]="['.']" [queryParams]="{page: startPage, pdir: 'b'}">≪ Previous</a> -->
                     </div>
                     <div>
-                        <a *ngIf="categoryArticles?.length" [routerLink]="['.']" [queryParams]="{page: endPage, pdir: 'f'}">Next ≫</a>
+                        <a *ngIf="categoryArticles?.length" [routerLink]="['.']"
+                            [queryParams]="{page: endPage, pdir: 'f'}">Click to read more related articles
+                            on <strong>{{category?.metaInfo?.title}}</strong> ≫</a>
                     </div>
                 </div>
             </ng-container>
@@ -26,15 +32,17 @@
             <ng-container *ngFor="let pageCatGroup of pageCategoryGroups">
                 <anu-category-articles-list href="../" class="spacing" [category]="pageCatGroup?.category || null"
                     [articles]="pageCatGroup?.pageArticles?.articles || []"
-                    [headerClassNames]="['shadow', 'primary-lighter-bg', 'spacing']"
+                    [headerClassNames]="['shadow', 'primary-lighter-bg', 'spacing-horizontal']"
                     [listClassNames]="[]"></anu-category-articles-list>
             </ng-container>
         </div>
     </div>
 </div>
 
-<div *ngIf="route.firstChild" class="flex-container spacing secondary-normal-bg">
-    <h2 *ngIf="category?.id">Read more about- <a [routerLink]="['../', category?.id]">{{category?.metaInfo?.title}}</a></h2>
+<div *ngIf="route.firstChild" class="flex-container spacing secondary-lighter-bg">
+    <h2 *ngIf="category?.id"><a [routerLink]="['../', category?.id]">Click to read more related articles
+            on <strong>{{category?.metaInfo?.title}}</strong></a>
+    </h2>
 </div>
 
 <div class="flex-container spacing spacing-around">

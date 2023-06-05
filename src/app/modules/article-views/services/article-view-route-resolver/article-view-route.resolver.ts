@@ -1,9 +1,5 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import {
-  Resolve,
-  RouterStateSnapshot,
-  ActivatedRouteSnapshot
-} from '@angular/router';
+import { RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 
 import { ArticleViewRouteData } from '../../interfaces/article-views.interface';
 
@@ -23,7 +19,7 @@ import { isPlatformServer } from '@angular/common';
  * @implements {Resolve<ArticleViewRouteData>}
  */
 @Injectable()
-export class ArticleViewRouteResolver implements Resolve<ArticleViewRouteData> {
+export class ArticleViewRouteResolver  {
 
   routeData: ArticleViewRouteData = {};
 
