@@ -20,11 +20,7 @@
     {
       "target": "staging",
       "public": "functions/dist/annu-business/browser",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
         {
           "source": "sitemap.xml",
@@ -37,26 +33,13 @@
         {
           "source": "**",
           "function": "ssrAppFn"
-        }
-      ],
-      "headers": [
-        {
-          "source": "**",
-          "headers": [ {
-            "key": "Cache-Control",
-            "value": "max-age=7200"
-          } ]
         }
       ]
     },
     {
       "target": "production",
       "public": "functions/dist/annu-business/browser",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
         {
           "source": "sitemap.xml",
@@ -73,11 +56,40 @@
       ],
       "headers": [
         {
+          "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css|jpg|jpeg|png|gif|js|css|ico)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "max-age=2592000, s-max-age=15552000"
+            }
+          ]
+        },
+        {
+          "source": "getImage",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "max-age=2592000, s-max-age=15552000"
+            }
+          ]
+        },
+        {
+          "source": "@(dashboard|login|logout|error)**/**",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-cache"
+            }
+          ]
+        },
+        {
           "source": "**",
-          "headers": [ {
-            "key": "Cache-Control",
-            "value": "max-age=3600, s-max-age=7200"
-          } ]
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "max-age=86400, s-max-age=86400"
+            }
+          ]
         }
       ]
     }

@@ -1,10 +1,13 @@
 import { isPlatformServer } from '@angular/common';
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import {
+  Component,
+  Inject,
+  OnInit,
+  PLATFORM_ID,
   makeStateKey,
   StateKey,
   TransferState,
-} from '@angular/platform-browser';
+} from '@angular/core';
 import {
   AppConfig,
   MenuItem,
