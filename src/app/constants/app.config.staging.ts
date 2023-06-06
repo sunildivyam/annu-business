@@ -33,7 +33,7 @@ export const appConfig: AppConfig = {
     'article:section': 'business',
     'article:tag':
       'Annu Business, Visual storytelling, Video content creators, Vlogs, Tutorials, Short films, Informative articles, Social media influencers, Entertaining stories, In-depth interviews, Graphic designers, Artists, Digital artwork, Infographics, Evolving digital landscape',
-    image: 'image/url',
+    image: '/assets/annu-advent-logo.png',
     url: '',
     card: 'summary_large_image',
     site_name: 'Annu Business',

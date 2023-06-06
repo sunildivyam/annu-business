@@ -445,9 +445,15 @@ export class MyArticleComponent implements OnInit, OnDestroy {
   }
 
   public cleanAndFormatBody(): void {
-    this.article.body = this.articleEditorService.cleanEditorEl(
-      this.article.body,
-      OPENAI_ID_PHRASES
-    );
+    this.loading = true;
+    setTimeout(() => {
+      const body = this.articleEditorService.cleanAndFormatEditorEl(
+        this.article.body,
+        [...OPENAI_ID_PHRASES, 'As an AI language model']
+      );
+
+      this.article = { ...this.article, body };
+      this.loading = false;
+    });
   }
 }
