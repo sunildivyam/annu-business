@@ -6,3 +6,4 @@ export * from './services/app-data.service';
 export * from './services/app-sitemap.service';
 export * from './services/app-spinner.service';
 export * from './factories/app-init.factory';
+export * from './constants/app-core.constants';

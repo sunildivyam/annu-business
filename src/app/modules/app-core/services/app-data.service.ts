@@ -10,12 +10,16 @@ import {
   CategoriesFirebaseHttpService,
   Category,
   CategoryFeatures,
-  PageCategoryGroup,
   UtilsService,
 } from '@annubiz/ng-lib';
-import { AppState, StateKeys } from '../interfaces/app-core.interface';
+import {
+  AppState,
+  AppStateValue,
+  StateKeys,
+} from '../interfaces/app-core.interface';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { APP_STATE_KEYS } from '../constants/app-core.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -40,13 +44,14 @@ export class AppDataService {
    * @private
    */
   private initAppState(): void {
-    this.stateKeys = {
-      navCategories: makeStateKey<Array<Category>>('navCategories'),
-    };
-
-    this.appState$ = new BehaviorSubject<AppState>({
-      navCategories: [],
+    // Make statekays ready for SSR
+    this.stateKeys = {};
+    const stateKeysArr = Object.values(APP_STATE_KEYS);
+    stateKeysArr.forEach((value) => {
+      this.stateKeys[value] = makeStateKey<AppStateValue>(value);
     });
+
+    this.appState$ = new BehaviorSubject<AppState>({});
   }
 
   /**
@@ -58,8 +63,8 @@ export class AppDataService {
    * @param {Array<Category>} data
    */
   private saveToSsrState(
-    key: StateKey<Array<Category>>,
-    data: Array<Category>
+    key: StateKey<AppStateValue>,
+    data: AppStateValue
   ): void {
     if (isPlatformServer(this.platformId)) {
       this.transferState.set(key, data);
@@ -73,10 +78,123 @@ export class AppDataService {
    * @private
    * @param {StateKey<Array<Category>>} key
    */
-  private removeFromSsrState(key: StateKey<Array<Category>>): void {
+  private removeFromSsrState(key: StateKey<AppStateValue>): void {
     if (isPlatformBrowser(this.platformId)) {
       this.transferState.remove(key);
     }
+  }
+
+  /**
+   * Gets AppStateItemvalue from cache or SSR
+   * @date 6/8/2023 - 7:20:37 PM
+   *
+   * @private
+   * @async
+   * @param {string} appStateItemName
+   * @returns {Promise<AppStateValue>}
+   */
+  private async getAppStateItemValueFromCacheOrSSRState(
+    appStateItemName: string
+  ): Promise<AppStateValue> {
+    const stateKey = this.stateKeys[appStateItemName];
+
+    // serve it from cache, if available.
+    let appStateItemValue: AppStateValue = this.utils.deepCopy(
+      this.appState$.value[appStateItemName]
+    );
+
+    if (appStateItemValue) {
+      return appStateItemValue;
+    }
+
+    // Else Serve from SSR transferState, if available and save to cache
+    if (this.transferState.hasKey(stateKey)) {
+      appStateItemValue = this.transferState.get(stateKey, null);
+      if (appStateItemValue) {
+        // Save to cache
+        this.appState$.next({
+          ...this.utils.deepCopy(this.appState$.value),
+          [appStateItemName]: appStateItemValue,
+        });
+        // Remove from SSR
+        this.removeFromSsrState(stateKey);
+        return appStateItemValue;
+      }
+    }
+
+    return appStateItemValue;
+  }
+
+  /**
+   * Gets AppStateItemvalue from REST
+   * @date 6/8/2023 - 7:21:04 PM
+   *
+   * @private
+   * @async
+   * @param {string} appStateItemName
+   * @returns {Promise<AppStateValue>}
+   */
+  private async getAppStateItemValue(
+    appStateItemName: string
+  ): Promise<AppStateValue> {
+    let allLiveCategories: Array<Category>;
+
+    // serve from cache or SSR
+    let appStateItemValue = await this.getAppStateItemValueFromCacheOrSSRState(
+      appStateItemName
+    );
+    if (appStateItemValue) return appStateItemValue;
+
+    // Else serve from from DB
+    switch (appStateItemName) {
+      case APP_STATE_KEYS.allLiveCategories:
+        appStateItemValue =
+          await this.categoriesHttp.getAllLiveShallowCategories();
+        break;
+      case APP_STATE_KEYS.featuredCategories:
+        allLiveCategories = (await this.getAppStateItemValue(
+          APP_STATE_KEYS.allLiveCategories
+        )) as Array<Category>;
+
+        appStateItemValue = allLiveCategories.filter((cat) => cat.isFeatured);
+        break;
+      case APP_STATE_KEYS.mainNavCategories:
+        allLiveCategories = (await this.getAppStateItemValue(
+          APP_STATE_KEYS.allLiveCategories
+        )) as Array<Category>;
+
+        appStateItemValue = allLiveCategories.filter((cat) =>
+          cat?.features?.includes(CategoryFeatures.primaryNavigation)
+        );
+        break;
+      case APP_STATE_KEYS.footerNavCategories:
+        allLiveCategories = (await this.getAppStateItemValue(
+          APP_STATE_KEYS.allLiveCategories
+        )) as Array<Category>;
+
+        appStateItemValue = allLiveCategories.filter((cat) =>
+          cat?.features?.includes(CategoryFeatures.footerNavigation)
+        );
+        break;
+      default:
+      // NOTE: Add one separate switch case for each AppState items, above
+    }
+
+    if (appStateItemValue instanceof Array && !appStateItemValue.length) {
+      appStateItemValue = null;
+    }
+
+    // Save to SSR
+    this.saveToSsrState(this.stateKeys[appStateItemName], appStateItemValue);
+
+    // Emit App State (It also saves appStateItemValue to cache)
+    const newState = {
+      ...this.utils.deepCopy(this.appState$.value),
+      [appStateItemName]: appStateItemValue,
+    };
+    this.appState$.next(newState);
+
+    return appStateItemValue;
   }
 
   /**
@@ -92,54 +210,34 @@ export class AppDataService {
   }
 
   /**
-   * Serves Main and footer navigation categories, either from cache | SSR | DB
+   * Serves Main navigation categories, either from cache | SSR | DB
    * @date 6/8/2023 - 3:57:51 PM
    *
    * @public
    * @async
    * @returns {Promise<Array<Category>>}
    */
-  public async getNavCategories(): Promise<Array<Category>> {
-    const stateKey = this.stateKeys.navCategories as StateKey<Array<Category>>;
+  public async getMainNavCategories(): Promise<Array<Category>> {
+    const categories = (await this.getAppStateItemValue(
+      APP_STATE_KEYS.mainNavCategories
+    )) as Array<Category>;
 
-    // serve it from cache, if available.
-    let navCategories: Array<Category> = this.utils.deepCopy(
-      this.appState$.value.navCategories
-    );
-    if (navCategories.length) {
-      return navCategories;
-    }
+    return categories;
+  }
 
-    // Else Serve from SSR transferState, if available and save to cache
-    if (this.transferState.hasKey(stateKey)) {
-      navCategories = this.transferState.get(stateKey, []) as Array<Category>;
-      if (navCategories.length) {
-        // Save to cache
-        this.appState$.next({
-          ...this.utils.deepCopy(this.appState$.value),
-          navCategories: [...navCategories],
-        });
-        // Remove from SSR
-        this.removeFromSsrState(stateKey);
-        return navCategories;
-      }
-    }
+  /**
+   * Serves Footer navigation categories, either from cache | SSR | DB
+   * @date 6/8/2023 - 3:57:51 PM
+   *
+   * @public
+   * @async
+   * @returns {Promise<Array<Category>>}
+   */
+  public async getFooterNavCategories(): Promise<Array<Category>> {
+    const categories = (await this.getAppStateItemValue(
+      APP_STATE_KEYS.mainNavCategories
+    )) as Array<Category>;
 
-    // Else Serve from DB, and save to cache & SSR transferState
-    const navFeatures = [
-      CategoryFeatures.primaryNavigation,
-      CategoryFeatures.footerNavigation,
-    ];
-    navCategories = await this.categoriesHttp
-      .getShallowLiveCategoriesByFeatures(navFeatures, true)
-      .catch(() => []);
-    // Save to cache
-    this.appState$.next({
-      ...this.utils.deepCopy(this.appState$.value),
-      navCategories: [...navCategories],
-    });
-    // Save to SSR transferState
-    this.saveToSsrState(stateKey, navCategories);
-    return navCategories;
+    return categories;
   }
 }

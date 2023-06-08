@@ -32,34 +32,25 @@ export class AppComponent implements OnInit {
     public appSpinner: AppSpinnerService,
     private appDataService: AppDataService
   ) {
-    this.appDataService.appState.subscribe((appState: AppState) =>
-      this.generateNavItems(appState.navCategories)
-    );
+    this.appDataService.appState.subscribe((appState: AppState) => {
+      this.mainMenuItems = this.generateNavItems(
+        (appState.mainNavCategories as Array<Category>) || []
+      );
+      this.footerNavItems = this.generateNavItems(
+        (appState.footerNavCategories as Array<Category>) || []
+      );
+    });
   }
 
   async ngOnInit(): Promise<void> {
     this.themeService.setTheme(this.appConfig.themeName, true);
   }
 
-  private generateNavItems(categories: Array<Category>): void {
-    this.mainMenuItems = [];
-    this.footerNavItems = [];
-    categories.forEach((cat) => {
-      const isMainNavCat = cat?.features?.includes(
-        CategoryFeatures.primaryNavigation
-      );
-      const isFooterNavCat = cat?.features?.includes(
-        CategoryFeatures.footerNavigation
-      );
-
-      const menuItem = {
-        href: ['./', cat?.id],
-        title: cat?.shortTitle,
-      } as MenuItem;
-
-      if (isMainNavCat) this.mainMenuItems.push(menuItem);
-      if (isFooterNavCat) this.footerNavItems.push(menuItem);
-    });
+  private generateNavItems(categories: Array<Category>): Array<MenuItem> {
+    return categories.map((cat) => ({
+      href: ['./', cat?.id],
+      title: cat?.shortTitle,
+    }));
   }
 
   public loginStatusClicked(): void {

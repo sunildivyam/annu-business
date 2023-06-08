@@ -10,5 +10,9 @@ import { AppDataService } from '../services/app-data.service';
  * @returns {() => any}
  */
 export function appInit(appDataService: AppDataService) {
-  return () => appDataService.getNavCategories();
+  return () =>
+    Promise.all([
+      appDataService.getMainNavCategories(),
+      appDataService.getFooterNavCategories(),
+    ]);
 }
