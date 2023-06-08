@@ -34,6 +34,44 @@
           "source": "**",
           "function": "ssrAppFn"
         }
+      ],
+      "headers": [
+        {
+          "source": "**",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "max-age=86400, s-max-age=86400"
+            }
+          ]
+        },
+        {
+          "source": "getImage**",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "max-age=31536000, s-max-age=31536000"
+            }
+          ]
+        },
+        {
+          "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css|jpg|jpeg|png|gif|js|css|ico)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "max-age=31536000, s-max-age=31536000"
+            }
+          ]
+        },
+        {
+          "source": "@(dashboard|login|logout|error)/**/**",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, must-revalidate"
+            }
+          ]
+        }
       ]
     },
     {
@@ -56,38 +94,38 @@
       ],
       "headers": [
         {
-          "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css|jpg|jpeg|png|gif|js|css|ico)",
-          "headers": [
-            {
-              "key": "Cache-Control",
-              "value": "max-age=2592000, s-max-age=15552000"
-            }
-          ]
-        },
-        {
-          "source": "getImage",
-          "headers": [
-            {
-              "key": "Cache-Control",
-              "value": "max-age=2592000, s-max-age=15552000"
-            }
-          ]
-        },
-        {
-          "source": "@(dashboard|login|logout|error)**/**",
-          "headers": [
-            {
-              "key": "Cache-Control",
-              "value": "no-cache"
-            }
-          ]
-        },
-        {
           "source": "**",
           "headers": [
             {
               "key": "Cache-Control",
-              "value": "max-age=86400, s-max-age=86400"
+              "value": "max-age=604800, s-max-age=604800"
+            }
+          ]
+        },
+        {
+          "source": "getImage**",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "max-age=31536000, s-max-age=31536000"
+            }
+          ]
+        },
+        {
+          "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css|jpg|jpeg|png|gif|js|css|ico)",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "max-age=31536000, s-max-age=31536000"
+            }
+          ]
+        },
+        {
+          "source": "@(dashboard|login|logout|error)/**/**",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "no-cache, no-store, must-revalidate"
             }
           ]
         }
