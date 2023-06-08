@@ -1,24 +1,16 @@
-import { isPlatformServer } from '@angular/common';
-import {
-  Component,
-  Inject,
-  OnInit,
-  PLATFORM_ID,
-  makeStateKey,
-  StateKey,
-  TransferState,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AppConfig,
   MenuItem,
   ThemeService,
   SpinnerMode,
-  CategoriesFirebaseHttpService,
   Category,
   CategoryFeatures,
 } from '@annu/ng-lib';
 import { AppSpinnerService } from './modules/app-core/services/app-spinner.service';
 import { environment } from '../environments/environment';
+import { AppDataService } from './modules/app-core/services/app-data.service';
+import { AppState } from './modules/app-core/interfaces/app-core.interface';
 const { appConfig } = environment;
 
 @Component({
@@ -33,91 +25,41 @@ export class AppComponent implements OnInit {
   isMainNavOpen: boolean = false;
   SpinnerMode = SpinnerMode;
   liveNavCategories: Array<Category> = [];
-  HOME_VIEW_ROUTE_KEY = makeStateKey<Array<Category>>('app-route-data');
   themeFontSizes: Array<string> = ['12px', '16px', '20px'];
 
   constructor(
     private themeService: ThemeService,
     public appSpinner: AppSpinnerService,
-    private categoriesHttp: CategoriesFirebaseHttpService,
-    private transferState: TransferState,
-    @Inject(PLATFORM_ID) private platformId
+    private appDataService: AppDataService
   ) {
-    if (this.transferState.hasKey(this.HOME_VIEW_ROUTE_KEY)) {
-      this.liveNavCategories = this.transferState.get<Array<Category>>(
-        this.HOME_VIEW_ROUTE_KEY,
-        []
-      );
-      this.transferState.remove(this.HOME_VIEW_ROUTE_KEY);
-    }
+    this.appDataService.appState.subscribe((appState: AppState) =>
+      this.generateNavItems(appState.navCategories)
+    );
   }
 
   async ngOnInit(): Promise<void> {
     this.themeService.setTheme(this.appConfig.themeName, true);
-    if (!this.liveNavCategories.length) {
-      this.liveNavCategories = await this.getNavCategories([
-        CategoryFeatures.primaryNavigation,
-        CategoryFeatures.footerNavigation,
-      ]);
-      this.setTransferState(
-        this.HOME_VIEW_ROUTE_KEY,
-        this.liveNavCategories || []
+  }
+
+  private generateNavItems(categories: Array<Category>): void {
+    this.mainMenuItems = [];
+    this.footerNavItems = [];
+    categories.forEach((cat) => {
+      const isMainNavCat = cat?.features?.includes(
+        CategoryFeatures.primaryNavigation
       );
-    }
-
-    this.mainMenuItems = (this.liveNavCategories?.length &&
-      this.getPrimaryNavItems(this.liveNavCategories)) || [
-      ...appConfig.mainMenuItems,
-    ];
-    this.footerNavItems = (this.liveNavCategories?.length &&
-      this.getFooterNavItems(this.liveNavCategories)) || [
-      ...appConfig.mainMenuItems,
-    ];
-  }
-
-  private async getNavCategories(
-    features: Array<CategoryFeatures>
-  ): Promise<Array<Category>> {
-    return this.categoriesHttp
-      .getShallowLiveCategoriesByFeatures(features, true)
-      .catch(() => null);
-  }
-
-  private setTransferState(
-    key: StateKey<Array<Category>>,
-    routeData: Array<Category>
-  ): void {
-    if (isPlatformServer(this.platformId)) {
-      this.transferState.set(key, routeData);
-    }
-  }
-
-  private getPrimaryNavItems(categories: Array<Category>): Array<MenuItem> {
-    return categories
-      ?.filter((cat) =>
-        cat?.features?.includes(CategoryFeatures.primaryNavigation)
-      )
-      .map(
-        (cat: Category) =>
-          ({
-            href: ['./', cat.id],
-            title: cat.shortTitle,
-          } as MenuItem)
+      const isFooterNavCat = cat?.features?.includes(
+        CategoryFeatures.footerNavigation
       );
-  }
 
-  private getFooterNavItems(categories: Array<Category>): Array<MenuItem> {
-    return categories
-      ?.filter((cat) =>
-        cat?.features?.includes(CategoryFeatures.footerNavigation)
-      )
-      .map(
-        (cat: Category) =>
-          ({
-            href: ['./', cat.id],
-            title: cat.shortTitle,
-          } as MenuItem)
-      );
+      const menuItem = {
+        href: ['./', cat?.id],
+        title: cat?.shortTitle,
+      } as MenuItem;
+
+      if (isMainNavCat) this.mainMenuItems.push(menuItem);
+      if (isFooterNavCat) this.footerNavItems.push(menuItem);
+    });
   }
 
   public loginStatusClicked(): void {
