@@ -9,10 +9,8 @@ export const appConfig: AppConfig = {
   profileUrl: '/dashboard',
   adminEmail: 'info@annubiztech.com',
   defaultPageSize: 5,
-  tNcUrl:
-    '/terms-and-conditions-lbxuxsj774zpe3xh/terms-and-conditions-lbxv0dakpn1x6px',
-  privacyPolicyUrl:
-    '/terms-and-conditions-lbxuxsj774zpe3xh/terms-and-conditions-lbxv0dakpn1x6px',
+  tNcUrl: '/tnc/terms-and-conditions',
+  privacyPolicyUrl: '/privacy/privacy-policy',
   contactUsUrl:
     '/contact-us/contact-us-for-sales-enquiry-technology-consulting-business-consulting-research-consulting-or-a-general-enquiry',
   aboutUsUrl: '/about-us/about-annu-advent',

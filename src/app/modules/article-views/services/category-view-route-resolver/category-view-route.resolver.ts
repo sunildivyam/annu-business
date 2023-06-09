@@ -1,18 +1,35 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import {
+  Inject,
+  Injectable,
+  PLATFORM_ID,
+  makeStateKey,
+  TransferState,
+} from '@angular/core';
 import { RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
-import { CategoryViewRouteData, ArticlesHomeViewRouteData, PageDirection } from '../../interfaces/article-views.interface';
+import {
+  CategoryViewRouteData,
+  ArticlesHomeViewRouteData,
+  PageDirection,
+} from '../../interfaces/article-views.interface';
 
-import { CategoriesFirebaseHttpService, CategoryFeatures, UtilsService } from '@annubiz/ng-lib';
-import { makeStateKey, TransferState } from '@angular/platform-browser';
+import {
+  CategoriesFirebaseHttpService,
+  CategoryFeatures,
+  UtilsService,
+} from '@annubiz/ng-lib';
 import { isPlatformServer } from '@angular/common';
+import { AppDataService } from '../../../app-core/services/app-data.service';
 
-import { ARTICLE_VIEWS_ROUTE_RESOLVER_DATA_KEYS, ROUTE_PARAM_NAMES } from '../../constants/article-views.constants';
+import {
+  ARTICLE_VIEWS_ROUTE_RESOLVER_DATA_KEYS,
+  ROUTE_PARAM_NAMES,
+} from '../../constants/article-views.constants';
 
 // Resolver should get pageSize from the route.data.pageSize, or this page size will be set.
 const DEFAULT_PAGE_SIZE = 5;
 
 /**
-* Category view data resolver.
+ * Category view data resolver.
  * This requires BrowserTransferStateModule to be imported in app module and
  * ServerTransferStateModule in to the server.app module.
  * @date 15/3/2022 - 10:51:12 pm
@@ -23,63 +40,51 @@ const DEFAULT_PAGE_SIZE = 5;
  * @implements {Resolve<CategoryViewRouteData>}
  */
 @Injectable()
-export class CategoryViewRouteResolver  {
-
+export class CategoryViewRouteResolver {
   constructor(
-    private categoriesFireHttp: CategoriesFirebaseHttpService,
-    private transferState: TransferState,
-    @Inject(PLATFORM_ID) private platformId,
+    private appDataService: AppDataService,
     private utilsSvc: UtilsService
-  ) { }
+  ) {}
 
-  async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<CategoryViewRouteData> {
+  async resolve(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Promise<CategoryViewRouteData> {
     let routeData: CategoryViewRouteData = {};
     const categoryId = route.params[ROUTE_PARAM_NAMES.CATEGORY_ID];
     const currentStartPage = route.queryParams[ROUTE_PARAM_NAMES.START_PAGE];
-    const pageDir: PageDirection = route.queryParams[ROUTE_PARAM_NAMES.PAGE_DIRECTION];
+    const pageDir: PageDirection =
+      route.queryParams[ROUTE_PARAM_NAMES.PAGE_DIRECTION];
     const pageSize = route?.data?.pageSize || DEFAULT_PAGE_SIZE;
 
-    // create a unique key that holds the route stata data.
-    const stateKeyName = 'category-view-route-' + categoryId + (currentStartPage || '') + (pageDir || '');
-    const CATEGORY_VIEW_ROUTE_KEY = makeStateKey<CategoryViewRouteData>(stateKeyName);
-
-    //Check if state data already exists, if yes, serve it from state, and clear the state else, fetch the data and set it to state, that can be used at client side.
-    if (this.transferState.hasKey(CATEGORY_VIEW_ROUTE_KEY)) {
-      routeData = this.transferState.get<CategoryViewRouteData>(CATEGORY_VIEW_ROUTE_KEY, {});
-      this.transferState.remove(CATEGORY_VIEW_ROUTE_KEY);
+    // Get homeViewCategoryGroups, if directly landed on this view.
+    routeData.pageCategoryGroups =
+      await this.appDataService.getHomeViewCategoryGroups(pageSize);
+    /*
+     * if category belongs to systemonly (meaning always offline, but their articles are live, e.g. helpdocs etc.)
+     * Then there is no need to make a call to fetch it.
+     */
+    if (
+      [
+        CategoryFeatures.helpDocs,
+        CategoryFeatures.privacy,
+        CategoryFeatures.tnc,
+        CategoryFeatures.aboutUs,
+        CategoryFeatures.contactUs,
+        CategoryFeatures.vision,
+      ].includes(categoryId)
+    ) {
+      routeData.pageCategoryGroup = null;
     } else {
-      // populate some of the data that is already available on parent route.
-      const parentRouteData: ArticlesHomeViewRouteData = route.parent.data[ARTICLE_VIEWS_ROUTE_RESOLVER_DATA_KEYS.ARTICLES_HOME_VIEW];
-      if (parentRouteData) {
-        routeData.pageCategoryGroups = parentRouteData?.pageCategoryGroups || null;
-      } else {
-        routeData.pageCategoryGroups = await this.categoriesFireHttp.getAllLiveCategoriesWithOnePageShallowArticles()
-          .catch(() => null);
-      }
-
-      /*
-      * if category belongs to systemonly (meaning always offline, but their articles are live, e.g. helpdocs etc.)
-      * Then there is no need to make a call to fetch it.
-      */
-      if ([CategoryFeatures.helpDocs,
-      CategoryFeatures.privacy,
-      CategoryFeatures.tnc].includes(categoryId)) {
-        routeData.pageCategoryGroup = null;
-      } else {
-        routeData.pageCategoryGroup = await this.categoriesFireHttp.getLiveCategoryWithOnePageShallowArticles(
+      routeData.pageCategoryGroup =
+        await this.appDataService.getCategoryViewCategoryGroup(
           categoryId,
           pageSize,
           this.utilsSvc.totalTimeStringToUTCdateString(currentStartPage),
-          pageDir === PageDirection.BACKWARD ? false : true)
-          .catch(() => null);
-      }
-
-      if (isPlatformServer(this.platformId)) {
-        this.transferState.set(CATEGORY_VIEW_ROUTE_KEY, routeData);
-      }
+          pageDir === PageDirection.BACKWARD ? false : true
+        );
     }
 
-    return routeData;
+    return routeData; // TODO: return boolean only, and not data as data will available from appDataService subscription
   }
-
 }
