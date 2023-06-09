@@ -27,3 +27,13 @@ export type AppStateValue =
   | Array<Category>
   | PageCategoryGroup
   | Article;
+
+// App State request Options
+
+export interface AppStateRequestOptions {
+  readonly pageSize?: number;
+  readonly startPage?: string;
+  readonly isForward?: boolean;
+  readonly categoryId?: string;
+  readonly articleId?: string;
+}

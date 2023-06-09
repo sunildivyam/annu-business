@@ -13,7 +13,7 @@ const DEFAULT_DESCRIPTION_CHAR_COUNT = 300;
 @Component({
   selector: 'app-home',
   templateUrl: './article-views-home.component.html',
-  styleUrls: ['./article-views-home.component.scss']
+  styleUrls: ['./article-views-home.component.scss'],
 })
 export class ArticleViewsHomeComponent implements OnInit, OnDestroy {
   featuredCategories: Array<Category> = [];
@@ -28,15 +28,21 @@ export class ArticleViewsHomeComponent implements OnInit, OnDestroy {
   notFoundCategoryId: string = '';
   notFoundArticleId: string = '';
 
-  constructor(public route: ActivatedRoute, private router: Router, private metaService: MetaService,) {
-    this.route.data.subscribe(data => this.initFromResolvedData(data));
-    this.route.queryParams.subscribe(params => {
+  constructor(
+    public route: ActivatedRoute,
+    private router: Router,
+    private metaService: MetaService
+  ) {
+    this.route.data.subscribe((data) => this.initFromResolvedData(data));
+    this.route.queryParams.subscribe((params) => {
       // Sets not found category and/or article ids, in case user is redirected here from respective pages.
       this.notFoundCategoryId = params['categoryId'] || '';
       this.notFoundArticleId = params['articleId'] || '';
     });
 
-    this.navigationEndSubscription = this.router.events.pipe(filter(ev => ev instanceof NavigationEnd)).subscribe(() => this.setPageMeta());
+    this.navigationEndSubscription = this.router.events
+      .pipe(filter((ev) => ev instanceof NavigationEnd))
+      .subscribe(() => this.setPageMeta());
   }
 
   ngOnInit(): void {
@@ -48,13 +54,18 @@ export class ArticleViewsHomeComponent implements OnInit, OnDestroy {
   }
 
   private initFromResolvedData(data: any): void {
-    const homeViewData = { ...data[ARTICLE_VIEWS_ROUTE_RESOLVER_DATA_KEYS.ARTICLES_HOME_VIEW] ?? null } as ArticlesHomeViewRouteData;
-    this.pageCategoryGroups = [...homeViewData?.pageCategoryGroups ?? []];
+    const homeViewData = {
+      ...(data[ARTICLE_VIEWS_ROUTE_RESOLVER_DATA_KEYS.ARTICLES_HOME_VIEW] ??
+        null),
+    } as ArticlesHomeViewRouteData;
+    this.pageCategoryGroups = [...(homeViewData?.pageCategoryGroups ?? [])];
 
     // Extracts featured categories.
-    this.featuredCategories = this.pageCategoryGroups
-      .filter((cg: PageCategoryGroup) => cg.category?.isFeatured === true)
-      .map((cg: PageCategoryGroup) => ({ ...cg.category as Category })) || [];
+    this.featuredCategories =
+      this.pageCategoryGroups
+        .filter((cg: PageCategoryGroup) => cg.category?.isFeatured === true)
+        .map((cg: PageCategoryGroup) => ({ ...(cg.category as Category) })) ||
+      [];
 
     this.setPageMeta();
   }
