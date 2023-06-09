@@ -10,9 +10,22 @@ import { AppDataService } from '../services/app-data.service';
  * @returns {() => any}
  */
 export function appInit(appDataService: AppDataService) {
-  return () =>
-    Promise.all([
-      appDataService.getMainNavCategories(),
-      appDataService.getFooterNavCategories(),
-    ]);
+  // Sequential promises are needed here for navCategories. For other you can have parallel promises.
+  const promise = new Promise<boolean>((resolve, reject) => {
+    appDataService
+      .getMainNavCategories()
+      .then((cats) => {
+        console.log('Fact', cats.length);
+        appDataService
+          .getFooterNavCategories()
+          .then((cats) => {
+            console.log('Fact Foot', cats.length);
+            resolve(true);
+          })
+          .catch(reject);
+      })
+      .catch(reject);
+  });
+
+  return () => promise;
 }

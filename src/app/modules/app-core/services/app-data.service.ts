@@ -139,6 +139,7 @@ export class AppDataService {
     const stateKey = this.stateKeys[appStateItemName];
 
     // serve it from cache, if available.
+
     let appStateItemValue: AppStateValue = this.utils.deepCopy(
       this.appState$.value[appStateItemName]
     );
@@ -194,6 +195,7 @@ export class AppDataService {
       appStateItemName,
       options
     ).catch(this.catchFn);
+
     if (appStateItemValue) return appStateItemValue;
 
     // Else serve from from DB
@@ -202,6 +204,7 @@ export class AppDataService {
         appStateItemValue = await this.categoriesHttp
           .getAllLiveShallowCategories()
           .catch(this.catchFn);
+
         break;
       case APP_STATE_KEYS.featuredCategories:
         allLiveCategories = (await this.getAppStateItemValue(
@@ -302,13 +305,18 @@ export class AppDataService {
       appStateItemValue = null;
     }
 
-    // Save to SSR
-    this.saveToSsrState(this.stateKeys[appStateItemName], appStateItemValue);
+    const copyOfappStateItemValue = this.utils.deepCopy(appStateItemValue);
 
-    // Emit App State (It also saves appStateItemValue to cache)
+    // Save to SSR
+    this.saveToSsrState(
+      this.stateKeys[appStateItemName],
+      copyOfappStateItemValue
+    );
+
+    // Emit App State (It also saves copyOfappStateItemValue to cache)
     const newState = {
       ...this.utils.deepCopy(this.appState$.value),
-      [appStateItemName]: appStateItemValue,
+      [appStateItemName]: copyOfappStateItemValue,
     };
     this.appState$.next(newState);
 
@@ -353,7 +361,7 @@ export class AppDataService {
    */
   public async getFooterNavCategories(): Promise<Array<Category>> {
     const categories = (await this.getAppStateItemValue(
-      APP_STATE_KEYS.mainNavCategories
+      APP_STATE_KEYS.footerNavCategories
     ).catch(this.catchFn)) as Array<Category>;
 
     return categories;
