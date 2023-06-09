@@ -20,14 +20,22 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "allowedCommonJsDependencies": ["prismjs","buffer", "stream", "xml-js", "showdown", "openai", "compressorjs"],
-            "outputPath": "firebase-deploy-setup/functions/dist/annu-business/browser",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": [
-              "zone.js",
-              "xml-js"
+            "allowedCommonJsDependencies": [
+              "prismjs",
+              "buffer",
+              "stream",
+              "xml-js",
+              "showdown",
+              "openai",
+              "compressorjs"
             ],
+            "outputPath": "firebase-deploy-setup/functions/dist/annu-business/browser",
+            "index": {
+              "input": "src/index.html",
+              "output": "index.original.html"
+            },
+            "main": "src/main.ts",
+            "polyfills": ["zone.js", "xml-js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "preserveSymlinks": true,
@@ -50,9 +58,7 @@
               "src/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/@annubiz/ng-lib/src/lib/scss"
-              ]
+              "includePaths": ["node_modules/@annubiz/ng-lib/src/lib/scss"]
             },
             "scripts": []
           },
@@ -60,7 +66,7 @@
             "production": {
               "index": {
                 "input": "src/index.prod.html",
-                "output": "index.html"
+                "output": "index.original.html"
               },
               "budgets": [
                 {
@@ -76,7 +82,7 @@
               ],
               "assets": [
                 "src/favicon.ico",
-              "src/assets",
+                "src/assets",
                 {
                   "glob": "robots.txt",
                   "input": "src/robots/production/",
@@ -99,7 +105,7 @@
             "staging": {
               "index": {
                 "input": "src/index.staging.html",
-                "output": "index.html"
+                "output": "index.original.html"
               },
               "budgets": [
                 {
@@ -115,7 +121,7 @@
               ],
               "assets": [
                 "src/favicon.ico",
-              "src/assets",
+                "src/assets",
                 {
                   "glob": "robots.txt",
                   "input": "src/robots/staging/",
@@ -171,11 +177,7 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "main": "src/test.ts",
-            "polyfills": [
-              "zone.js",
-              "xml-js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "xml-js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "inlineStyleLanguage": "scss",
@@ -198,9 +200,7 @@
               "src/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/@annu/ng-lib/src/lib/scss"
-              ]
+              "includePaths": ["node_modules/@annu/ng-lib/src/lib/scss"]
             },
             "scripts": []
           }
@@ -213,9 +213,7 @@
             "tsConfig": "tsconfig.server.json",
             "inlineStyleLanguage": "scss",
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "node_modules/@annu/ng-lib/src/lib/scss"
-              ]
+              "includePaths": ["node_modules/@annu/ng-lib/src/lib/scss"]
             }
           },
           "configurations": {
@@ -267,9 +265,7 @@
         "prerender": {
           "builder": "@nguniversal/builders:prerender",
           "options": {
-            "routes": [
-              "/"
-            ]
+            "routes": ["/"]
           },
           "configurations": {
             "production": {

@@ -88,7 +88,7 @@ export function app(): express.Express {
 
   // Routes that skips server side rendering
   server.get(['/dashboard', '/dashboard/**'], (req, res) => {
-    res.sendFile(join(distFolder, `${indexHtml}.html`));
+    res.sendFile(join(distFolder, `${indexHtml}`));
   });
 
   /*
