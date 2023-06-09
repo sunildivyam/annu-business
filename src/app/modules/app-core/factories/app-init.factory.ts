@@ -15,11 +15,9 @@ export function appInit(appDataService: AppDataService) {
     appDataService
       .getMainNavCategories()
       .then((cats) => {
-        console.log('Fact', cats.length);
         appDataService
           .getFooterNavCategories()
           .then((cats) => {
-            console.log('Fact Foot', cats.length);
             resolve(true);
           })
           .catch(reject);
