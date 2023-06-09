@@ -53,8 +53,8 @@
                     <div class="flex-container spacing-around-vertical">
                         <div class="col-12">
                             <div *ngFor="let art of pageCatGroup?.pageArticles?.articles" class="category-articles">
-                                <anu-article [value]="art" [showMetaInfo]="false" [isRowLayout]="false"
-                                    [descriptionCharCount]="descriptionCharCount"
+                                <anu-article class="shadow spacing-around-vertical" [value]="art" [showMetaInfo]="false"
+                                    [isRowLayout]="false" [descriptionCharCount]="descriptionCharCount"
                                     [readMoreHref]="['./', pageCatGroup?.category?.id || '', art.id || '']"
                                     [readMoreLabel]="'Click to read full article- ' + art.metaInfo?.title"
                                     [titleHref]="['./', pageCatGroup?.category?.id || '', art.id || '']"></anu-article>
