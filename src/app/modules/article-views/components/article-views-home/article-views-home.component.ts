@@ -1,6 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Category, PageCategoryGroup, MetaService } from '@annu/ng-lib';
+import {
+  Category,
+  PageCategoryGroup,
+  MetaService,
+  Article,
+} from '@annu/ng-lib';
 
 import { environment } from '../../../../../environments/environment';
 import { ARTICLE_VIEWS_ROUTE_RESOLVER_DATA_KEYS } from '../../constants/article-views.constants';
@@ -18,6 +23,8 @@ const DEFAULT_DESCRIPTION_CHAR_COUNT = 300;
 export class ArticleViewsHomeComponent implements OnInit, OnDestroy {
   featuredCategories: Array<Category> = [];
   pageCategoryGroups: Array<PageCategoryGroup> = [];
+  primeShowArticles: Array<Article> = [];
+  footerShowArticles: Array<Article> = [];
   descriptionCharCount: number = DEFAULT_DESCRIPTION_CHAR_COUNT;
   error: any;
 
@@ -66,6 +73,10 @@ export class ArticleViewsHomeComponent implements OnInit, OnDestroy {
         .filter((cg: PageCategoryGroup) => cg.category?.isFeatured === true)
         .map((cg: PageCategoryGroup) => ({ ...(cg.category as Category) })) ||
       [];
+
+    // Extract primeShow and footerShow Articles
+    this.primeShowArticles = homeViewData?.primeShowArticles ?? [];
+    this.footerShowArticles = homeViewData?.footerShowArticles ?? [];
 
     this.setPageMeta();
   }

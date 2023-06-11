@@ -12,6 +12,8 @@ export interface AppState {
   homeViewCategoryGroups?: Array<PageCategoryGroup> | AppStateValue;
   categoryViewCategoryGroup?: PageCategoryGroup | AppStateValue;
   articleViewArticle?: Article | AppStateValue;
+  primeShowArticles?: Array<Article> | AppStateValue;
+  footerShowArticles?: Array<Article> | AppStateValue;
 }
 
 /**

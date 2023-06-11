@@ -1,14 +1,25 @@
-<ng-container *ngIf="!route.firstChild">
-    <div *ngIf="notFoundCategoryId || notFoundArticleId" class="flex-container spacing-around-vertical">
-        <div class="row">
-            <div class="col-12">
-                <span>Are you looking for <strong>{{notFoundCategoryId.split('-').join('
-                        ')}}</strong>{{notFoundCategoryId && notFoundArticleId ? ' or ' :
-                    ''}}<strong>{{notFoundArticleId.split('-').join(' ')}}?</strong></span>
-                <span>Please explore below the whole world of information.</span>
-            </div>
+<!-- No category or article found message -->
+<div *ngIf="!route.firstChild && (notFoundCategoryId || notFoundArticleId)"
+    class="flex-container spacing-around-vertical">
+    <div class="row">
+        <div class="col-12">
+            <span>Are you looking for <strong>{{notFoundCategoryId.split('-').join('
+                    ')}}</strong>{{notFoundCategoryId && notFoundArticleId ? ' or ' :
+                ''}}<strong>{{notFoundArticleId.split('-').join(' ')}}?</strong></span>
+            <span>Please explore below the whole world of information.</span>
         </div>
     </div>
+</div>
+
+<!-- Prime show articles slideshow -->
+<div *ngIf="primeShowArticles && primeShowArticles.length" class="flex-container">
+    <div class="row">
+        <anu-articles-slideshow class="prime-show-articles" [articles]="primeShowArticles" [isRowlayout]="true"
+            [size]="'sm'"></anu-articles-slideshow>
+    </div>
+</div>
+
+<ng-container *ngIf="!route.firstChild">
 
     <div class="flex-container primary-darkest-bg spacing-around-vertical">
         <div class="row">
@@ -76,3 +87,11 @@
     </div>
 </ng-container>
 <router-outlet></router-outlet>
+
+<!-- Prime show articles slideshow -->
+<div *ngIf="footerShowArticles && footerShowArticles.length" class="flex-container spacing-around-vertical">
+    <div class="row">
+        <anu-articles-slideshow class="footer-show-articles" [articles]="footerShowArticles" [isRowlayout]="false"
+            [size]="'sm'"></anu-articles-slideshow>
+    </div>
+</div>

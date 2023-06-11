@@ -19,7 +19,9 @@
     "firebase:deploy:prod": "npm run build:ssr && cd firebase-deploy-setup && firebase deploy --except hosting -P production",
     "firebase:deploy:hosting:prod": "cd firebase-deploy-setup && firebase deploy --only hosting:production -P production",
     "firebase:deploy:staging": "npm run staging:build:ssr && cd firebase-deploy-setup && firebase deploy --except hosting -P staging",
-    "firebase:deploy:hosting:staging": "cd firebase-deploy-setup && firebase deploy --only hosting:staging -P staging"
+    "firebase:deploy:hosting:staging": "cd firebase-deploy-setup && firebase deploy --only hosting:staging -P staging",
+    "firebase:list:indexes:prod": "cd firebase-deploy-setup && firebase firestore:indexes -P production",
+    "firebase:list:indexes:staging": "cd firebase-deploy-setup && firebase firestore:indexes -P staging"
   },
   "private": true,
   "dependencies": {
@@ -32,7 +34,7 @@
     "@angular/platform-browser-dynamic": "^16.0.4",
     "@angular/platform-server": "^16.0.4",
     "@angular/router": "^16.0.4",
-    "@annubiz/ng-lib": "^1.0.17",
+    "@annubiz/ng-lib": "^1.0.18",
     "@nguniversal/express-engine": "^16.0.2",
     "body-parser": "^1.20.2",
     "compressorjs": "^1.2.1",

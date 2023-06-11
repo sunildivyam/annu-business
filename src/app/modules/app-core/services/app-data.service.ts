@@ -8,10 +8,12 @@ import {
 } from '@angular/core';
 import {
   Article,
+  ArticleFeatures,
   ArticlesFirebaseHttpService,
   CategoriesFirebaseHttpService,
   Category,
   CategoryFeatures,
+  PageArticles,
   PageCategoryGroup,
   UtilsService,
 } from '@annubiz/ng-lib';
@@ -287,7 +289,6 @@ export class AppDataService {
           (article) => article?.id === options?.articleId
         );
 
-        // if not available in homeviewCategoryGroups too, then fetch from db
         if (!appStateItemValue) {
           appStateItemValue = (await this.articlesHttp
             .getLiveArticle(options?.articleId)
@@ -296,6 +297,24 @@ export class AppDataService {
           // Save to additional cache
           this._articles.push(appStateItemValue);
         }
+        break;
+      case APP_STATE_KEYS.primeShowArticles:
+        appStateItemValue = (
+          (await this.articlesHttp
+            .getLiveOnePageShallowArticlesByFeatures([
+              ArticleFeatures.primeShow,
+            ])
+            .catch(this.catchFn)) as PageArticles
+        )?.articles;
+        break;
+      case APP_STATE_KEYS.footerShowArticles:
+        appStateItemValue = (
+          (await this.articlesHttp
+            .getLiveOnePageShallowArticlesByFeatures([
+              ArticleFeatures.footerShow,
+            ])
+            .catch(this.catchFn)) as PageArticles
+        )?.articles;
         break;
       default:
       // NOTE: Add one separate switch case for each AppState items, above
@@ -439,5 +458,37 @@ export class AppDataService {
     ).catch(this.catchFn)) as Article;
 
     return article;
+  }
+
+  /**
+   * Gets the articles having prime-show in their features
+   * @date 6/11/2023 - 3:53:06 PM
+   *
+   * @public
+   * @async
+   * @returns {Promise<Array<Article>}
+   */
+  public async getPrimeShowArticles(): Promise<Array<Article>> {
+    const articles = (await this.getAppStateItemValue(
+      APP_STATE_KEYS.primeShowArticles
+    ).catch(this.catchFn)) as Array<Article>;
+
+    return articles;
+  }
+
+  /**
+   * Gets the articles having footer-show in their features
+   * @date 6/11/2023 - 3:53:06 PM
+   *
+   * @public
+   * @async
+   * @returns {Promise<Array<Article>}
+   */
+  public async getFooterShowArticles(): Promise<Array<Article>> {
+    const articles = (await this.getAppStateItemValue(
+      APP_STATE_KEYS.footerShowArticles
+    ).catch(this.catchFn)) as Array<Article>;
+
+    return articles;
   }
 }

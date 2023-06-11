@@ -41,6 +41,24 @@
       "queryScope": "COLLECTION",
       "fields": [
         {
+          "fieldPath": "features",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "isLive",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "updated",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "articles",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
           "fieldPath": "isLive",
           "order": "ASCENDING"
         },

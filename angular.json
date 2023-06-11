@@ -196,11 +196,11 @@
               }
             ],
             "styles": [
-              "node_modules/@annu/ng-lib/src/lib/scss/annu-ng-lib-theme.scss",
+              "node_modules/@annubiz/ng-lib/src/lib/scss/annu-ng-lib-theme.scss",
               "src/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": ["node_modules/@annu/ng-lib/src/lib/scss"]
+              "includePaths": ["node_modules/@annubiz/ng-lib/src/lib/scss"]
             },
             "scripts": []
           }
@@ -213,7 +213,7 @@
             "tsConfig": "tsconfig.server.json",
             "inlineStyleLanguage": "scss",
             "stylePreprocessorOptions": {
-              "includePaths": ["node_modules/@annu/ng-lib/src/lib/scss"]
+              "includePaths": ["node_modules/@annubiz/ng-lib/src/lib/scss"]
             }
           },
           "configurations": {

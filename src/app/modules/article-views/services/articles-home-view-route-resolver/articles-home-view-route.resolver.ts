@@ -39,9 +39,22 @@ export class ArticlesHomeViewRouteResolver {
     let routeData: ArticlesHomeViewRouteData = {};
     this.pageSize = route?.data?.pageSize || DEFAULT_PAGE_SIZE;
 
-    routeData.pageCategoryGroups =
-      await this.appDataService.getHomeViewCategoryGroups(this.pageSize);
+    const categoryGroupsPrromise =
+      this.appDataService.getHomeViewCategoryGroups(this.pageSize);
+    const primeShowArticlesPromise = this.appDataService.getPrimeShowArticles();
+    const footerShowArticlesPromise =
+      this.appDataService.getFooterShowArticles();
 
-    return routeData; // TODO: return boolean only, and not data as data will available from appDataService subscription
+    const promisesResult = await Promise.all([
+      categoryGroupsPrromise,
+      primeShowArticlesPromise,
+      footerShowArticlesPromise,
+    ]);
+
+    routeData.pageCategoryGroups = promisesResult[0];
+    routeData.primeShowArticles = promisesResult[1];
+    routeData.footerShowArticles = promisesResult[2];
+
+    return routeData;
   }
 }

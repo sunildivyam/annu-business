@@ -11,7 +11,7 @@ import { AppDataService } from '../services/app-data.service';
  */
 export function appInit(appDataService: AppDataService) {
   // Sequential promises are needed here for navCategories. For other you can have parallel promises.
-  const promise = new Promise<boolean>((resolve, reject) => {
+  const navCategoriesPromise = new Promise<boolean>((resolve, reject) => {
     appDataService
       .getMainNavCategories()
       .then((cats) => {
@@ -25,5 +25,5 @@ export function appInit(appDataService: AppDataService) {
       .catch(reject);
   });
 
-  return () => promise;
+  return () => navCategoriesPromise;
 }

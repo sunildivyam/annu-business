@@ -7,4 +7,6 @@ export const APP_STATE_KEYS = {
   homeViewCategoryGroups: 'homeViewCategoryGroups',
   categoryViewCategoryGroup: 'categoryViewCategoryGroup',
   articleViewArticle: 'articleViewArticle',
+  primeShowArticles: 'primeShowArticles',
+  footerShowArticles: 'footerShowArticles',
 };
