@@ -5,7 +5,7 @@ import {
   PageCategoryGroup,
   MetaService,
   Article,
-} from '@annu/ng-lib';
+} from '@annubiz/ng-lib';
 
 import { environment } from '../../../../../environments/environment';
 import { ARTICLE_VIEWS_ROUTE_RESOLVER_DATA_KEYS } from '../../constants/article-views.constants';

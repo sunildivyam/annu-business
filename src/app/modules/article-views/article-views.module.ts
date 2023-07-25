@@ -12,7 +12,7 @@ import {
   ErrorModule,
   SpinnerModule,
   ArticlesSlideshowModule,
-} from '@annu/ng-lib';
+} from '@annubiz/ng-lib';
 import { ArticleViewsHomeComponent } from './components/article-views-home/article-views-home.component';
 import { ArticlesHomeViewRouteResolver } from './services/articles-home-view-route-resolver/articles-home-view-route.resolver';
 import { CategoryViewRouteResolver } from './services/category-view-route-resolver/category-view-route.resolver';

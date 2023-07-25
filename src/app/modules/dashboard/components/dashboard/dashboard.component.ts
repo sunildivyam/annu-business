@@ -8,7 +8,7 @@ import {
   FIREBASE_AUTH_ROLES,
   MetaService,
   PageCategoryGroup,
-} from '@annu/ng-lib';
+} from '@annubiz/ng-lib';
 import { filter, Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 

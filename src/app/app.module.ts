@@ -10,7 +10,7 @@ import {
   ApiInterceptor,
   SpinnerModule,
   ThemeFontResizerModule,
-} from '@annu/ng-lib';
+} from '@annubiz/ng-lib';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 

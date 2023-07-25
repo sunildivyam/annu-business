@@ -6,7 +6,7 @@ import {
   SpinnerMode,
   Category,
   CategoryFeatures,
-} from '@annu/ng-lib';
+} from '@annubiz/ng-lib';
 import { AppSpinnerService } from './modules/app-core/services/app-spinner.service';
 import { environment } from '../environments/environment';
 import { AppDataService } from './modules/app-core/services/app-data.service';

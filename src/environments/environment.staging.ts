@@ -2,8 +2,12 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-import { LibConfig } from '@annu/ng-lib';
-import { firebaseAppConfig, firebaseui, firebaseStoreConfig } from '../app/constants/firebase.config.staging';
+import { LibConfig } from '@annubiz/ng-lib';
+import {
+  firebaseAppConfig,
+  firebaseui,
+  firebaseStoreConfig,
+} from '../app/constants/firebase.config.staging';
 import { appConfig } from '../app/constants/app.config.staging';
 import { dashboardConfig } from '../app/constants/dashboard.config.staging';
 import { openaiConfig } from '../app/constants/openai.config.staging';
@@ -18,11 +22,19 @@ export const environment = {
     // apiBaseUrl: 'http://localhost:5000',
     imagesSourceUrl: '/getImage?imageId=',
     firebaseui: { ...firebaseui },
-    firebase: { ...firebaseAppConfig, apiKey: '' },
+    firebase: {
+      ...firebaseAppConfig,
+      apiKey: '',
+    },
     firebaseStoreConfig,
-    firestoreBaseApiUrl: 'https://firestore.googleapis.com/v1/projects/annu-business/databases/(default)/documents',
-    fireStorageBaseApiUrl: 'https://firebasestorage.googleapis.com/v0/b/annu-business.appspot.com/o',
-    openaiConfig: { ...openaiConfig, apiKey: '' },
+    firestoreBaseApiUrl:
+      'https://firestore.googleapis.com/v1/projects/annu-business/databases/(default)/documents',
+    fireStorageBaseApiUrl:
+      'https://firebasestorage.googleapis.com/v0/b/annu-business.appspot.com/o',
+    openaiConfig: {
+      ...openaiConfig,
+      apiKey: '',
+    },
   } as LibConfig,
   dashboardConfig,
 };

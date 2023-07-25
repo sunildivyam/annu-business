@@ -1,17 +1,25 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthFirebaseService, Category, MetaService, CategoriesFirebaseHttpService, FIREBASE_AUTH_ROLES, UtilsService } from '@annu/ng-lib';
+import {
+  AuthFirebaseService,
+  Category,
+  MetaService,
+  CategoriesFirebaseHttpService,
+  FIREBASE_AUTH_ROLES,
+  UtilsService,
+} from '@annubiz/ng-lib';
 import { Subscription } from 'rxjs';
 
 import { environment } from '../../../../../environments/environment';
 const { appConfig } = environment;
-const dashboardMyCategoryMetaInfo = environment.dashboardConfig.dashboardMyCategoryMetaInfo;
+const dashboardMyCategoryMetaInfo =
+  environment.dashboardConfig.dashboardMyCategoryMetaInfo;
 const imageSpecs = environment.libConfig.firebaseStoreConfig;
 
 @Component({
   selector: 'app-my-category',
   templateUrl: './my-category.component.html',
-  styleUrls: ['./my-category.component.scss']
+  styleUrls: ['./my-category.component.scss'],
 })
 export class MyCategoryComponent implements OnInit, OnDestroy {
   readonly ADD_CATEGORY = 'add';
@@ -35,16 +43,20 @@ export class MyCategoryComponent implements OnInit, OnDestroy {
     private utilsSvc: UtilsService,
     private route: ActivatedRoute,
     private router: Router,
-    private metaService: MetaService) {
+    private metaService: MetaService
+  ) {
     this.imageHelpText = this.utilsSvc.getImageSpecsString(imageSpecs);
-    this.paramsSubscription = this.route.params.subscribe(params => {
+    this.paramsSubscription = this.route.params.subscribe((params) => {
       this.categoryId = params['id'];
       this.getCategory(this.categoryId);
     });
   }
 
   ngOnInit(): void {
-    this.metaService.setPageMeta({ ...dashboardMyCategoryMetaInfo, title: `${appConfig.metaInfo.title} - ${dashboardMyCategoryMetaInfo.title}` });
+    this.metaService.setPageMeta({
+      ...dashboardMyCategoryMetaInfo,
+      title: `${appConfig.metaInfo.title} - ${dashboardMyCategoryMetaInfo.title}`,
+    });
   }
 
   ngOnDestroy(): void {
@@ -65,21 +77,28 @@ export class MyCategoryComponent implements OnInit, OnDestroy {
     this.isAuthor = this.userRoles.includes(FIREBASE_AUTH_ROLES.AUTHOR);
 
     if (id !== this.ADD_CATEGORY) {
-      const getCategoryPromise: Promise<Category> = this.isAdmin ?
-        this.categoriesHttp.getCategory(id) :
-        this.categoriesHttp.getUsersCategory(this.authFireSvc.getCurrentUserId(), id);
+      const getCategoryPromise: Promise<Category> = this.isAdmin
+        ? this.categoriesHttp.getCategory(id)
+        : this.categoriesHttp.getUsersCategory(
+            this.authFireSvc.getCurrentUserId(),
+            id
+          );
 
-      getCategoryPromise.then((cat: Category) => {
-        if (cat) {
-          this.category = { ...cat };
-        } else {
-          this.found = false;
-          this.error = { code: '404', message: `Category does not exist - ${id}` };
-        }
+      getCategoryPromise
+        .then((cat: Category) => {
+          if (cat) {
+            this.category = { ...cat };
+          } else {
+            this.found = false;
+            this.error = {
+              code: '404',
+              message: `Category does not exist - ${id}`,
+            };
+          }
 
-        this.loading = false;
-      })
-        .catch(error => {
+          this.loading = false;
+        })
+        .catch((error) => {
           this.error = error;
           this.loading = false;
           this.found = false;
@@ -101,14 +120,17 @@ export class MyCategoryComponent implements OnInit, OnDestroy {
       savePromise = this.categoriesHttp.updateCategory(this.category);
     }
 
-    savePromise.then((cat: Category) => {
-      this.category = { ...cat };
-      this.loading = false;
-      if (this.isNewCategoryPage) {
-        this.router.navigate([this.category.id], { relativeTo: this.route.parent });
-      }
-    })
-      .catch(error => {
+    savePromise
+      .then((cat: Category) => {
+        this.category = { ...cat };
+        this.loading = false;
+        if (this.isNewCategoryPage) {
+          this.router.navigate([this.category.id], {
+            relativeTo: this.route.parent,
+          });
+        }
+      })
+      .catch((error) => {
         this.error = error;
         this.loading = false;
       });
@@ -119,12 +141,13 @@ export class MyCategoryComponent implements OnInit, OnDestroy {
     this.error = null;
     this.loading = true;
     if (!this.isNewCategoryPage) {
-      this.categoriesHttp.setCategoryLive(this.category)
+      this.categoriesHttp
+        .setCategoryLive(this.category)
         .then((cat: Category) => {
           this.category = { ...cat };
           this.loading = false;
         })
-        .catch(error => {
+        .catch((error) => {
           this.error = error;
           this.loading = false;
         });
@@ -138,12 +161,13 @@ export class MyCategoryComponent implements OnInit, OnDestroy {
     this.error = null;
     this.loading = true;
     if (!this.isNewCategoryPage) {
-      this.categoriesHttp.setCategoryUpForReview(this.category)
+      this.categoriesHttp
+        .setCategoryUpForReview(this.category)
         .then((cat: Category) => {
           this.category = { ...cat };
           this.loading = false;
         })
-        .catch(error => {
+        .catch((error) => {
           this.error = error;
           this.loading = false;
         });
@@ -156,7 +180,6 @@ export class MyCategoryComponent implements OnInit, OnDestroy {
     this.showModal = true;
   }
 
-
   public deleteCancelled(): void {
     this.showModal = false;
   }
@@ -165,8 +188,9 @@ export class MyCategoryComponent implements OnInit, OnDestroy {
     this.showModal = false;
     this.loading = true;
     this.error = null;
-    this.categoriesHttp.deleteCategory(this.category)
-      .then(success => {
+    this.categoriesHttp
+      .deleteCategory(this.category)
+      .then((success) => {
         if (success === true) {
           this.router.navigate(['.'], { relativeTo: this.route.parent });
         } else {
@@ -174,7 +198,7 @@ export class MyCategoryComponent implements OnInit, OnDestroy {
         }
         this.loading = false;
       })
-      .catch(error => {
+      .catch((error) => {
         this.error = error;
         this.loading = false;
       });
@@ -182,7 +206,10 @@ export class MyCategoryComponent implements OnInit, OnDestroy {
 
   public categoryChanged(category: Category): void {
     category.metaInfo.site_name = appConfig.metaInfo.title;
-    category.metaInfo['article:author'] = category.metaInfo['article:author'] || appConfig.metaInfo['article:author'];
-    category.metaInfo.author = category.metaInfo.author || appConfig.metaInfo.author;
+    category.metaInfo['article:author'] =
+      category.metaInfo['article:author'] ||
+      appConfig.metaInfo['article:author'];
+    category.metaInfo.author =
+      category.metaInfo.author || appConfig.metaInfo.author;
   }
 }

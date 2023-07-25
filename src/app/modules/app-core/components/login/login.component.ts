@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AppConfig, AuthFirebaseService } from '@annu/ng-lib';
+import { AppConfig, AuthFirebaseService } from '@annubiz/ng-lib';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 const { appConfig } = environment;
@@ -8,7 +8,7 @@ const { appConfig } = environment;
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
   error: any;
@@ -19,17 +19,23 @@ export class LoginComponent implements OnInit, OnDestroy {
   returnUrl: string = '';
   isLoggedIn: boolean = false;
 
-  constructor(private router: Router, private route: ActivatedRoute, private authFireSvc: AuthFirebaseService) {
-    this.qParamsSubscription = this.route.queryParams.subscribe(qParams => {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private authFireSvc: AuthFirebaseService
+  ) {
+    this.qParamsSubscription = this.route.queryParams.subscribe((qParams) => {
       this.returnUrl = qParams['returnUrl'];
-    })
-
-    this.authStateSubscription = this.authFireSvc.authStateChanged().subscribe(user => {
-      this.isLoggedIn = !!user;
-      if(this.isLoggedIn) {
-        this.router.navigate([this.returnUrl || '/']);
-      }
     });
+
+    this.authStateSubscription = this.authFireSvc
+      .authStateChanged()
+      .subscribe((user) => {
+        this.isLoggedIn = !!user;
+        if (this.isLoggedIn) {
+          this.router.navigate([this.returnUrl || '/']);
+        }
+      });
   }
 
   ngOnInit(): void {

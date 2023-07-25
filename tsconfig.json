@@ -6,11 +6,11 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "@annu/ng-lib": [
-        "node_modules/@annubiz/ng-lib"
+      "@annubiz/ng-lib": [
+        "../annu-ng-lib/dist/annu-ng-lib"
       ],
-      "@annu/ng-lib/*": [
-        "node_modules/@annubiz/ng-lib/*"
+      "@annubiz/ng-lib/*": [
+        "../annu-ng-lib/dist/annu-ng-lib/*"
       ],
       "stream": [
         "node_modules/stream-browserify"

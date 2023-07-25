@@ -18,7 +18,7 @@ import {
   ArticleEditorService,
   LibConfig,
   OPENAI_ID_PHRASES,
-} from '@annu/ng-lib';
+} from '@annubiz/ng-lib';
 import { Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 const { appConfig } = environment;

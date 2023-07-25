@@ -34,7 +34,6 @@
     "@angular/platform-browser-dynamic": "^16.0.4",
     "@angular/platform-server": "^16.0.4",
     "@angular/router": "^16.0.4",
-    "@annubiz/ng-lib": "^1.0.18",
     "@nguniversal/express-engine": "^16.0.2",
     "body-parser": "^1.20.2",
     "compressorjs": "^1.2.1",

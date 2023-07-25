@@ -1,4 +1,4 @@
-import { AppConfig } from '@annu/ng-lib';
+import { AppConfig } from '@annubiz/ng-lib';
 
 export const appConfig: AppConfig = {
   name: 'annuadvent',

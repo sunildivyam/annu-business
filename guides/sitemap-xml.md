@@ -45,9 +45,9 @@ JSON Contract:
 
 * `getUrlsFromStaticRoutes()` - generates urls from app static routes, should be read from `app-routes.ts`.
 
-* `getUrlsFromCategories()` - generates urls for all Live categories, should use methods from `CategoriesFirebaseHttpService` from `@annu/ng-lib`. Use `sitemapLatUpdatedInfo` timestamp to fetch records only added post sitemap update.
+* `getUrlsFromCategories()` - generates urls for all Live categories, should use methods from `CategoriesFirebaseHttpService` from `@annubiz/ng-lib`. Use `sitemapLatUpdatedInfo` timestamp to fetch records only added post sitemap update.
 
-* `getUrlsFromArticles()` - generates urls for all Live articles, should use methods from `ArticlesFirebaseHttpService` from `@annu/ng-lib`. Use `sitemapLatUpdatedInfo` timestamp to fetch records only added post sitemap update.
+* `getUrlsFromArticles()` - generates urls for all Live articles, should use methods from `ArticlesFirebaseHttpService` from `@annubiz/ng-lib`. Use `sitemapLatUpdatedInfo` timestamp to fetch records only added post sitemap update.
 
 ### Step2:
 **sitemapXmlComponent**
